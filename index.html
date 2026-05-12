@@ -1,0 +1,3448 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gib Gas — دليل اختيار الكورس</title>
+<link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/DrIslambinalkhattab/GibGas/GibGasLogo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<style>
+:root {
+  --gold: #F7B652;
+  --gold-dark: #d4952a;
+  --teal: #3DD6D3;
+  --teal-dark: #22a8a5;
+  --red: #dd0000;
+  --black: #060d1a;
+  --dark: #0d1520;
+  --dark2: #111c2d;
+  --dark3: #16243a;
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.08);
+  --text: #f0f4ff;
+  --text-muted: #7b8bad;
+  --text-dim: #4a5568;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Tajawal', 'Cairo', sans-serif;
+  background: var(--black);
+  color: var(--text);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ============= SCROLLBAR ============= */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--dark); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+/* ============= PARALLAX BACKGROUND ============= */
+#parallax-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.para-layer {
+  position: absolute;
+  inset: -20%;
+  width: 140%;
+  height: 140%;
+  will-change: transform;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.18;
+  animation: orbFloat var(--dur, 12s) ease-in-out infinite alternate;
+}
+
+.orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, #F7B652, transparent); top: -10%; right: -10%; --dur: 15s; }
+.orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, #3DD6D3, transparent); bottom: 10%; left: -5%; --dur: 18s; animation-delay: -5s; }
+.orb-3 { width: 350px; height: 350px; background: radial-gradient(circle, #dd0000, transparent); top: 40%; left: 30%; --dur: 22s; animation-delay: -8s; opacity: 0.08; }
+.orb-4 { width: 250px; height: 250px; background: radial-gradient(circle, #F7B652, transparent); bottom: 30%; right: 20%; --dur: 14s; animation-delay: -3s; }
+
+@keyframes orbFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, -30px) scale(1.1); }
+}
+
+/* Grid overlay */
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(247,182,82,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(247,182,82,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Stars */
+.stars {
+  position: absolute;
+  inset: 0;
+}
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle var(--d, 3s) ease-in-out infinite alternate;
+  opacity: var(--op, 0.4);
+}
+@keyframes twinkle {
+  0% { opacity: var(--op, 0.4); transform: scale(1); }
+  100% { opacity: 0.1; transform: scale(0.5); }
+}
+
+/* ============= NAV ============= */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(6,13,26,0.7);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  transition: all 0.3s;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nav-logo-icon {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--gold), var(--red));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  font-weight: 900;
+  color: white;
+  box-shadow: 0 4px 15px rgba(247,182,82,0.4);
+  flex-shrink: 0;
+}
+
+.nav-logo-text {
+  font-size: 1.3rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--gold), var(--teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-sub {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.nav-badge {
+  background: linear-gradient(135deg, rgba(247,182,82,0.15), rgba(61,214,211,0.15));
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 0.35rem 1rem;
+  font-size: 0.75rem;
+  color: var(--teal);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  display: flex; align-items: center; gap: 6px;
+}
+
+.nav-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--teal);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--teal);
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.6); }
+}
+
+/* ============= HERO SECTION ============= */
+.hero {
+  position: relative;
+  z-index: 1;
+  padding: 9rem 2rem 4rem;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, rgba(247,182,82,0.12), rgba(61,214,211,0.12));
+  border: 1px solid rgba(247,182,82,0.25);
+  border-radius: 30px;
+  padding: 0.45rem 1.25rem;
+  font-size: 0.8rem;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 2rem;
+  letter-spacing: 0.08em;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.2s;
+}
+
+.hero-title {
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.4s;
+}
+
+.title-line-1 {
+  display: block;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.title-line-2 {
+  display: block;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--teal) 50%, var(--gold) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 4s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  max-width: 480px;
+  line-height: 1.8;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.6s;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, var(--gold), #e8a040);
+  color: var(--black);
+  font-size: 1.05rem;
+  font-weight: 800;
+  padding: 1rem 2.5rem;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 8px 30px rgba(247,182,82,0.35);
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.8s;
+  text-decoration: none;
+}
+
+.hero-cta:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(247,182,82,0.5);
+}
+
+.hero-cta i { font-size: 1.1rem; transition: transform 0.3s; }
+.hero-cta:hover i { transform: translateX(-4px); }
+
+/* Stats bar */
+.stats-bar {
+  display: flex;
+  gap: 1rem;
+  margin-top: 4rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 1s;
+  max-width: 760px;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stat-item {
+  flex: 1;
+  min-width: 140px;
+  position: relative;
+  cursor: default;
+  text-align: center;
+}
+
+/* Card shell */
+.stat-card {
+  position: relative;
+  border-radius: 20px;
+  padding: 1.75rem 1rem 1.5rem;
+  background: rgba(13,21,32,0.85);
+  border: 1px solid rgba(255,255,255,0.07);
+  backdrop-filter: blur(20px);
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease;
+  height: 100%;
+}
+
+.stat-card:hover {
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* Glow blob behind each card */
+.stat-card::before {
+  content: '';
+  position: absolute;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  top: -30px; left: 50%;
+  transform: translateX(-50%);
+  filter: blur(40px);
+  opacity: 0.35;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.stat-card:hover::before { opacity: 0.55; }
+
+/* Shimmer line top */
+.stat-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+  border-radius: 1px;
+  opacity: 0.8;
+}
+
+/* Per-card accent colors */
+.stat-item:nth-child(1) .stat-card { box-shadow: 0 8px 32px rgba(247,182,82,0.12); }
+.stat-item:nth-child(1) .stat-card::before { background: var(--gold); }
+.stat-item:nth-child(1) .stat-card::after { background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.stat-item:nth-child(1) .stat-card:hover { box-shadow: 0 18px 48px rgba(247,182,82,0.25); }
+
+.stat-item:nth-child(2) .stat-card { box-shadow: 0 8px 32px rgba(61,214,211,0.10); }
+.stat-item:nth-child(2) .stat-card::before { background: var(--teal); }
+.stat-item:nth-child(2) .stat-card::after { background: linear-gradient(90deg, transparent, var(--teal), transparent); }
+.stat-item:nth-child(2) .stat-card:hover { box-shadow: 0 18px 48px rgba(61,214,211,0.22); }
+
+.stat-item:nth-child(3) .stat-card { box-shadow: 0 8px 32px rgba(167,139,250,0.10); }
+.stat-item:nth-child(3) .stat-card::before { background: #a78bfa; }
+.stat-item:nth-child(3) .stat-card::after { background: linear-gradient(90deg, transparent, #a78bfa, transparent); }
+.stat-item:nth-child(3) .stat-card:hover { box-shadow: 0 18px 48px rgba(167,139,250,0.22); }
+
+.stat-item:nth-child(4) .stat-card { box-shadow: 0 8px 32px rgba(74,222,128,0.10); }
+.stat-item:nth-child(4) .stat-card::before { background: #4ade80; }
+.stat-item:nth-child(4) .stat-card::after { background: linear-gradient(90deg, transparent, #4ade80, transparent); }
+.stat-item:nth-child(4) .stat-card:hover { box-shadow: 0 18px 48px rgba(74,222,128,0.22); }
+
+/* Icon ring */
+.stat-icon-ring {
+  width: 50px; height: 50px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 1.3rem;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s;
+}
+.stat-item:nth-child(1) .stat-icon-ring { background: linear-gradient(135deg, rgba(247,182,82,0.25), rgba(247,182,82,0.08)); border: 1px solid rgba(247,182,82,0.35); }
+.stat-item:nth-child(2) .stat-icon-ring { background: linear-gradient(135deg, rgba(61,214,211,0.22), rgba(61,214,211,0.06)); border: 1px solid rgba(61,214,211,0.3); }
+.stat-item:nth-child(3) .stat-icon-ring { background: linear-gradient(135deg, rgba(167,139,250,0.22), rgba(167,139,250,0.06)); border: 1px solid rgba(167,139,250,0.3); }
+.stat-item:nth-child(4) .stat-icon-ring { background: linear-gradient(135deg, rgba(74,222,128,0.22), rgba(74,222,128,0.06)); border: 1px solid rgba(74,222,128,0.3); }
+.stat-card:hover .stat-icon-ring { transform: scale(1.1) rotate(-5deg); }
+
+/* Number */
+.stat-num {
+  font-size: 2.6rem;
+  font-weight: 900;
+  display: block;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.03em;
+  position: relative;
+  z-index: 1;
+  font-variant-numeric: tabular-nums;
+  min-height: 2.6rem;
+}
+.stat-item:nth-child(1) .stat-num { color: var(--gold); text-shadow: 0 0 30px rgba(247,182,82,0.4); }
+.stat-item:nth-child(2) .stat-num { color: var(--teal); text-shadow: 0 0 30px rgba(61,214,211,0.35); }
+.stat-item:nth-child(3) .stat-num { color: #a78bfa; text-shadow: 0 0 30px rgba(167,139,250,0.35); }
+.stat-item:nth-child(4) .stat-num { color: #4ade80; text-shadow: 0 0 30px rgba(74,222,128,0.35); }
+
+/* Label */
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+  line-height: 1.5;
+}
+
+/* Slot machine digit animation */
+@keyframes slotUp {
+  0%   { transform: translateY(60%); opacity: 0; }
+  60%  { transform: translateY(-8%); opacity: 1; }
+  100% { transform: translateY(0);   opacity: 1; }
+}
+
+.stat-num.counting {
+  animation: slotUp 0.65s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+
+.stat-divider { display: none; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============= SCROLL INDICATOR ============= */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.5;
+  animation: float 2s ease-in-out infinite;
+}
+
+.scroll-indicator span {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+
+.scroll-mouse {
+  width: 22px; height: 35px;
+  border: 2px solid var(--text-muted);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-dot {
+  position: absolute;
+  top: 6px; left: 50%;
+  transform: translateX(-50%);
+  width: 4px; height: 4px;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: scrollDot 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollDot {
+  0% { top: 6px; opacity: 1; }
+  80% { top: 18px; opacity: 0; }
+  100% { top: 6px; opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-8px); }
+}
+
+/* ============= WIZARD SECTION ============= */
+#wizard-section {
+  position: relative;
+  z-index: 1;
+  padding: 4rem 1.5rem 6rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Progress track */
+.progress-track {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.progress-dot {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--dark3);
+  border: 2px solid var(--glass-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+}
+
+.progress-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  transition: all 0.5s;
+}
+
+.progress-step.active .progress-dot {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  border-color: var(--gold);
+  color: var(--black);
+  box-shadow: 0 0 20px rgba(247,182,82,0.5);
+}
+
+.progress-step.active .progress-dot::after {
+  border-color: rgba(247,182,82,0.3);
+  animation: ringPulse 1.5s ease-out infinite;
+}
+
+@keyframes ringPulse {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+.progress-step.done .progress-dot {
+  background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+  border-color: var(--teal);
+  color: var(--black);
+}
+
+.progress-label {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  white-space: nowrap;
+  transition: color 0.3s;
+  letter-spacing: 0.03em;
+}
+
+.progress-step.active .progress-label { color: var(--gold); }
+.progress-step.done .progress-label { color: var(--teal); }
+
+.progress-line {
+  flex: 1;
+  height: 2px;
+  background: var(--glass-border);
+  position: relative;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.progress-line-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--teal), var(--gold));
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+
+.progress-line.done .progress-line-fill {
+  transform: scaleX(1);
+}
+
+/* ============= WIZARD CARD ============= */
+.wizard-card {
+  background: linear-gradient(135deg, rgba(13,21,32,0.95), rgba(17,28,45,0.95));
+  border: 1px solid var(--glass-border);
+  border-radius: 28px;
+  padding: 3.5rem;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(30px);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+  transition: all 0.3s;
+}
+
+.wizard-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--teal), transparent);
+  opacity: 0.5;
+}
+
+.wizard-card::after {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(247,182,82,0.05), transparent 70%);
+  pointer-events: none;
+}
+
+/* Back button */
+.back-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+}
+
+.back-btn:hover {
+  background: rgba(247,182,82,0.1);
+  border-color: rgba(247,182,82,0.3);
+  color: var(--gold);
+  transform: scale(1.05);
+}
+
+/* ============= STEPS ============= */
+.step { display: none; }
+.step.active {
+  display: block;
+  animation: stepIn 0.5s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+.step.exit {
+  animation: stepOut 0.3s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+
+@keyframes stepIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes stepOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-15px); }
+}
+
+/* Step icon */
+.step-icon-wrap {
+  width: 90px; height: 90px;
+  border-radius: 28px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 2rem;
+  position: relative;
+  font-size: 2rem;
+}
+
+.step-icon-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 29px;
+  background: linear-gradient(135deg, var(--gold), var(--teal));
+  opacity: 0.4;
+  z-index: -1;
+}
+
+.step-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 0.75rem;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.step-subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
+}
+
+/* ============= OPTION CARDS ============= */
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.option-card {
+  background: var(--glass);
+  border: 1.5px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 2rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.option-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(247,182,82,0.08), rgba(61,214,211,0.08));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.option-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--teal));
+  transform: scaleX(0);
+  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+.option-card:hover {
+  border-color: rgba(247,182,82,0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3), 0 0 30px rgba(247,182,82,0.1);
+}
+
+.option-card:hover::before { opacity: 1; }
+.option-card:hover::after { transform: scaleX(1); }
+
+.option-card:active { transform: scale(0.97); }
+
+.option-card.selected {
+  border-color: var(--gold);
+  background: rgba(247,182,82,0.08);
+  box-shadow: 0 0 0 1px rgba(247,182,82,0.3), 0 20px 50px rgba(247,182,82,0.15);
+}
+
+.option-card.selected::after { transform: scaleX(1); }
+
+.option-icon {
+  width: 60px; height: 60px;
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+  transition: all 0.3s;
+}
+
+.option-card:hover .option-icon,
+.option-card.selected .option-icon {
+  transform: scale(1.1) rotate(-5deg);
+}
+
+.option-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.option-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Gold variant */
+.option-card.gold-var .option-icon {
+  background: linear-gradient(135deg, rgba(247,182,82,0.2), rgba(247,182,82,0.05));
+  color: var(--gold);
+}
+
+/* Teal variant */
+.option-card.teal-var .option-icon {
+  background: linear-gradient(135deg, rgba(61,214,211,0.2), rgba(61,214,211,0.05));
+  color: var(--teal);
+}
+
+/* Red variant */
+.option-card.red-var .option-icon {
+  background: linear-gradient(135deg, rgba(221,0,0,0.2), rgba(221,0,0,0.05));
+  color: #ff4444;
+}
+
+/* Purple variant */
+.option-card.purple-var .option-icon {
+  background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(139,92,246,0.05));
+  color: #a78bfa;
+}
+
+/* Level grid */
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.level-card {
+  background: var(--glass);
+  border: 1.5px solid var(--glass-border);
+  border-radius: 18px;
+  padding: 1.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.35s;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.level-badge {
+  width: 50px; height: 50px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 900;
+  margin: 0 auto 0.75rem;
+  letter-spacing: 0.05em;
+  transition: all 0.3s;
+}
+
+.level-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
+.level-a1 .level-badge { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #1a0a00; }
+.level-a2 .level-badge { background: linear-gradient(135deg, #f97316, #ea580c); color: white; }
+.level-b1 .level-badge { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; }
+.level-b2 .level-badge { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; }
+
+.level-a1:hover { border-color: rgba(251,191,36,0.4); box-shadow: 0 15px 40px rgba(251,191,36,0.1); }
+.level-a2:hover { border-color: rgba(249,115,22,0.4); box-shadow: 0 15px 40px rgba(249,115,22,0.1); }
+.level-b1:hover { border-color: rgba(34,197,94,0.4); box-shadow: 0 15px 40px rgba(34,197,94,0.1); }
+.level-b2:hover { border-color: rgba(59,130,246,0.4); box-shadow: 0 15px 40px rgba(59,130,246,0.1); }
+
+.level-card.selected { border-color: var(--gold); background: rgba(247,182,82,0.08); }
+
+.level-name { font-size: 0.85rem; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.level-desc { font-size: 0.7rem; color: var(--text-muted); }
+
+/* ============= RESULT CARD ============= */
+.result-reveal {
+  animation: resultReveal 0.8s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+
+@keyframes resultReveal {
+  from { opacity: 0; transform: scale(0.95) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.result-hero {
+  background: linear-gradient(135deg, rgba(247,182,82,0.08), rgba(61,214,211,0.05));
+  border: 1px solid rgba(247,182,82,0.2);
+  border-radius: 24px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.result-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -50%;
+  width: 200%; height: 200%;
+  background: conic-gradient(from 0deg, transparent 70%, rgba(247,182,82,0.05) 80%, transparent 90%);
+  animation: spinSlow 8s linear infinite;
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.result-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, rgba(61,214,211,0.15), rgba(61,214,211,0.05));
+  border: 1px solid rgba(61,214,211,0.3);
+  border-radius: 20px;
+  padding: 0.35rem 1rem;
+  font-size: 0.75rem;
+  color: var(--teal);
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.05em;
+}
+
+.result-course-name {
+  font-size: 2.2rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--gold), var(--teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.75rem;
+  line-height: 1.2;
+}
+
+.result-description {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  max-width: 560px;
+}
+
+/* Course icon */
+.course-icon-big {
+  width: 80px; height: 80px;
+  border-radius: 24px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+  flex-shrink: 0;
+  margin-left: auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Stats grid */
+.course-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.course-stat {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.25rem 1rem;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.course-stat:hover {
+  border-color: rgba(247,182,82,0.3);
+  transform: translateY(-2px);
+}
+
+.course-stat-icon {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.course-stat-value {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--text);
+  display: block;
+  margin-bottom: 3px;
+}
+
+.course-stat-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* Features grid */
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  transition: all 0.3s;
+  animation: featureIn 0.5s ease forwards;
+  opacity: 0;
+}
+
+.feature-item:nth-child(1) { animation-delay: 0.1s; }
+.feature-item:nth-child(2) { animation-delay: 0.2s; }
+.feature-item:nth-child(3) { animation-delay: 0.3s; }
+.feature-item:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes featureIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.feature-item:hover {
+  border-color: rgba(247,182,82,0.3);
+  background: rgba(247,182,82,0.05);
+}
+
+.feature-check {
+  width: 26px; height: 26px;
+  background: linear-gradient(135deg, rgba(61,214,211,0.2), rgba(61,214,211,0.05));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  color: var(--teal);
+  font-size: 0.7rem;
+}
+
+.feature-text {
+  font-size: 0.85rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* Notice box */
+.notice-box {
+  background: linear-gradient(135deg, rgba(247,182,82,0.08), rgba(247,182,82,0.02));
+  border: 1px solid rgba(247,182,82,0.2);
+  border-right: 3px solid var(--gold);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.notice-icon {
+  width: 36px; height: 36px;
+  background: rgba(247,182,82,0.15);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold);
+  flex-shrink: 0;
+  font-size: 0.9rem;
+}
+
+.notice-title { font-size: 0.85rem; font-weight: 800; color: var(--gold); margin-bottom: 4px; }
+.notice-text { font-size: 0.8rem; color: var(--text-muted); line-height: 1.7; }
+
+/* CTA Button */
+.cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 800;
+  padding: 1.2rem 2rem;
+  border-radius: 18px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 10px 30px rgba(37,211,102,0.3);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Cairo', sans-serif;
+}
+
+.cta-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.7s;
+}
+
+.cta-btn:hover::before { left: 100%; }
+
+.cta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 50px rgba(37,211,102,0.4);
+}
+
+/* Reset btn */
+.reset-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin: 1rem auto 0;
+  font-family: 'Cairo', sans-serif;
+}
+
+.reset-btn:hover {
+  border-color: rgba(247,182,82,0.3);
+  color: var(--gold);
+  background: rgba(247,182,82,0.05);
+}
+
+/* ============= FLOATING PARTICLES ============= */
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: particleFloat var(--dur) ease-in-out infinite;
+  opacity: 0;
+}
+
+@keyframes particleFloat {
+  0% { opacity: 0; transform: translateY(0) scale(0); }
+  20% { opacity: var(--max-op, 0.6); transform: translateY(-20px) scale(1); }
+  80% { opacity: var(--max-op, 0.6); transform: translateY(-80px) scale(1); }
+  100% { opacity: 0; transform: translateY(-120px) scale(0); }
+}
+
+/* ============= FOOTER ============= */
+footer {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(6,13,26,0.9) 0%, rgba(3,7,14,0.98) 100%);
+  backdrop-filter: blur(30px);
+  overflow: hidden;
+  padding: 0 2rem 2rem;
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 800px; height: 400px;
+  background: radial-gradient(ellipse, rgba(247,182,82,0.05) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* Top animated bar */
+.footer-accent-bar {
+  height: 1px;
+  margin: 0 -2rem 2.5rem;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(247,182,82,0.5) 30%,
+    rgba(61,214,211,0.5) 70%,
+    transparent 100%
+  );
+  position: relative;
+  overflow: visible;
+}
+
+.footer-accent-bar::after {
+  content: '';
+  position: absolute;
+  top: -1px; left: -20%;
+  width: 20%; height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(247,182,82,0.95), transparent);
+  border-radius: 2px;
+  animation: footerShootingLight 4s ease-in-out infinite;
+}
+
+@keyframes footerShootingLight {
+  0%   { left: -20%; opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { left: 110%; opacity: 0; }
+}
+
+/* ---- FOOTER INNER LAYOUT ---- */
+.footer-inner {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Base card style — shared by all footer cards */
+.footer-card {
+  background: linear-gradient(135deg, rgba(13,21,32,0.9), rgba(17,28,45,0.85));
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+.footer-card.footer-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.55s ease, transform 0.55s ease,
+              border-color 0.35s, box-shadow 0.35s;
+}
+
+.footer-card:nth-child(1) { transition-delay: 0s; }
+.footer-card:nth-child(2) { transition-delay: 0.1s; }
+.footer-card:nth-child(3) { transition-delay: 0.2s; }
+
+/* Shimmer line top of card */
+.footer-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(247,182,82,0.4), transparent);
+  transition: opacity 0.3s;
+}
+
+/* Hover glow */
+.footer-card:hover {
+  border-color: rgba(247,182,82,0.2);
+  box-shadow: 0 16px 50px rgba(0,0,0,0.4), 0 0 0 1px rgba(247,182,82,0.06);
+  transform: translateY(-4px);
+}
+
+/* === BRAND CARD === */
+.footer-brand-card .footer-brand-top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.footer-brand-icon {
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, var(--gold), var(--red));
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; color: white; font-size: 1.25rem;
+  flex-shrink: 0;
+  box-shadow: 0 6px 20px rgba(247,182,82,0.35);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.footer-brand-icon:hover {
+  transform: rotate(-6deg) scale(1.1);
+  box-shadow: 0 10px 28px rgba(247,182,82,0.5);
+}
+
+.footer-logo-text {
+  font-size: 1.5rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--gold), var(--teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.footer-brand-tagline {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin-top: 2px;
+}
+
+.footer-divider {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.06), transparent);
+  margin: 1.25rem 0;
+}
+
+.footer-about {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.85;
+  margin-bottom: 1.5rem;
+}
+
+/* Social links */
+.social-links { display: flex; gap: 10px; }
+
+.social-link {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255,255,255,0.03);
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative;
+  overflow: hidden;
+}
+
+.social-link::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 11px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.social-link.wa::before { background: rgba(37,211,102,0.13); }
+.social-link.fb::before { background: rgba(24,119,242,0.13); }
+.social-link.tg::before { background: rgba(0,136,204,0.13); }
+
+.social-link:hover {
+  transform: translateY(-4px) scale(1.1);
+  border-color: rgba(255,255,255,0.14);
+}
+
+.social-link.wa:hover { box-shadow: 0 8px 22px rgba(37,211,102,0.3); }
+.social-link.fb:hover { box-shadow: 0 8px 22px rgba(24,119,242,0.3); }
+.social-link.tg:hover { box-shadow: 0 8px 22px rgba(0,136,204,0.3); }
+.social-link:hover::before { opacity: 1; }
+
+/* === SECTION TITLE (inside cards) === */
+.footer-section-title {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-section-title::after {
+  content: '';
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, rgba(247,182,82,0.3), transparent);
+}
+
+/* === LINKS CARD === */
+.footer-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 0.45rem 0.6rem;
+  border-radius: 10px;
+  margin-bottom: 0.2rem;
+  transition: all 0.25s;
+  border: 1px solid transparent;
+}
+
+.footer-link-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--dark3);
+  border: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+  transition: all 0.25s;
+}
+
+.footer-link:hover {
+  color: var(--text);
+  background: rgba(247,182,82,0.05);
+  border-color: rgba(247,182,82,0.1);
+  transform: translateX(-4px);
+}
+
+.footer-link:hover .footer-link-dot {
+  background: var(--gold);
+  border-color: var(--gold);
+  box-shadow: 0 0 8px rgba(247,182,82,0.6);
+}
+
+/* === CONTACT CARD === */
+.footer-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  padding: 0.6rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  transition: all 0.3s;
+  margin-bottom: 0.4rem;
+  cursor: default;
+}
+
+.footer-contact-item:hover {
+  background: rgba(255,255,255,0.03);
+  border-color: var(--glass-border);
+  color: var(--text);
+}
+
+.contact-icon {
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--glass-border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  transition: all 0.3s;
+}
+
+.footer-contact-item:hover .contact-icon {
+  background: rgba(247,182,82,0.08);
+  border-color: rgba(247,182,82,0.25);
+}
+
+/* === BOTTOM BAR CARD === */
+.footer-bottom-card {
+  background: linear-gradient(135deg, rgba(13,21,32,0.9), rgba(17,28,45,0.85));
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease 0.3s, transform 0.5s ease 0.3s;
+}
+
+.footer-bottom-card.footer-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.footer-bottom-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(61,214,211,0.25), transparent);
+}
+
+.footer-bottom-text {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.footer-heart {
+  color: var(--gold);
+  animation: heartbeat 1.4s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  14%  { transform: scale(1.35); }
+  28%  { transform: scale(1); }
+  42%  { transform: scale(1.2); }
+}
+
+/* ============= MOBILE ============= */
+@media (max-width: 700px) {
+  .wizard-card { padding: 2rem 1.5rem; border-radius: 20px; }
+  .options-grid { grid-template-columns: 1fr; gap: 0.875rem; }
+  .level-grid { grid-template-columns: repeat(2, 1fr); }
+  .course-stats { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; gap: 1rem; }
+  .footer-bottom-card { flex-direction: column; text-align: center; gap: 6px; padding: 1rem 1.5rem; }
+  .hero-title { font-size: 2.5rem; }
+  .stats-bar { gap: 0.75rem; }
+  .stat-item { min-width: calc(50% - 0.75rem); flex: none; }
+  .stat-num { font-size: 2rem; }
+  .stat-divider { display: none; }
+  .result-hero { flex-direction: column; }
+  .course-icon-big { margin: 0 auto; margin-bottom: 1rem; }
+  .progress-label { display: none; }
+  .nav-badge { display: none; }
+}
+
+/* ============= RIPPLE ============= */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(247,182,82,0.3);
+  transform: scale(0);
+  animation: rippleAnim 0.6s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes rippleAnim {
+  to { transform: scale(4); opacity: 0; }
+}
+
+/* cursor glow */
+.cursor-glow {
+  position: fixed;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(247,182,82,0.06), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  transform: translate(-50%, -50%);
+  transition: left 0.1s ease, top 0.1s ease;
+}
+
+/* ============= COURSES & SERVICES SECTION ============= */
+#courses-section {
+  position: relative;
+  z-index: 1;
+  padding: 5rem 1.5rem 6rem;
+}
+
+.section-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, rgba(247,182,82,0.12), rgba(61,214,211,0.12));
+  border: 1px solid rgba(247,182,82,0.25);
+  border-radius: 30px;
+  padding: 0.45rem 1.25rem;
+  font-size: 0.8rem;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.06em;
+}
+
+.section-title {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.title-white { color: var(--text); }
+
+.title-grad {
+  background: linear-gradient(135deg, var(--gold), var(--teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 540px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* Tabs */
+.cs-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+
+.cs-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.6rem 1.75rem;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: 'Tajawal', 'Cairo', sans-serif;
+  cursor: pointer;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  color: var(--text-muted);
+  transition: all 0.3s;
+}
+
+.cs-tab.active {
+  background: linear-gradient(135deg, rgba(247,182,82,0.18), rgba(61,214,211,0.12));
+  border-color: rgba(247,182,82,0.4);
+  color: var(--gold);
+  box-shadow: 0 4px 20px rgba(247,182,82,0.15);
+}
+
+.cs-tab:hover:not(.active) {
+  color: var(--text);
+  border-color: rgba(255,255,255,0.12);
+}
+
+/* Panels */
+.cs-panel { display: none; }
+.cs-panel.active { display: block; }
+
+/* Courses grid */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Course card */
+.course-card {
+  background: linear-gradient(135deg, rgba(13,21,32,0.95), rgba(17,28,45,0.95));
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.course-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+}
+
+.cc-top-bar {
+  height: 4px;
+  width: 100%;
+}
+
+.course-card > *:not(.cc-top-bar) {
+  padding-left: 1.75rem;
+  padding-right: 1.75rem;
+}
+
+.cc-badge-wrap {
+  padding-top: 1.25rem;
+  padding-bottom: 0;
+  text-align: center;
+}
+
+.cc-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.25rem 0.85rem;
+  border-radius: 20px;
+  border: 1px solid;
+  letter-spacing: 0.05em;
+}
+
+.cc-icon-wrap {
+  width: 64px; height: 64px;
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+  margin-top: 1.1rem;
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.course-card:hover .cc-icon-wrap {
+  transform: scale(1.12) rotate(-4deg);
+}
+
+.cc-name {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.cc-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+
+.cc-stats {
+  display: flex;
+  gap: 1.25rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.cc-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.cc-price-row {
+  margin-bottom: 1.25rem;
+}
+
+.cc-price {
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.cc-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-top: 1px solid var(--glass-border);
+  padding-top: 1.25rem;
+}
+
+.cc-feat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.cc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0.7rem 1.75rem;
+  border-radius: 50px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  font-family: 'Tajawal', 'Cairo', sans-serif;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  letter-spacing: 0.02em;
+  position: relative;
+  overflow: hidden;
+}
+
+/* wrapper div to center the button */
+.cc-btn-wrap {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.cc-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.cc-btn:hover::before {
+  opacity: 1;
+}
+
+.cc-btn .fab.fa-whatsapp {
+  font-size: 1.25rem;
+}
+
+.cc-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.45);
+  filter: brightness(1.08);
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 1.5rem;
+}
+
+.service-card {
+  background: linear-gradient(135deg, rgba(13,21,32,0.95), rgba(17,28,45,0.95));
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 2rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+}
+
+.svc-icon-wrap {
+  width: 64px; height: 64px;
+  min-width: 64px;
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.svc-content { flex: 1; }
+
+.svc-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.75rem;
+}
+
+.svc-name {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.svc-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+
+.svc-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-bottom: 1.25rem;
+}
+
+.svc-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.83rem;
+  color: var(--text-muted);
+}
+
+.svc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.7rem 1.5rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  font-family: 'Tajawal', 'Cairo', sans-serif;
+  border: 1px solid;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.svc-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.2);
+}
+
+/* Bottom CTA */
+.cs-bottom-cta {
+  text-align: center;
+  margin-top: 3.5rem;
+  padding: 2.5rem;
+  background: linear-gradient(135deg, rgba(247,182,82,0.06), rgba(61,214,211,0.06));
+  border: 1px solid rgba(247,182,82,0.15);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.cs-cta-text {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.cs-cta-text strong { color: var(--text); }
+
+/* Reveal animation */
+.cs-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease calc(var(--delay, 0s)), transform 0.6s ease calc(var(--delay, 0s));
+}
+
+.cs-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+  .courses-grid { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: 1fr; }
+  .service-card { flex-direction: column; }
+  .cs-tabs { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<!-- Parallax Background -->
+<div id="parallax-bg">
+  <div class="para-layer" id="layer1">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+  </div>
+  <div class="grid-overlay"></div>
+  <div class="stars" id="stars"></div>
+</div>
+
+<!-- Particles -->
+<div id="particles"></div>
+
+<!-- Cursor Glow -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <img src="https://cdn.jsdelivr.net/gh/DrIslambinalkhattab/GibGas/GibGasLogo.png" alt="Gib Gas Logo" style="width:38px;height:38px;border-radius:10px;object-fit:contain;">
+    <div>
+      <div class="nav-logo-text">Gib Gas</div>
+      <div class="nav-sub">اتكلم ألماني بثقة</div>
+    </div>
+  </div>
+  <div class="nav-badge">
+    <span>متاح الآن</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <i class="fas fa-graduation-cap"></i>
+    دليل اختيار الكورس المناسب
+  </div>
+  <h1 class="hero-title">
+    <span class="title-line-1">ابدأ رحلتك</span>
+    <span class="title-line-2">في ألماني</span>
+  </h1>
+  <p class="hero-sub">
+    اكتشف الكورس المثالي لمستواك في 3 أسئلة بسيطة، ونبني معاك خطة تعلم مخصصة ليك تماماً
+  </p>
+  <a href="#wizard-section" class="hero-cta">
+    <span>ابدأ الآن</span>
+    <i class="fas fa-arrow-down"></i>
+  </a>
+
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-card">
+        <div class="stat-icon-ring">🎓</div>
+        <span class="stat-num" data-target="500" data-prefix="+" data-suffix="">+0</span>
+        <span class="stat-label">طالب مسجل</span>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-card">
+        <div class="stat-icon-ring">📚</div>
+        <span class="stat-num" data-target="3" data-prefix="" data-suffix="">0</span>
+        <span class="stat-label">كورسات متخصصة</span>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-card">
+        <div class="stat-icon-ring">⚡</div>
+        <span class="stat-num" data-target="90" data-prefix="" data-suffix=" يوم">0</span>
+        <span class="stat-label">للطلاقة الكاملة</span>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-card">
+        <div class="stat-icon-ring">⭐</div>
+        <span class="stat-num" data-target="98" data-prefix="" data-suffix="%">0%</span>
+        <span class="stat-label">رضا الطلاب</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-mouse">
+      <div class="scroll-dot"></div>
+    </div>
+    <span>SCROLL</span>
+  </div>
+</section>
+
+<!-- WIZARD SECTION -->
+<section id="wizard-section">
+  <div style="max-width:900px; margin:0 auto; padding:0 1.5rem;">
+
+    <!-- Progress Track -->
+    <div class="progress-track" id="progressTrack">
+      <div class="progress-step active" id="ps1">
+        <div class="progress-dot">1</div>
+        <span class="progress-label">الخلفية</span>
+      </div>
+      <div class="progress-line" id="pl1"><div class="progress-line-fill"></div></div>
+      <div class="progress-step" id="ps2">
+        <div class="progress-dot">2</div>
+        <span class="progress-label">المستوى</span>
+      </div>
+      <div class="progress-line" id="pl2"><div class="progress-line-fill"></div></div>
+      <div class="progress-step" id="ps3">
+        <div class="progress-dot">3</div>
+        <span class="progress-label">النوع</span>
+      </div>
+      <div class="progress-line" id="pl3"><div class="progress-line-fill"></div></div>
+      <div class="progress-step" id="ps4">
+        <div class="progress-dot"><i class="fas fa-star" style="font-size:0.65rem"></i></div>
+        <span class="progress-label">النتيجة</span>
+      </div>
+    </div>
+
+    <!-- Wizard Card -->
+    <div class="wizard-card" id="wizardCard">
+      <button class="back-btn hidden" id="backBtn" onclick="goBack()">
+        <i class="fas fa-arrow-right"></i>
+      </button>
+
+      <!-- STEP 1 -->
+      <div class="step active" id="step1">
+        <div class="step-icon-wrap" style="background: linear-gradient(135deg, rgba(247,182,82,0.15), rgba(247,182,82,0.03)); color: var(--gold)">
+          <i class="fas fa-globe"></i>
+        </div>
+        <h2 class="step-title">هل عندك أي خلفية في اللغة الألمانية؟</h2>
+        <p class="step-subtitle">هنساعدك تختار المسار المناسب لمستواك الحالي</p>
+        <div class="options-grid">
+          <div class="option-card gold-var" onclick="handleBeginner(true)">
+            <div class="option-icon"><i class="fas fa-seedling"></i></div>
+            <div>
+              <div class="option-title">لا، أنا من الصفر تماماً</div>
+              <div class="option-desc">ما بعرفش حاجة في الألماني وعايز ابدأ صح</div>
+            </div>
+          </div>
+          <div class="option-card teal-var" onclick="handleBeginner(false)">
+            <div class="option-icon"><i class="fas fa-chart-line"></i></div>
+            <div>
+              <div class="option-title">أيوه، عندي خلفية</div>
+              <div class="option-desc">درست الألماني قبل كده وعايز أكمل</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step" id="step2">
+        <div class="step-icon-wrap" style="background: linear-gradient(135deg, rgba(61,214,211,0.15), rgba(61,214,211,0.03)); color: var(--teal)">
+          <i class="fas fa-bullseye"></i>
+        </div>
+        <h2 class="step-title">ما هو مستواك الحالي؟</h2>
+        <p class="step-subtitle">اختر المستوى اللي أنت فيه دلوقتي بصدق</p>
+        <div class="level-grid">
+          <div class="level-card level-a1" onclick="selectLevel('a1')">
+            <div class="level-badge">A1</div>
+            <div class="level-name">مستوى A1</div>
+            <div class="level-desc">لسا في بداية المستوى</div>
+          </div>
+          <div class="level-card level-a2" onclick="selectLevel('a2')">
+            <div class="level-badge">A2</div>
+            <div class="level-name">مستوى A2</div>
+            <div class="level-desc">مخلص أو في A2</div>
+          </div>
+          <div class="level-card level-b1" onclick="selectLevel('b1')">
+            <div class="level-badge">B1</div>
+            <div class="level-name">مستوى B1</div>
+            <div class="level-desc">مستوى متقدم</div>
+          </div>
+          <div class="level-card level-b2" onclick="selectLevel('b2')">
+            <div class="level-badge">B2</div>
+            <div class="level-name">مستوى B2</div>
+            <div class="level-desc">مستوى متقدم جداً</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step" id="step3">
+        <div class="step-icon-wrap" style="background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(139,92,246,0.03)); color: #a78bfa">
+          <i class="fas fa-users"></i>
+        </div>
+        <h2 class="step-title">بتفضل تتعلم إزاي؟</h2>
+        <p class="step-subtitle">اختار الطريقة اللي تناسبك أكتر وتحس إنك بتقدر فيها</p>
+        <div class="options-grid">
+          <div class="option-card teal-var" onclick="handleCourseType('مجموعات')">
+            <div class="option-icon"><i class="fas fa-users"></i></div>
+            <div>
+              <div class="option-title">مجموعات</div>
+              <div class="option-desc">تتعلم مع ناس زيك وتتفاعل وتكسر حاجز الخوف</div>
+            </div>
+          </div>
+          <div class="option-card purple-var" onclick="handleCourseType('برايفت')">
+            <div class="option-icon"><i class="fas fa-laptop"></i></div>
+            <div>
+              <div class="option-title">برايفت</div>
+              <div class="option-desc">اهتمام فردي 100% ومرونة كاملة في المواعيد</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step" id="step4">
+        <div class="step-icon-wrap" style="background: linear-gradient(135deg, rgba(249,115,22,0.15), rgba(249,115,22,0.03)); color: #f97316">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <h2 class="step-title">هل أتممت A2 أكاديمياً؟</h2>
+        <p class="step-subtitle">يعني خدت كورس A2 من مدرسة أو معهد رسمي بشهادة</p>
+        <div class="options-grid">
+          <div class="option-card gold-var" onclick="handleAcademic(true)">
+            <div class="option-icon"><i class="fas fa-certificate"></i></div>
+            <div>
+              <div class="option-title">أيوه، أتممته أكاديمياً</div>
+              <div class="option-desc">خدت الكورس من معهد رسمي أو مركز لغات</div>
+            </div>
+          </div>
+          <div class="option-card red-var" onclick="handleAcademic(false)">
+            <div class="option-icon"><i class="fas fa-book-open"></i></div>
+            <div>
+              <div class="option-title">لا، تعلمته بطريقتي</div>
+              <div class="option-desc">درست لحالي أو من مصادر تانية</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESULT -->
+      <div class="step" id="stepResult">
+        <div id="resultContent"></div>
+        <div style="text-align:center">
+          <button class="reset-btn" id="resetBtn" onclick="resetWizard()">
+            <i class="fas fa-redo-alt"></i>
+            ابدأ من جديد
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COURSES & SERVICES SECTION -->
+<section id="courses-section">
+  <div class="section-container">
+
+    <!-- Section Header -->
+    <div class="section-header">
+      <div class="section-eyebrow"><i class="fas fa-layer-group"></i> كورساتنا وخدماتنا</div>
+      <h2 class="section-title">
+        <span class="title-white">اختار </span>
+        <span class="title-grad">المسار المناسب</span>
+        <span class="title-white"> ليك</span>
+      </h2>
+      <p class="section-subtitle">سواء كنت بتحب التركيز الفردي أو بيئة المجموعة أو محتاج خدمة تحدد مستواك — عندنا كل اللي تحتاجه</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="cs-tabs">
+      <button class="cs-tab active" onclick="switchTab('courses')">
+        <i class="fas fa-book-open"></i> الكورسات
+      </button>
+      <button class="cs-tab" onclick="switchTab('services')">
+        <i class="fas fa-concierge-bell"></i> الخدمات
+      </button>
+    </div>
+
+    <!-- COURSES TAB -->
+    <div class="cs-panel active" id="tab-courses">
+      <div class="courses-grid">
+
+        <!-- Card 1: Private -->
+        <div class="course-card cc-purple cs-reveal">
+          <div class="cc-top-bar" style="background: linear-gradient(90deg, #8b5cf6, #ec4899)"></div>
+          <div class="cc-badge-wrap">
+            <span class="cc-badge" style="background: rgba(139,92,246,0.15); color: #c4b5fd; border-color: rgba(139,92,246,0.3)">الأكثر تخصيصاً</span>
+          </div>
+          <div class="cc-icon-wrap" style="background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(236,72,153,0.1))">
+            <i class="fas fa-user-tie" style="color:#c4b5fd"></i>
+          </div>
+          <h3 class="cc-name">برايفت جيب جاس</h3>
+          <p class="cc-desc">حصص فردية 100% مخصصة ليك — خطة مصممة حسب مستواك وأهدافك ومواعيدك بالكامل</p>
+          <div class="cc-stats">
+            <div class="cc-stat">
+              <i class="fas fa-user" style="color:#c4b5fd"></i>
+              <span>1 طالب فقط</span>
+            </div>
+            <div class="cc-stat">
+              <i class="fas fa-clock" style="color:#c4b5fd"></i>
+              <span>من شهر لـ3.5 شهر</span>
+            </div>
+          </div>
+          <div class="cc-price-row">
+            <span class="cc-price" style="color:#c4b5fd">من 1400 لـ4600 جنيه</span>
+          </div>
+          <div class="cc-features">
+            <div class="cc-feat"><i class="fas fa-check" style="color:#c4b5fd"></i> تركيز فردي كامل</div>
+            <div class="cc-feat"><i class="fas fa-check" style="color:#c4b5fd"></i> خطة مخصصة 100%</div>
+            <div class="cc-feat"><i class="fas fa-check" style="color:#c4b5fd"></i> مرونة في المواعيد</div>
+            <div class="cc-feat"><i class="fas fa-check" style="color:#c4b5fd"></i> تقييم مستمر وتصحيح فوري</div>
+          </div>
+          <div class="cc-btn-wrap">
+            <a href="https://wa.me/201069989013?text=السلام عليكم، حابب أعرف أكتر عن كورس البرايفت" target="_blank" class="cc-btn" style="background: linear-gradient(135deg, #8b5cf6, #ec4899)">
+              <i class="fab fa-whatsapp"></i> ابدأ دلوقتي
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 2: Semi-Private -->
+        <div class="course-card cc-gold cs-reveal" style="--delay:0.1s">
+          <div class="cc-top-bar" style="background: linear-gradient(90deg, var(--gold), #f97316)"></div>
+          <div class="cc-badge-wrap">
+            <span class="cc-badge" style="background: rgba(247,182,82,0.15); color: var(--gold); border-color: rgba(247,182,82,0.3)">توازن مثالي</span>
+          </div>
+          <div class="cc-icon-wrap" style="background: linear-gradient(135deg, rgba(247,182,82,0.2), rgba(249,115,22,0.1))">
+            <i class="fas fa-user-friends" style="color:var(--gold)"></i>
+          </div>
+          <h3 class="cc-name">سيمي برايفت</h3>
+          <p class="cc-desc">حصص مشتركة بين 2-3 طلاب — استمتع باهتمام شبه فردي مع روح المجموعة وتكلفة أقل</p>
+          <div class="cc-stats">
+            <div class="cc-stat">
+              <i class="fas fa-users" style="color:var(--gold)"></i>
+              <span>2–3 طلاب</span>
+            </div>
+            <div class="cc-stat">
+              <i class="fas fa-clock" style="color:var(--gold)"></i>
+              <span>من شهرين لـ4 أشهر</span>
+            </div>
+          </div>
+          <div class="cc-price-row">
+            <span class="cc-price" style="color:var(--gold)">من 1000 لـ2800 جنيه</span>
+          </div>
+          <div class="cc-features">
+            <div class="cc-feat"><i class="fas fa-check" style="color:var(--gold)"></i> اهتمام شبه فردي</div>
+            <div class="cc-feat"><i class="fas fa-check" style="color:var(--gold)"></i> تفاعل مع زملاء</div>
+            <div class="cc-feat"><i class="fas fa-check" style="color:var(--gold)"></i> تكلفة معقولة</div>
+            <div class="cc-feat"><i class="fas fa-check" style="color:var(--gold)"></i> جدول مرن</div>
+          </div>
+          <div class="cc-btn-wrap">
+            <a href="https://wa.me/201069989013?text=السلام عليكم، حابب أعرف أكتر عن كورس السيمي برايفت" target="_blank" class="cc-btn" style="background: linear-gradient(135deg, var(--gold), #f97316)">
+              <i class="fab fa-whatsapp"></i> ابدأ دلوقتي
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 3: Groups -->
+        <div class="course-card cc-teal cs-reveal" style="--delay:0.2s">
+          <div class="cc-top-bar" style="background: linear-gradient(90deg, #22c55e, var(--teal))"></div>
+          <div class="cc-badge-wrap">
+            <span class="cc-badge" style="background: rgba(61,214,211,0.15); color: var(--teal); border-color: rgba(61,214,211,0.3)">الأكثر تفاعلاً</span>
+          </div>
+          <div class="cc-icon-wrap" style="background: linear-gradient(135deg, rgba(61,214,211,0.2), rgba(34,197,94,0.1))">
+            <i class="fas fa-users" style="color:var(--teal)"></i>
+          </div>
+          <h3 class="cc-name">مجموعات جيب جاس</h3>
+          <p class="cc-desc">تعلم وسط بيئة محفزة مع زملاء بنفس مستواك — اكسر حاجز الخوف واتكلم من أول يوم</p>
+          <div class="cc-stats">
+            <div class="cc-stat">
+              <i class="fas fa-users" style="color:var(--teal)"></i>
+              <span>4–10 طلاب</span>
+            </div>
+            <div class="cc-stat">
+              <i class="fas fa-clock" style="color:var(--teal)"></i>
+              <span>3 لـ6 أشهر</span>
+            </div>
+          </div>
+          <div class="cc-price-row">
+            <span class="cc-price" style="color:var(--teal)">من 2400 لـ2800 جنيه</span>
+          </div>
+          <div class="cc-features">
+            <div class="cc-feat"><i class="fas fa-check" style="color:var(--teal)"></i> بيئة داعمة ومحفزة</div>
+            <div class="cc-feat"><i class="fas fa-check" style="color:var(--teal)"></i> ممارسة محادثة يومية</div>
+            <div class="cc-feat"><i class="fas fa-check" style="color:var(--teal)"></i> مجموعات صغيرة متجانسة</div>
+            <div class="cc-feat"><i class="fas fa-check" style="color:var(--teal)"></i> سعر مناسب</div>
+          </div>
+          <div class="cc-btn-wrap">
+            <a href="https://wa.me/201069989013?text=السلام عليكم، حابب أعرف أكتر عن كورس المجموعات" target="_blank" class="cc-btn" style="background: linear-gradient(135deg, #22c55e, var(--teal))">
+              <i class="fab fa-whatsapp"></i> ابدأ دلوقتي
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SERVICES TAB -->
+    <div class="cs-panel" id="tab-services">
+      <div class="services-grid">
+
+        <!-- Service 1: Level Test -->
+        <div class="service-card cs-reveal">
+          <div class="svc-icon-wrap" style="background: linear-gradient(135deg, rgba(247,182,82,0.2), rgba(247,182,82,0.05)); border: 1px solid rgba(247,182,82,0.25)">
+            <i class="fas fa-clipboard-check" style="color:var(--gold); font-size:1.8rem"></i>
+          </div>
+          <div class="svc-content">
+            <div class="svc-tag" style="color:var(--gold); background:rgba(247,182,82,0.1); border-color:rgba(247,182,82,0.25)">مجاناً</div>
+            <h3 class="svc-name">تحديد المستوى</h3>
+            <p class="svc-desc">مش عارف مستواك؟ هنعمل معاك تحديد مستوى دقيق ومجاني عشان نحدد نقطة بدايتك الصح ونبني خطة دراسية مخصصة ليك تماماً</p>
+            <ul class="svc-list">
+              <li><i class="fas fa-check-circle" style="color:var(--gold)"></i> تقييم شامل للمهارات الأربع</li>
+              <li><i class="fas fa-check-circle" style="color:var(--gold)"></i> تقرير مفصل بنقاط القوة والضعف</li>
+              <li><i class="fas fa-check-circle" style="color:var(--gold)"></i> توصية بالكورس المناسب</li>
+            </ul>
+            <a href="https://wa.me/201069989013?text=السلام عليكم، حابب أعمل تحديد مستوى" target="_blank" class="svc-btn" style="background: linear-gradient(135deg, rgba(247,182,82,0.15), rgba(247,182,82,0.05)); border-color: rgba(247,182,82,0.4); color: var(--gold)">
+              <i class="fab fa-whatsapp"></i> احجز الآن — مجاناً
+            </a>
+          </div>
+        </div>
+
+        <!-- Service 2: Language Advisor -->
+        <div class="service-card cs-reveal" style="--delay:0.15s">
+          <div class="svc-icon-wrap" style="background: linear-gradient(135deg, rgba(61,214,211,0.2), rgba(61,214,211,0.05)); border: 1px solid rgba(61,214,211,0.25)">
+            <i class="fas fa-comments" style="color:var(--teal); font-size:1.8rem"></i>
+          </div>
+          <div class="svc-content">
+            <div class="svc-tag" style="color:var(--teal); background:rgba(61,214,211,0.1); border-color:rgba(61,214,211,0.25)">استشارة شخصية</div>
+            <h3 class="svc-name">مستشارك اللغوي</h3>
+            <p class="svc-desc">اتكلم مع مستشارك اللغوي بشكل مباشر عشان يفهم أهدافك ويصمم ليك خطة دراسية واضحة تناسب وقتك ومستواك وميزانيتك</p>
+            <ul class="svc-list">
+              <li><i class="fas fa-check-circle" style="color:var(--teal)"></i> جلسة استشارية 1-1</li>
+              <li><i class="fas fa-check-circle" style="color:var(--teal)"></i> خطة دراسية مخصصة</li>
+              <li><i class="fas fa-check-circle" style="color:var(--teal)"></i> متابعة دورية ودعم مستمر</li>
+            </ul>
+            <a href="https://wa.me/201069989013?text=السلام عليكم، حابب أتكلم مع المستشار اللغوي" target="_blank" class="svc-btn" style="background: linear-gradient(135deg, rgba(61,214,211,0.15), rgba(61,214,211,0.05)); border-color: rgba(61,214,211,0.4); color: var(--teal)">
+              <i class="fab fa-whatsapp"></i> تكلم مع المستشار
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="cs-bottom-cta">
+      <p class="cs-cta-text">مش عارف تختار؟ <strong>كلمنا وهنساعدك</strong> تلاقي المسار الأنسب ليك</p>
+      <a href="https://wa.me/201069989013?text=السلام عليكم، محتاج مساعدة في اختيار الكورس المناسب" target="_blank" class="hero-cta" style="opacity:1; animation:none; margin-top:0">
+        <i class="fab fa-whatsapp" style="font-size:1.2rem"></i>
+        كلمنا دلوقتي
+        <i class="fas fa-arrow-left"></i>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-accent-bar"></div>
+
+  <div class="footer-inner">
+
+    <!-- Card 1: Brand -->
+    <div class="footer-card footer-brand-card">
+      <div class="footer-brand-top">
+        <img src="https://cdn.jsdelivr.net/gh/DrIslambinalkhattab/GibGas/GibGasLogo.png" alt="Gib Gas Logo" style="width:38px;height:38px;border-radius:10px;object-fit:contain;">
+        <div>
+          <div class="footer-logo-text">Gib Gas</div>
+          <div class="footer-brand-tagline">اتكلم ألماني بثقة وطلاقة</div>
+        </div>
+      </div>
+      <div class="footer-divider"></div>
+      <p class="footer-about">هدفنا إنك تعيش باللغة مش بس تتعلمها. تعلم الألمانية بثقة وطلاقة مع أفضل المدربين.</p>
+      <div class="footer-divider"></div>
+      <div style="border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.4rem 0.7rem; background: var(--glass); display: flex; flex-direction: column; gap: 0.3rem;">
+        <div class="footer-contact-item" style="margin:0">
+          <div class="contact-icon"><i class="fas fa-clock" style="color:var(--gold)"></i></div>
+          <span>ساعات العمل: 10:00 ص – 10:00 م</span>
+        </div>
+        <div style="height:1px; background: var(--glass-border);"></div>
+        <div class="footer-contact-item" style="margin:0">
+          <div class="contact-icon"><i class="fas fa-map-marker-alt" style="color:var(--teal)"></i></div>
+          <span>القاهرة، مصر، 25 / ب شارع أحمد علي</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Links -->
+    <div class="footer-card">
+      <div class="footer-section-title">خدماتنا</div>
+      <a href="#" class="footer-link"><span class="footer-link-dot"></span>اتكلم ألماني في 90 يوم</a>
+      <a href="#" class="footer-link"><span class="footer-link-dot"></span>برايفت جيب جاس</a>
+      <a href="#" class="footer-link"><span class="footer-link-dot"></span>مجموعات جيب جاس</a>
+      <a href="#" class="footer-link"><span class="footer-link-dot"></span>التأهيل للكول سنتر</a>
+      <a href="https://t.me/SpeakGerman_in180Days" target="_blank" class="footer-link"><span class="footer-link-dot"></span>الخطة المجانية</a>
+    </div>
+
+    <!-- Card 3: Contact -->
+    <div class="footer-card">
+      <div class="footer-section-title">تواصل معنا</div>
+      <div class="footer-contact-item">
+        <div class="contact-icon"><i class="fab fa-whatsapp" style="color:#25D366"></i></div>
+        +201069989013
+      </div>
+      <div class="footer-contact-item">
+        <div class="contact-icon"><i class="fab fa-facebook-f" style="color:#1877F2"></i></div>
+        صفحتنا على فيسبوك
+      </div>
+      <div class="footer-contact-item">
+        <div class="contact-icon"><i class="fab fa-telegram-plane" style="color:#0088cc"></i></div>
+        قناة Gib Gas
+      </div>
+      <div class="footer-contact-item">
+        <div class="contact-icon"><i class="fas fa-clock" style="color:var(--gold)"></i></div>
+        10:00 ص – 10:00 م
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom bar card -->
+  <div class="footer-bottom-card" id="footerBottom">
+    <div class="footer-bottom-text">فريق <i class="fas fa-heart footer-heart"></i> Gib Gas</div>
+    <div class="footer-bottom-text">© 2025 Gib Gas · جميع الحقوق محفوظة</div>
+    <div class="footer-bottom-text"><span style="color:var(--teal);font-weight:700">Islam</span> al-khattab</div>
+  </div>
+</footer>
+
+<script>
+// ============= STATE =============
+let currentStep = 1;
+let isBeginner = null;
+let level = null;
+let courseType = null;
+let isAcademic = null;
+let stepHistory = [1];
+
+// ============= COURSE DATA =============
+const courseData = {
+  'اتكلم ألماني في 90 يوم': {
+    duration: '3 أشهر',
+    students: '4-10 طلاب',
+    price: '2800 جنيه',
+    goal: 'هدفنا نوصلك لإتقان الأساسيات والطلاقة اليومية الحقيقية من خلال محتوى مبسط وممارسة عملية مستمرة مع تفاعل جماعي محفز وسيشنات محادثة مباشرة.',
+    icon: 'fas fa-comments',
+    color: 'linear-gradient(135deg, #3b82f6, #06b6d4)',
+    features: ['بيئة تفاعلية محفزة', 'محادثة يومية مع المجموعة', 'شرح مبسط خطوة بخطوة', 'تطبيق فوري للقواعد'],
+    gradient: 'from-blue-500 to-cyan-500'
+  },
+  'برايفت جيب جاس': {
+    duration: 'من شهر لـ3.5 شهر',
+    students: '1 طالب فقط',
+    price: 'من 1400 لـ4600 جنيه',
+    goal: 'تطوير شامل للمهارات الأربع مع خطة دراسية مخصصة بالكامل ليك، هنركز على نقاط ضعفك ونقوّيها ونبني عليها خطوة بخطوة.',
+    icon: 'fas fa-star',
+    color: 'linear-gradient(135deg, #8b5cf6, #ec4899)',
+    features: ['تركيز فردي 100%', 'خطة مخصصة تماماً', 'مرونة في المواعيد', 'تقييم مستمر وتصحيح فوري'],
+    gradient: 'from-purple-500 to-pink-500'
+  },
+  'مجموعات جيب جاس': {
+    duration: 'من 3 لـ6 أشهر',
+    students: '4-6 طلاب',
+    price: '2400 جنيه',
+    goal: 'هدفنا نوصلك لطلاقة يومية حقيقية من خلال ممارسة مستمرة وتفاعل جماعي محفز تكسر بيه حاجز الخوف وتطبق القواعد عمليا.',
+    icon: 'fas fa-users',
+    color: 'linear-gradient(135deg, #22c55e, #14b8a6)',
+    features: ['مجموعات صغيرة متجانسة', 'بيئة داعمة ومحفزة', 'ممارسة يومية مكثفة', 'محادثة جماعية حقيقية'],
+    gradient: 'from-green-500 to-teal-500'
+  }
+};
+
+// ============= DOM REFS =============
+const steps = { 1:'step1', 2:'step2', 3:'step3', 4:'step4', 5:'stepResult' };
+const progressSteps = [null, 'ps1','ps2','ps3','ps4'];
+const progressLines = [null, 'pl1','pl2','pl3'];
+
+// ============= SHOW STEP =============
+function showStep(num) {
+  // hide current
+  const curr = document.querySelector('.step.active');
+  if (curr) {
+    curr.classList.add('exit');
+    setTimeout(() => { curr.classList.remove('active','exit'); }, 300);
+  }
+
+  setTimeout(() => {
+    currentStep = num;
+    const el = document.getElementById(steps[num]);
+    if (el) el.classList.add('active');
+    updateProgress(num);
+    const backBtn = document.getElementById('backBtn');
+    if (num > 1) backBtn.classList.remove('hidden');
+    else backBtn.classList.add('hidden');
+    // Smooth scroll to wizard
+    if (num > 1) {
+      document.getElementById('wizardCard').scrollIntoView({ behavior:'smooth', block:'center' });
+    }
+  }, 300);
+}
+
+// ============= PROGRESS =============
+function updateProgress(step) {
+  // Reset
+  for (let i=1; i<=4; i++) {
+    const ps = document.getElementById('ps'+i);
+    if (ps) { ps.classList.remove('active','done'); }
+    const pl = document.getElementById('pl'+i);
+    if (pl) pl.classList.remove('done');
+  }
+  // Map wizard step to progress step
+  let pStep = step === 5 ? 4 : step;
+  for (let i=1; i<pStep; i++) {
+    document.getElementById('ps'+i)?.classList.add('done');
+    if (i < pStep-1 || step===5) document.getElementById('pl'+i)?.classList.add('done');
+  }
+  if (step===5) {
+    document.getElementById('ps4')?.classList.add('done');
+    document.getElementById('pl3')?.classList.add('done');
+  } else {
+    document.getElementById('ps'+pStep)?.classList.add('active');
+  }
+  // Fill lines for completed
+  for (let i=1; i<pStep; i++) document.getElementById('pl'+i)?.classList.add('done');
+}
+
+// ============= LOGIC =============
+function handleBeginner(choice) {
+  isBeginner = choice;
+  addRipple(event);
+  if (isBeginner) {
+    courseType = 'برايفت';
+    stepHistory.push(5);
+    calculateResult();
+  } else {
+    stepHistory.push(2);
+    showStep(2);
+  }
+}
+
+function selectLevel(l) {
+  level = l;
+  addRipple(event);
+  setTimeout(() => {
+    if (l === 'a1' || l === 'b2') {
+      courseType = 'برايفت';
+      stepHistory.push(5);
+      calculateResult();
+    } else {
+      stepHistory.push(3);
+      showStep(3);
+    }
+  }, 300);
+}
+
+function handleCourseType(type) {
+  courseType = type;
+  addRipple(event);
+  if (level === 'a2' && type === 'مجموعات') {
+    stepHistory.push(4);
+    showStep(4);
+  } else {
+    stepHistory.push(5);
+    calculateResult();
+  }
+}
+
+function handleAcademic(academic) {
+  isAcademic = academic;
+  addRipple(event);
+  stepHistory.push(5);
+  calculateResult();
+}
+
+function goBack() {
+  if (stepHistory.length > 1) {
+    stepHistory.pop();
+    const prev = stepHistory[stepHistory.length - 1];
+    if (prev === 1) { isBeginner=null; level=null; courseType=null; isAcademic=null; }
+    if (prev === 2) { level=null; courseType=null; isAcademic=null; }
+    if (prev === 3) { courseType=null; isAcademic=null; }
+    if (prev === 4) { isAcademic=null; }
+    showStep(prev);
+  }
+}
+
+function calculateResult() {
+  let courseName = '';
+  let needsLevelTest = false;
+
+  if (isBeginner) {
+    courseName = 'برايفت جيب جاس';
+    needsLevelTest = false;
+  } else if (level === 'a1') {
+    courseName = 'برايفت جيب جاس'; needsLevelTest = true;
+  } else if (level === 'a2') {
+    if (courseType === 'مجموعات') {
+      courseName = isAcademic ? 'مجموعات جيب جاس' : 'اتكلم ألماني في 90 يوم';
+      needsLevelTest = true;
+    } else {
+      courseName = 'برايفت جيب جاس'; needsLevelTest = true;
+    }
+  } else if (level === 'b1') {
+    courseName = courseType === 'مجموعات' ? 'مجموعات جيب جاس' : 'برايفت جيب جاس';
+    needsLevelTest = true;
+  } else if (level === 'b2') {
+    courseName = 'برايفت جيب جاس'; needsLevelTest = true;
+  }
+
+  renderResult(courseName, needsLevelTest);
+  showStep(5);
+}
+
+function renderResult(courseName, needsLevelTest) {
+  const c = courseData[courseName];
+  let desc = '';
+  if (isBeginner) desc = 'الكورس ده هيبدأ معاك من الصفر خطوة بخطوة بأسلوب مخصص ليك أنت';
+  else if (level === 'a1') desc = 'هنعمل تحديد مستوى أولاً عشان نحدد نقطة البداية الصح ونبني خطتك الدراسية';
+  else if (level === 'a2' && courseType === 'مجموعات' && isAcademic) desc = 'ممتاز! مستواك الأكاديمي هيخليك تستفيد أكتر مع المجموعة وتقدر تتفاعل وتتطور بسرعة';
+  else if (level === 'a2' && courseType === 'مجموعات' && !isAcademic) desc = 'الكورس ده هيملي الفجوات في أساسياتك ويوصلك للطلاقة في بيئة جماعية محفزة';
+  else if (level === 'a2' && courseType === 'برايفت') desc = 'هنعمل تحديد مستوى أولاً عشان نبني خطة برايفت مخصصة لمستواك في A2';
+  else if (level === 'b1' && courseType === 'مجموعات') desc = 'مستواك B1 هيسمحلك تتفاعل وتتطور بسرعة في المجموعة وتوصل للطلاقة الحقيقية';
+  else if (level === 'b1' && courseType === 'برايفت') desc = 'هنعمل تحديد مستوى عشان نحدد نقطة البداية الدقيقة في B1 ونبني خطتك';
+  else if (level === 'b2') desc = 'مستواك المتقدم يحتاج برايفت مخصص لصقل مهاراتك ووصولك للاحترافية الكاملة';
+
+  document.getElementById('resultContent').innerHTML = `
+    <div class="result-reveal">
+      <div class="result-hero">
+        <div style="position:relative;z-index:1;text-align:center;">
+          <div class="course-icon-big" style="background:${c.color};margin:0 auto 1.25rem;">
+            <i class="${c.icon}" style="font-size:2rem;color:white;"></i>
+          </div>
+          <div class="result-badge" style="margin:0 auto 1.25rem;"><i class="fas fa-check-circle"></i> الكورس الأنسب ليك</div>
+          <div class="result-course-name">${courseName}</div>
+          <p class="result-description" style="margin:0 auto;">${desc}</p>
+        </div>
+      </div>
+
+      <div class="course-stats">
+        <div class="course-stat">
+          <span class="course-stat-icon" style="color:var(--gold)"><i class="fas fa-clock"></i></span>
+          <span class="course-stat-value">${c.duration}</span>
+          <span class="course-stat-label">مدة الكورس</span>
+        </div>
+        <div class="course-stat">
+          <span class="course-stat-icon" style="color:var(--teal)"><i class="fas fa-user-graduate"></i></span>
+          <span class="course-stat-value">${c.students}</span>
+          <span class="course-stat-label">عدد الطلاب</span>
+        </div>
+        <div class="course-stat">
+          <span class="course-stat-icon" style="color:#22c55e"><i class="fas fa-tag"></i></span>
+          <span class="course-stat-value">${c.price}</span>
+          <span class="course-stat-label">السعر</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom:1.25rem">
+        <div style="font-size:0.8rem;font-weight:700;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1rem">هدف الكورس</div>
+        <p style="font-size:0.9rem;color:var(--text-muted);line-height:1.8;background:var(--glass);border:1px solid var(--glass-border);border-radius:14px;padding:1.25rem;">${c.goal}</p>
+      </div>
+
+      <div style="margin-bottom:1.5rem">
+        <div style="font-size:0.8rem;font-weight:700;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1rem">مميزات الكورس</div>
+        <div class="features-grid">
+          ${c.features.map(f => `
+            <div class="feature-item">
+              <div class="feature-check"><i class="fas fa-check"></i></div>
+              <span class="feature-text">${f}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      ${needsLevelTest ? `
+        <div class="notice-box">
+          <div class="notice-icon"><i class="fas fa-info"></i></div>
+          <div>
+            <div class="notice-title">تحديد مستوى مجاني</div>
+            <div class="notice-text">هنعمل معاك تحديد مستوى مجاني قبل ما تبدأ عشان نحدد نقطة بدايتك الصح ونبني خطة مخصصة ليك تماماً.</div>
+          </div>
+        </div>
+      ` : ''}
+
+      <a href="https://wa.me/201069989013?text=السلام عليكم، حابب أبدأ معاكم ان شاء الله" target="_blank" class="cta-btn">
+        <i class="fab fa-whatsapp" style="font-size:1.3rem"></i>
+        سجل الآن واحجز مقعدك
+        <i class="fas fa-arrow-left"></i>
+      </a>
+    </div>
+  `;
+}
+
+function resetWizard() {
+  isBeginner = null; level = null; courseType = null; isAcademic = null;
+  stepHistory = [1];
+  showStep(1);
+}
+
+// ============= RIPPLE EFFECT =============
+function addRipple(e) {
+  const card = e.currentTarget;
+  const rect = card.getBoundingClientRect();
+  const ripple = document.createElement('div');
+  ripple.classList.add('ripple');
+  const size = Math.max(rect.width, rect.height);
+  ripple.style.width = ripple.style.height = size + 'px';
+  ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+  ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+  card.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 600);
+}
+
+// ============= PARALLAX =============
+let mouseX = 0, mouseY = 0;
+let targetX = 0, targetY = 0;
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+  mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  // cursor glow
+  const glow = document.getElementById('cursorGlow');
+  glow.style.left = e.clientX + 'px';
+  glow.style.top = e.clientY + 'px';
+});
+
+function animateParallax() {
+  targetX += (mouseX - targetX) * 0.05;
+  targetY += (mouseY - targetY) * 0.05;
+  const layer = document.getElementById('layer1');
+  if (layer) {
+    layer.style.transform = `translate(${targetX * 20}px, ${targetY * 20}px)`;
+  }
+  requestAnimationFrame(animateParallax);
+}
+animateParallax();
+
+// Scroll parallax
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  const layer = document.getElementById('layer1');
+  if (layer) {
+    layer.style.transform += ` translateY(${scrollY * 0.15}px)`;
+  }
+});
+
+// ============= STARS =============
+const starsContainer = document.getElementById('stars');
+for (let i = 0; i < 80; i++) {
+  const star = document.createElement('div');
+  star.classList.add('star');
+  star.style.left = Math.random() * 100 + '%';
+  star.style.top = Math.random() * 100 + '%';
+  star.style.setProperty('--d', (2 + Math.random() * 4) + 's');
+  star.style.setProperty('--op', (0.2 + Math.random() * 0.6).toFixed(2));
+  star.style.animationDelay = (-Math.random() * 5) + 's';
+  starsContainer.appendChild(star);
+}
+
+// ============= PARTICLES =============
+const particlesContainer = document.getElementById('particles');
+function spawnParticle() {
+  const p = document.createElement('div');
+  p.classList.add('particle');
+  const size = 3 + Math.random() * 5;
+  p.style.width = size + 'px';
+  p.style.height = size + 'px';
+  p.style.left = (20 + Math.random() * 60) + '%';
+  p.style.bottom = (Math.random() * 30) + '%';
+  const isGold = Math.random() > 0.5;
+  p.style.background = isGold ? 'var(--gold)' : 'var(--teal)';
+  p.style.setProperty('--dur', (3 + Math.random() * 4) + 's');
+  p.style.setProperty('--max-op', (0.3 + Math.random() * 0.4).toFixed(2));
+  p.style.animationDelay = (Math.random() * 2) + 's';
+  particlesContainer.appendChild(p);
+  setTimeout(() => p.remove(), 8000);
+}
+
+setInterval(spawnParticle, 600);
+
+// ============= NAV SCROLL =============
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('.nav');
+  if (window.scrollY > 50) {
+    nav.style.background = 'rgba(6,13,26,0.95)';
+  } else {
+    nav.style.background = 'rgba(6,13,26,0.7)';
+  }
+});
+
+// ============= FOOTER REVEAL =============
+const footerObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('footer-visible');
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.footer-card, .footer-bottom-card').forEach(el => {
+  footerObserver.observe(el);
+});
+
+// ============= COUNTER ANIMATION — SLOT MACHINE STYLE =============
+function runCounter(el, target, prefix, suffix, duration) {
+  const from = 0;
+  let startTime = null;
+
+  // Easing: smooth linear feel — numbers count steadily the whole time
+  function easeInOutSine(t) {
+    return -(Math.cos(Math.PI * t) - 1) / 2;
+  }
+
+  function tick(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const progress = Math.min((timestamp - startTime) / duration, 1);
+    const eased = easeInOutSine(progress);
+    const current = Math.round(from + (target - from) * eased);
+
+    el.textContent = prefix + current + suffix;
+
+    if (progress < 1) requestAnimationFrame(tick);
+    else {
+      el.textContent = prefix + target + suffix;
+    }
+  }
+  requestAnimationFrame(tick);
+}
+
+// IntersectionObserver — fires at 25% visibility (works well on mobile)
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+
+    const statNums = document.querySelectorAll('.stat-num[data-target]');
+    statNums.forEach((el, i) => {
+      const target   = parseInt(el.dataset.target);
+      const prefix   = el.dataset.prefix || '';
+      const suffix   = el.dataset.suffix || '';
+      // Stagger each card by 180ms, faster counter for small numbers
+      const duration = target <= 10 ? 1800 : target <= 100 ? 2800 : 3500;
+      setTimeout(() => runCounter(el, target, prefix, suffix, duration), i * 180);
+    });
+
+    counterObserver.disconnect();
+  });
+}, { threshold: 0.25 });
+
+const statsBar = document.querySelector('.stats-bar');
+if (statsBar) counterObserver.observe(statsBar);
+
+// ============= COURSES SECTION: TABS =============
+function switchTab(tab) {
+  document.querySelectorAll('.cs-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.cs-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  event.currentTarget.classList.add('active');
+  // re-trigger reveal for newly shown cards
+  triggerReveal();
+}
+
+// ============= SCROLL REVEAL =============
+function triggerReveal() {
+  document.querySelectorAll('.cs-reveal').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 60) {
+      el.classList.add('visible');
+    }
+  });
+}
+
+window.addEventListener('scroll', triggerReveal, { passive: true });
+triggerReveal();
+</script>
+
+<script type="text/javascript">
+(function(c,l,a,r,i,t,y){
+  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window,document,"clarity","script","u98tb5zmxf");
+</script>
+<!-- ============= GIB GAS CHATBOT ============= -->
+<style>
+/* --- Chatbot Toggle Button --- */
+#gg-chat-btn {
+  position: fixed;
+  bottom: 28px;
+  left: 28px;
+  z-index: 9999;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F7B652, #d4952a);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 28px rgba(247,182,82,0.55), 0 2px 8px rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s;
+  outline: none;
+}
+#gg-chat-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 36px rgba(247,182,82,0.7), 0 2px 8px rgba(0,0,0,0.4);
+}
+#gg-chat-btn svg { transition: transform 0.3s; }
+#gg-chat-btn.open svg.icon-chat { display: none; }
+#gg-chat-btn.open svg.icon-close { display: block !important; }
+#gg-chat-btn svg.icon-close { display: none; }
+
+/* Pulse ring */
+#gg-chat-btn::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(247,182,82,0.4);
+  animation: gg-pulse-ring 2.5s ease-out infinite;
+}
+@keyframes gg-pulse-ring {
+  0% { transform: scale(1); opacity: 1; }
+  70% { transform: scale(1.35); opacity: 0; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+/* Notification dot */
+#gg-notif-dot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 14px;
+  height: 14px;
+  background: #3DD6D3;
+  border-radius: 50%;
+  border: 2px solid #060d1a;
+  animation: gg-bounce-dot 1.8s ease-in-out infinite;
+}
+@keyframes gg-bounce-dot {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* --- Chat Window --- */
+#gg-chat-window {
+  position: fixed;
+  bottom: 104px;
+  left: 28px;
+  z-index: 9998;
+  width: 370px;
+  max-height: 560px;
+  border-radius: 22px;
+  background: #0d1520;
+  border: 1px solid rgba(247,182,82,0.18);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.85) translateY(24px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), opacity 0.25s;
+  font-family: 'Tajawal', 'Cairo', sans-serif;
+}
+#gg-chat-window.open {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Header */
+#gg-chat-header {
+  background: linear-gradient(135deg, rgba(247,182,82,0.12), rgba(61,214,211,0.08));
+  border-bottom: 1px solid rgba(247,182,82,0.15);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.gg-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F7B652, #dd0000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 900;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 3px 12px rgba(247,182,82,0.4);
+}
+.gg-header-info { flex: 1; direction: rtl; }
+.gg-header-name {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #f0f4ff;
+  line-height: 1.2;
+}
+.gg-header-status {
+  font-size: 0.72rem;
+  color: #3DD6D3;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 2px;
+}
+.gg-status-dot {
+  width: 6px; height: 6px;
+  background: #3DD6D3;
+  border-radius: 50%;
+  box-shadow: 0 0 5px #3DD6D3;
+  animation: gg-blink 2s infinite;
+}
+@keyframes gg-blink {
+  0%,100% { opacity: 1; } 50% { opacity: 0.3; }
+}
+#gg-close-btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: #7b8bad;
+  font-size: 14px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+#gg-close-btn:hover { background: rgba(255,255,255,0.12); color: #f0f4ff; }
+
+/* Messages area */
+#gg-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(247,182,82,0.3) transparent;
+  direction: rtl;
+}
+#gg-messages::-webkit-scrollbar { width: 3px; }
+#gg-messages::-webkit-scrollbar-thumb { background: rgba(247,182,82,0.3); border-radius: 2px; }
+
+/* Message bubbles */
+.gg-msg {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  animation: gg-msg-in 0.3s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes gg-msg-in {
+  from { transform: translateY(12px) scale(0.95); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+.gg-msg.user { flex-direction: row-reverse; }
+
+.gg-bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  direction: rtl;
+  text-align: right;
+}
+.gg-msg.bot .gg-bubble {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-bottom-right-radius: 4px;
+  color: #f0f4ff;
+}
+.gg-msg.user .gg-bubble {
+  background: linear-gradient(135deg, #F7B652, #d4952a);
+  color: #060d1a;
+  font-weight: 600;
+  border-bottom-left-radius: 4px;
+}
+.gg-mini-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F7B652, #dd0000);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 900; color: white;
+  flex-shrink: 0;
+}
+
+/* Typing indicator */
+.gg-typing .gg-bubble {
+  display: flex; gap: 5px; align-items: center;
+  padding: 12px 16px;
+}
+.gg-dot {
+  width: 7px; height: 7px;
+  background: #7b8bad;
+  border-radius: 50%;
+  animation: gg-typing-dot 1.2s ease-in-out infinite;
+}
+.gg-dot:nth-child(2) { animation-delay: 0.2s; }
+.gg-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes gg-typing-dot {
+  0%,100% { transform: translateY(0); opacity: 0.4; }
+  50% { transform: translateY(-5px); opacity: 1; }
+}
+
+/* Quick replies */
+#gg-quick-replies {
+  padding: 0 14px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  direction: rtl;
+  flex-shrink: 0;
+}
+.gg-qr {
+  background: rgba(247,182,82,0.1);
+  border: 1px solid rgba(247,182,82,0.25);
+  border-radius: 20px;
+  padding: 6px 13px;
+  font-size: 0.78rem;
+  color: #F7B652;
+  cursor: pointer;
+  font-family: 'Tajawal','Cairo',sans-serif;
+  font-weight: 600;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.gg-qr:hover {
+  background: rgba(247,182,82,0.2);
+  transform: translateY(-1px);
+}
+
+/* Input area */
+#gg-input-area {
+  padding: 12px 14px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  flex-shrink: 0;
+  direction: rtl;
+}
+#gg-input {
+  flex: 1;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: #f0f4ff;
+  font-family: 'Tajawal','Cairo',sans-serif;
+  font-size: 0.88rem;
+  outline: none;
+  direction: rtl;
+  transition: border-color 0.2s;
+  resize: none;
+  min-height: 40px;
+  max-height: 100px;
+}
+#gg-input:focus { border-color: rgba(247,182,82,0.4); }
+#gg-input::placeholder { color: #4a5568; }
+#gg-send-btn {
+  width: 40px; height: 40px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #F7B652, #d4952a);
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: #060d1a;
+  font-size: 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  flex-shrink: 0;
+}
+#gg-send-btn:hover { transform: scale(1.08); box-shadow: 0 4px 15px rgba(247,182,82,0.5); }
+#gg-send-btn:disabled { opacity: 0.4; transform: none; cursor: not-allowed; }
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  #gg-chat-window { width: calc(100vw - 24px); left: 12px; right: 12px; bottom: 96px; }
+  #gg-chat-btn { bottom: 18px; left: 18px; }
+}
+</style>
+
+<!-- Toggle Button -->
+<button id="gg-chat-btn" onclick="ggToggleChat()" aria-label="فتح المحادثة">
+  <div id="gg-notif-dot"></div>
+  <svg class="icon-chat" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+  <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+  </svg>
+</button>
+
+<!-- Chat Window -->
+<div id="gg-chat-window">
+  <div id="gg-chat-header">
+    <div class="gg-avatar">G</div>
+    <div class="gg-header-info">
+      <div class="gg-header-name">مساعد Gib Gas 🇩🇪</div>
+      <div class="gg-header-status">
+        <span class="gg-status-dot"></span>
+        متاح دلوقتي — هرد فوراً
+      </div>
+    </div>
+    <button id="gg-close-btn" onclick="ggToggleChat()">✕</button>
+  </div>
+
+  <div id="gg-messages"></div>
+
+  <div id="gg-quick-replies"></div>
+
+  <div id="gg-input-area">
+    <button id="gg-send-btn" onclick="ggSend()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M2 21l21-9L2 3v7l15 2-15 2z"/>
+      </svg>
+    </button>
+    <textarea id="gg-input" placeholder="اكتب سؤالك هنا..." rows="1"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();ggSend()}"
+      oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+  </div>
+</div>
+
+<script>
+// ============= GIB GAS CHATBOT ENGINE =============
+
+const GG_SYSTEM = `أنت مساعد Gib Gas الذكي لتعليم اللغة الألمانية في مصر.
+اسمك "مساعد Gib Gas" وبتتكلم بالعربي العامية المصرية بشكل ودي ومحترف.
+
+معلومات Gib Gas الكاملة:
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+📍 العنوان: 25/ب شارع أحمد علي، القاهرة، مصر
+⏰ ساعات العمل: 10 صباحاً – 10 مساءً
+📞 واتساب: 201069989013+
+
+الكورسات والأسعار:
+━━━━━━━━━━━━━━━━━━
+
+1. برايفت جيب جاس (فردي 100%)
+   - عدد الطلاب: طالب واحد فقط
+   - المدة: من شهر لـ 3.5 شهر
+   - السعر: من 1400 لـ 4600 جنيه
+   - المميزات: تركيز فردي كامل، خطة مخصصة 100%، مرونة في المواعيد، تقييم مستمر وتصحيح فوري
+   - واتساب التسجيل: https://wa.me/201069989013?text=السلام عليكم، حابب أعرف أكتر عن كورس البرايفت
+
+2. سيمي برايفت (2-3 طلاب)
+   - عدد الطلاب: 2 إلى 3 طلاب
+   - المدة: من شهرين لـ 4 أشهر
+   - السعر: من 1000 لـ 2800 جنيه
+   - المميزات: اهتمام شبه فردي، تفاعل مع زملاء، تكلفة معقولة، جدول مرن
+   - واتساب التسجيل: https://wa.me/201069989013?text=السلام عليكم، حابب أعرف أكتر عن كورس السيمي برايفت
+
+3. مجموعات جيب جاس (4-10 طلاب)
+   - عدد الطلاب: 4 إلى 10 طلاب
+   - المدة: 3 لـ 6 أشهر
+   - السعر: من 2400 لـ 2800 جنيه
+   - المميزات: بيئة داعمة ومحفزة، ممارسة محادثة يومية، مجموعات صغيرة متجانسة
+   - واتساب التسجيل: https://wa.me/201069989013?text=السلام عليكم، حابب أعرف أكتر عن كورس المجموعات
+
+الخدمات المجانية:
+━━━━━━━━━━━━━━━━━
+
+- تحديد المستوى: مجاناً تماماً، تقييم للمهارات الأربع وتقرير مفصل وتوصية بالكورس
+  رابط الحجز: https://wa.me/201069989013?text=السلام عليكم، حابب أعمل تحديد مستوى
+
+- مستشارك اللغوي: جلسة استشارية 1-1 مجانية، خطة دراسية مخصصة ومتابعة دورية
+  رابط الحجز: https://wa.me/201069989013?text=السلام عليكم، حابب أتكلم مع المستشار اللغوي
+
+المستويات المتاحة: A1، A2، B1، B2
+
+قناة تيليجرام المجانية: https://t.me/SpeakGerman_in180Days
+
+تعليمات التعامل:
+━━━━━━━━━━━━━━━
+
+- رد بالعربي العامية المصرية دايماً
+- كن ودي ومشجع ومختصر
+- لو حد سأل عن السعر وضح الفرق بين الكورسات بشكل واضح
+- لو حد مش عارف مستواه وجهه لتحديد المستوى المجاني
+- في آخر كل رد تقريباً اقترح الخطوة الجاية (واتساب أو تحديد مستوى)
+- متكتبش ردود طويلة جداً، خلي الرد واضح ومركز`;
+
+let ggMessages = [];
+let ggIsOpen = false;
+let ggIsTyping = false;
+let ggFirstOpen = true;
+
+const ggQuickReplies = [
+  { label: "🎓 شوف الكورسات", text: "عايز أعرف عن الكورسات المتاحة" },
+  { label: "💰 الأسعار", text: "كام أسعار الكورسات؟" },
+  { label: "📊 مش عارف مستواي", text: "مش عارف مستواي في الألماني" },
+  { label: "📞 تواصل معنا", text: "عايز أتكلم مع حد من الفريق" },
+];
+
+function ggToggleChat() {
+  ggIsOpen = !ggIsOpen;
+  const win = document.getElementById('gg-chat-window');
+  const btn = document.getElementById('gg-chat-btn');
+  const dot = document.getElementById('gg-notif-dot');
+
+  win.classList.toggle('open', ggIsOpen);
+  btn.classList.toggle('open', ggIsOpen);
+  if (dot) dot.style.display = ggIsOpen ? 'none' : 'block';
+
+  if (ggIsOpen && ggFirstOpen) {
+    ggFirstOpen = false;
+    setTimeout(() => ggAddBotMessage("أهلاً بيك في Gib Gas! 🇩🇪\n\nأنا هنا أساعدك تلاقي الكورس المناسب ليك وتبدأ رحلتك في الألمانية. إيه اللي تحب تعرفه؟"), 400);
+    setTimeout(() => ggShowQuickReplies(), 900);
+  }
+}
+
+function ggShowQuickReplies() {
+  const container = document.getElementById('gg-quick-replies');
+  container.innerHTML = '';
+  ggQuickReplies.forEach(qr => {
+    const btn = document.createElement('button');
+    btn.className = 'gg-qr';
+    btn.textContent = qr.label;
+    btn.onclick = () => {
+      container.innerHTML = '';
+      ggSendMessage(qr.text);
+    };
+    container.appendChild(btn);
+  });
+}
+
+function ggAddBotMessage(text) {
+  const msgs = document.getElementById('gg-messages');
+  const div = document.createElement('div');
+  div.className = 'gg-msg bot';
+  div.innerHTML = `
+    <div class="gg-mini-avatar">G</div>
+    <div class="gg-bubble">${text.replace(/\n/g, '<br>')}</div>
+  `;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function ggAddUserMessage(text) {
+  const msgs = document.getElementById('gg-messages');
+  const div = document.createElement('div');
+  div.className = 'gg-msg user';
+  div.innerHTML = `<div class="gg-bubble">${text}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function ggShowTyping() {
+  const msgs = document.getElementById('gg-messages');
+  const div = document.createElement('div');
+  div.className = 'gg-msg bot gg-typing';
+  div.id = 'gg-typing-indicator';
+  div.innerHTML = `
+    <div class="gg-mini-avatar">G</div>
+    <div class="gg-bubble">
+      <div class="gg-dot"></div>
+      <div class="gg-dot"></div>
+      <div class="gg-dot"></div>
+    </div>
+  `;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function ggHideTyping() {
+  const el = document.getElementById('gg-typing-indicator');
+  if (el) el.remove();
+}
+
+async function ggSendMessage(text) {
+  if (!text.trim() || ggIsTyping) return;
+  ggIsTyping = true;
+
+  document.getElementById('gg-quick-replies').innerHTML = '';
+  ggAddUserMessage(text);
+  ggMessages.push({ role: "user", content: text });
+
+  document.getElementById('gg-send-btn').disabled = true;
+  ggShowTyping();
+
+  try {
+    const res = await fetch("/.netlify/functions/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        system: GG_SYSTEM,
+        messages: ggMessages
+      })
+    });
+
+    const data = await res.json();
+    const reply = data.text || "معلش حصل خطأ، حاول تاني 🙏";
+
+    ggHideTyping();
+    ggMessages.push({ role: "assistant", content: reply });
+    ggAddBotMessage(reply);
+
+    // Show quick replies again after response
+    setTimeout(() => ggShowQuickReplies(), 300);
+
+  } catch (err) {
+    ggHideTyping();
+    ggAddBotMessage("معلش في مشكلة في الاتصال، كلمنا على الواتساب مباشرة 👇\n\nwa.me/201069989013");
+  }
+
+  document.getElementById('gg-send-btn').disabled = false;
+  ggIsTyping = false;
+}
+
+function ggSend() {
+  const input = document.getElementById('gg-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  input.style.height = 'auto';
+  ggSendMessage(text);
+}
+
+// Show notif dot after 3s to attract attention
+setTimeout(() => {
+  const dot = document.getElementById('gg-notif-dot');
+  if (dot && !ggIsOpen) dot.style.display = 'block';
+}, 3000);
+</script>
+
+</body>
+</html>
