@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>دليل تييم التدريب | Gib Gas</title>
-<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/DrIslambinalkhattab/TrainerQualityHub/main/GibGasW.png">
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/DrIslambinalkhattab/GibGas/main/GibGasW.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -491,6 +491,23 @@ header.nav.scrolled{ padding:11px 24px; top:12px; box-shadow:var(--shadow-lg); }
 .mini-table th{ background:var(--bg); font-weight:800; color:var(--text); }
 .mini-table td{ color:var(--text-soft); }
 
+.case-steps{ display:flex; flex-direction:column; gap:12px; margin:16px 0; }
+.case-step{
+  background:var(--bg); border:1px solid var(--border); border-radius:16px;
+  padding:18px 20px; display:flex; align-items:flex-start; gap:16px;
+  transition:box-shadow .25s ease, transform .25s ease, border-color .25s ease;
+}
+.case-step:hover{ box-shadow:0 10px 26px rgba(17,24,39,.06); transform:translateY(-2px); border-color:color-mix(in srgb, var(--indigo) 25%, var(--border)); }
+.case-step .case-badge{
+  flex-shrink:0; width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+  font-size:18px; color:#fff;
+  background:linear-gradient(135deg, var(--indigo), var(--indigo-dark));
+  box-shadow:0 8px 18px rgba(75,79,242,.28);
+}
+.case-step .case-body{ flex:1; }
+.case-step .case-title{ font-weight:800; font-size:14.5px; color:var(--text); margin-bottom:4px; }
+.case-step .case-desc{ font-size:13.5px; color:var(--text-soft); line-height:1.7; }
+
 .mini-day-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; margin:16px 0; }
 .mini-day{ background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:14px 16px; }
 .mini-day .d-label{ font-size:11px; font-weight:800; color:var(--indigo); margin-bottom:6px;}
@@ -791,8 +808,8 @@ body.gate-locked{ overflow:hidden; height:100vh; }
   <div class="gate-shape gs2"></div>
   <form class="gate-card" id="gate-form" autocomplete="off">
     <div class="gate-logo"><i class="fa-solid fa-lock"></i></div>
-    <h2>بوابة تييم التدريب</h2>
-    <p class="gate-sub">يرجى تسجيل الدخول للوصول إلى دليل السياسات الخاص بفريق Gib Gas</p>
+    <h2>بوابة تسجيل الدخول</h2>
+    <p class="gate-sub">يرجى تسجيل الدخول للوصول إلى دليل السياسات الخاصه بالفريق</p>
 
     <div class="gate-error" id="gate-error"><i class="fa-solid fa-circle-exclamation"></i><span>اسم المستخدم أو كلمة المرور غير صحيحة</span></div>
 
@@ -800,7 +817,7 @@ body.gate-locked{ overflow:hidden; height:100vh; }
       <label for="gate-user">اسم المستخدم</label>
       <div class="gate-input-wrap">
         <i class="fa-solid fa-user"></i>
-        <input type="text" id="gate-user" placeholder="Trainer@Training" autocomplete="username" required>
+        <input type="text" id="gate-user" placeholder="username" autocomplete="username" required>
       </div>
     </div>
 
@@ -819,7 +836,7 @@ body.gate-locked{ overflow:hidden; height:100vh; }
       <i class="fa-solid fa-arrow-left-long"></i>
     </button>
 
-    <div class="gate-footnote"><i class="fa-solid fa-shield-halved"></i> وصول محمي — فريق Gib Gas للتدريب</div>
+    <div class="gate-footnote"><i class="fa-solid fa-shield-halved"></i> وصول محمي — فريق Gib Gas</div>
   </form>
 </div>
 
@@ -828,7 +845,7 @@ body.gate-locked{ overflow:hidden; height:100vh; }
 <!-- ============ NAVBAR ============ -->
 <header class="nav" id="navbar">
   <div class="nav-brand">
-    <img src="https://raw.githubusercontent.com/DrIslambinalkhattab/TrainerQualityHub/main/GibGasB.png" alt="Logo" class="nav-logo" id="nav-logo-img">
+    <img src="https://raw.githubusercontent.com/DrIslambinalkhattab/GibGas/main/GibGasB.png" alt="Logo" class="nav-logo" id="nav-logo-img">
     <div class="nav-brand-text">
       <strong>فريق Gib Gas</strong>
       <span>سياسات تييم التدريب</span>
@@ -1059,12 +1076,29 @@ body.gate-locked{ overflow:hidden; height:100vh; }
       <div class="policy-body">
         <div class="policy-body-inner">
           <p class="pb-text">يتدرب المدرب على تسجيلات حقيقية لمتدربين سابقين، والمطلوب: استخراج الأخطاء، كتابة Feedback، وتسجيل Audio Feedback — عبر ثلاث حالات متدرجة الصعوبة:</p>
-          <table class="mini-table">
-            <tr><th>الحالة</th><th>الوصف</th></tr>
-            <tr><td>Case 1</td><td>أخطاء بسيطة، مثل: ch / r</td></tr>
-            <tr><td>Case 2</td><td>أخطاء متوسطة، مثل: Intonation / sch / Umlaute</td></tr>
-            <tr><td>Case 3</td><td>تسجيل يحتوي على عدد كبير من الأخطاء — يُطلب تحديد أهمها فقط، ترتيبها حسب الأولوية، وتقديم Feedback مناسب لها.</td></tr>
-          </table>
+          <div class="case-steps">
+            <div class="case-step">
+              <div class="case-badge"><i class="fa-solid fa-circle-check"></i></div>
+              <div class="case-body">
+                <div class="case-title">أخطاء بسيطة</div>
+                <div class="case-desc">مثل: ch / r</div>
+              </div>
+            </div>
+            <div class="case-step">
+              <div class="case-badge"><i class="fa-solid fa-wave-square"></i></div>
+              <div class="case-body">
+                <div class="case-title">أخطاء متوسطة</div>
+                <div class="case-desc">مثل: Intonation / sch / Umlaute</div>
+              </div>
+            </div>
+            <div class="case-step">
+              <div class="case-badge"><i class="fa-solid fa-layer-group"></i></div>
+              <div class="case-body">
+                <div class="case-title">أخطاء متعددة ومتداخلة</div>
+                <div class="case-desc">تسجيل يحتوي على عدد كبير من الأخطاء — يُطلب تحديد أهمها فقط، ترتيبها حسب الأولوية، وتقديم Feedback مناسب لها.</div>
+              </div>
+            </div>
+          </div>
           <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
         </div>
       </div>
