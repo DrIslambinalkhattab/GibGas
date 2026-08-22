@@ -3,347 +3,2295 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gib Gas</title>
-<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/DrIslambinalkhattab/TrainerQualityHub/main/GibGasW.png">
+<title>دليل تدريب تحديد المستوى | Gib Gas</title>
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/DrIslambinalkhattab/GibGas/main/GibGasW.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
-  :root {
-    --gold: #d4af37;
-    --gold-light: #f0d878;
-    --gold-dark: #b8941f;
-    --bg: #0a0a0f;
-    --bg-card: rgba(255,255,255,0.03);
-    --bg-glass: rgba(255,255,255,0.05);
-    --border: rgba(212,175,55,0.15);
-    --border-hover: rgba(212,175,55,0.4);
-    --text: #e8e8e8;
-    --text-dim: #888;
-    --text-bright: #fff;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body {
-    height: 100%;
-  }
-  body {
-    font-family: 'Tajawal', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+/* ============ TOKENS ============ */
+:root{
+  --charcoal:#12141c;
+  --charcoal-2:#1b1e29;
+  --slate:#4a5068;
+  --slate-light:#8b90a8;
+  --indigo:#4b4ff2;
+  --indigo-light:#7b7ffb;
+  --indigo-dark:#302fc9;
+  --white:#ffffff;
+  --off-white:#f6f6fa;
+  --line:rgba(20,22,35,0.08);
+  --shadow-sm: 0 2px 8px rgba(20,22,40,.06);
+  --shadow-md: 0 12px 32px rgba(20,22,40,.10);
+  --shadow-lg: 0 24px 64px rgba(20,22,40,.16);
+  --radius: 20px;
+  --radius-sm: 12px;
+  --ease: cubic-bezier(.22,1,.36,1);
+  --bg:var(--off-white);
+  --surface:var(--white);
+  --text:var(--charcoal);
+  --text-soft:var(--slate);
+  --border:var(--line);
+}
+[data-theme="dark"]{
+  --bg:#0b0c12;
+  --surface:#151723;
+  --text:#eef0fb;
+  --text-soft:#9ba0bf;
+  --border:rgba(255,255,255,.08);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,.3);
+  --shadow-md: 0 12px 32px rgba(0,0,0,.4);
+  --shadow-lg: 0 24px 64px rgba(0,0,0,.55);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Tajawal',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  transition:background .4s var(--ease), color .4s var(--ease);
+  line-height:1.9;
+}
+::selection{background:var(--indigo); color:#fff;}
+html{scrollbar-width:none; -ms-overflow-style:none;}
+::-webkit-scrollbar{display:none;}
 
-  /* ===== Ambient background ===== */
-  .bg-orb {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.4;
-    z-index: 0;
-    animation: floatOrb 20s ease-in-out infinite;
-  }
-  .orb-1 { width: 560px; height: 560px; background: radial-gradient(circle, rgba(212,175,55,0.28), transparent 70%); top: -12%; right: -8%; animation-delay: 0s; }
-  .orb-2 { width: 460px; height: 460px; background: radial-gradient(circle, rgba(180,140,40,0.2), transparent 70%); bottom: -14%; left: -8%; animation-delay: -7s; }
-  .orb-3 { width: 320px; height: 320px; background: radial-gradient(circle, rgba(212,175,55,0.14), transparent 70%); top: 40%; left: 50%; transform: translate(-50%,-50%); animation-delay: -13s; }
-  .noise {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1;
-  }
-  .grid-lines {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-image: linear-gradient(rgba(212,175,55,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-    z-index: 1;
-    mask-image: radial-gradient(circle at center, black, transparent 75%);
-    -webkit-mask-image: radial-gradient(circle at center, black, transparent 75%);
-  }
-  @keyframes floatOrb {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, -30px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.95); }
-  }
+/* ============ SIDE DOT NAV (premium scroll progress rail) ============ */
+#side-nav{
+  position:fixed; top:50%; left:32px; transform:translateY(-50%) translateX(-14px); z-index:850;
+  display:flex; flex-direction:column; align-items:center;
+  width:54px; padding:22px 0 22px; border-radius:27px; gap:0;
+  background:color-mix(in srgb, var(--surface) 78%, transparent);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,.5);
+  opacity:0; pointer-events:none; overflow:visible;
+  transition:opacity .5s var(--ease), transform .5s var(--ease), background .4s var(--ease), border-color .4s var(--ease), box-shadow .4s var(--ease);
+}
+#side-nav::before{
+  content:''; position:absolute; inset:-1px; border-radius:28px; padding:1px;
+  background:linear-gradient(180deg, color-mix(in srgb, var(--indigo-light) 45%, transparent), transparent 40%, transparent 60%, color-mix(in srgb, var(--indigo) 35%, transparent));
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude;
+  opacity:.7; pointer-events:none;
+}
+#side-nav.visible{ opacity:1; pointer-events:all; transform:translateY(-50%) translateX(0); }
+#side-nav:hover{ box-shadow:var(--shadow-lg), 0 0 0 1px color-mix(in srgb, var(--indigo-light) 30%, transparent), inset 0 1px 0 rgba(255,255,255,.5); }
 
-  @keyframes fadeSlideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+#side-nav .side-nav-pct{
+  font-size:10px; font-weight:800; letter-spacing:.02em; color:var(--indigo);
+  font-variant-numeric:tabular-nums; margin-bottom:14px; user-select:none;
+  min-width:30px; text-align:center; direction:ltr;
+}
 
-  /* ===== Layout ===== */
-  .container {
-    position: relative;
-    z-index: 2;
-    max-width: 760px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 60px 40px;
-    text-align: center;
-  }
+#side-nav .side-nav-items{
+  position:relative; display:flex; flex-direction:column; align-items:center;
+}
+#side-nav .side-nav-track{
+  position:absolute; top:20px; bottom:20px; left:50%; width:3px; border-radius:3px;
+  transform:translateX(-50%);
+  background:color-mix(in srgb, var(--text) 8%, transparent); overflow:hidden;
+  z-index:1;
+}
+#side-nav .side-nav-fill{
+  position:absolute; top:0; left:0; width:100%; height:0%;
+  background:linear-gradient(180deg, var(--indigo-light), var(--indigo));
+  border-radius:3px;
+  transition:height .12s linear;
+  box-shadow:0 0 10px color-mix(in srgb, var(--indigo) 55%, transparent);
+}
 
-  .header-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 8px 20px; border: 1px solid var(--border); border-radius: 100px;
-    font-size: 13px; color: var(--gold); margin-bottom: 40px;
-    background: rgba(212,175,55,0.05); backdrop-filter: blur(10px);
-    opacity: 0; animation: fadeSlideDown 0.9s ease forwards;
-  }
-  .header-badge .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: pulse 2s ease infinite; }
+.side-nav-item{
+  position:relative; width:54px; height:40px; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; z-index:2; background:none; border:none; padding:0;
+}
+.side-nav-index, #side-nav .side-nav-progress{ display:none; }
 
-  /* ===== Signature gear emblem ===== */
-  .emblem-wrap {
-    position: relative;
-    width: 190px; height: 190px;
-    margin: 0 auto 48px;
-    opacity: 0; animation: fadeIn 1.2s ease 0.15s forwards;
-  }
-  .emblem-ring {
-    position: absolute; inset: 0;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-  }
-  .emblem-ring::before {
-    content: '';
-    position: absolute; inset: -1px;
-    border-radius: 50%;
-    border: 1px solid transparent;
-    border-top-color: var(--gold);
-    border-right-color: var(--gold);
-    animation: spin 3.2s linear infinite;
-    opacity: 0.6;
-  }
-  .emblem-ring.outer { inset: -22px; animation: none; }
-  .emblem-ring.outer::before { animation: spin 7s linear infinite reverse; opacity: 0.3; }
-  @keyframes spin { to { transform: rotate(360deg); } }
+.side-nav-dot{
+  width:9px; height:9px; border-radius:50%; flex-shrink:0;
+  background:color-mix(in srgb, var(--text) 20%, var(--surface));
+  border:2px solid var(--surface);
+  box-shadow:0 0 0 1px color-mix(in srgb, var(--text) 22%, transparent);
+  transition:background .3s var(--ease), box-shadow .3s var(--ease), transform .3s var(--ease);
+  position:relative;
+}
+.side-nav-dot::after{
+  content:''; position:absolute; inset:-7px; border-radius:50%;
+  border:1.5px solid var(--indigo-light); opacity:0; transform:scale(.7);
+  transition:opacity .3s var(--ease), transform .3s var(--ease);
+  pointer-events:none;
+}
+.side-nav-item:hover .side-nav-dot{
+  background:var(--indigo-light);
+  box-shadow:0 0 0 1px var(--indigo-light), 0 0 0 5px color-mix(in srgb, var(--indigo-light) 16%, transparent);
+  transform:scale(1.25);
+}
+.side-nav-item.active .side-nav-dot{
+  background:var(--indigo);
+  box-shadow:0 0 0 1px var(--indigo), 0 0 0 5px color-mix(in srgb, var(--indigo) 18%, transparent);
+  transform:scale(1.35);
+}
+.side-nav-item.active .side-nav-dot::after{ opacity:1; transform:scale(1); animation:pulseRing 2.4s ease-out infinite; }
+@keyframes pulseRing{
+  0%{ transform:scale(.8); opacity:.65; }
+  100%{ transform:scale(2.1); opacity:0; }
+}
 
-  .emblem-core {
-    position: absolute; inset: 30px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, rgba(212,175,55,0.16), rgba(212,175,55,0.02) 70%);
-    border: 1px solid rgba(212,175,55,0.25);
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 0 60px rgba(212,175,55,0.12), inset 0 0 30px rgba(212,175,55,0.05);
-  }
+.side-nav-label{
+  position:absolute; left:calc(100% + 16px); top:50%; transform:translateY(-50%) translateX(-10px);
+  display:flex; align-items:center; gap:8px;
+  white-space:nowrap; background:var(--surface); color:var(--text); font-size:12.5px; font-weight:700;
+  padding:8px 16px 8px 14px; border-radius:100px; border:1px solid var(--border); box-shadow:var(--shadow-lg);
+  opacity:0; pointer-events:none; transition:opacity .25s var(--ease), transform .25s var(--ease);
+}
+.side-nav-label::before{
+  content:attr(data-num); font-size:10.5px; font-weight:800; color:var(--indigo);
+  background:color-mix(in srgb, var(--indigo) 12%, transparent);
+  width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.side-nav-item.active .side-nav-label{ color:var(--indigo); }
+.side-nav-item:hover .side-nav-label{ opacity:1; transform:translateY(-50%) translateX(0); pointer-events:auto; }
+.side-nav-item:not(:hover) .side-nav-label{ opacity:0; transform:translateY(-50%) translateX(-10px); pointer-events:none; }
 
-  .gear {
-    width: 64px; height: 64px;
-    stroke: var(--gold);
-    fill: none;
-    stroke-width: 1.4;
-    transform-origin: 50% 50%;
-    animation: gearTurn 6s linear infinite;
-    filter: drop-shadow(0 0 12px rgba(212,175,55,0.35));
-  }
-  .gear-small {
-    width: 30px; height: 30px;
-    stroke: var(--gold-light);
-    fill: none;
-    stroke-width: 1.6;
-    transform-origin: 50% 50%;
-    animation: gearTurnRev 4s linear infinite;
-    position: absolute;
-    top: 18px; right: 8px;
-    opacity: 0.85;
-    filter: drop-shadow(0 0 8px rgba(212,175,55,0.3));
-  }
-  @keyframes gearTurn { to { transform: rotate(360deg); } }
-  @keyframes gearTurnRev { to { transform: rotate(-360deg); } }
+@media (max-width:1320px){
+  #side-nav{ left:16px; }
+  .side-nav-label{ display:none; }
+}
+@media (max-width:900px){ #side-nav{ display:none; } }
 
-  .emblem-spark {
-    position: absolute;
-    width: 4px; height: 4px;
-    border-radius: 50%;
-    background: var(--gold-light);
-    box-shadow: 0 0 8px 2px rgba(240,216,120,0.8);
-    animation: orbit 3.2s linear infinite;
-  }
-  .emblem-spark.s2 { animation-duration: 4.4s; animation-direction: reverse; }
-  @keyframes orbit {
-    from { transform: rotate(0deg) translateX(95px) rotate(0deg); opacity: 0.9; }
-    to { transform: rotate(360deg) translateX(95px) rotate(-360deg); opacity: 0.9; }
-  }
+/* ============ PROGRESS BAR ============ */
+#progress-bar{
+  position:fixed; top:0; right:0; left:0; height:3px; z-index:1000;
+  background:linear-gradient(90deg, var(--indigo), var(--indigo-light));
+  width:0%; transform-origin:right;
+  transition:width .1s linear;
+  box-shadow:0 0 12px var(--indigo-light);
+}
 
-  h1 {
-    font-size: 44px; font-weight: 900; color: var(--text-bright);
-    margin-bottom: 20px; letter-spacing: -0.5px; line-height: 1.3;
-    opacity: 0; animation: fadeSlideUp 0.9s ease 0.3s forwards;
-  }
-  h1 span {
-    background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  }
+/* ============ NAVBAR ============ */
+header.nav{
+  position:fixed; top:18px; right:4vw; left:4vw; z-index:900;
+  padding:14px 26px;
+  display:flex; align-items:center; justify-content:space-between; gap:24px;
+  background:color-mix(in srgb, var(--surface) 82%, transparent);
+  backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  border:1px solid var(--border);
+  border-radius:100px;
+  box-shadow:var(--shadow-md);
+  transition:background .4s var(--ease), border-color .4s var(--ease), padding .3s var(--ease), top .3s var(--ease), box-shadow .3s var(--ease);
+}
+header.nav.scrolled{ padding:11px 24px; top:12px; box-shadow:var(--shadow-lg); }
+.nav-brand{ display:flex; align-items:center; gap:12px; }
+.nav-logo{
+  width:46px; height:46px; border-radius:13px;
+  background:transparent;
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; font-size:18px; font-weight:900;
+  filter:drop-shadow(0 3px 6px rgba(20,22,40,.35)) drop-shadow(0 1px 2px rgba(20,22,40,.22));
+  flex-shrink:0; object-fit:contain; padding:0; box-sizing:border-box;
+}
+.nav-brand-text{ display:flex; flex-direction:column; line-height:1.25; }
+.nav-brand-text strong{ font-size:15px; font-weight:800; letter-spacing:.2px;}
+.nav-brand-text span{ font-size:11px; color:var(--text-soft); font-weight:500;}
 
-  .lead {
-    font-size: 17px; color: var(--text-dim); max-width: 540px; margin: 0 auto 44px;
-    line-height: 1.9;
-    opacity: 0; animation: fadeSlideUp 0.9s ease 0.45s forwards;
-  }
+.nav-links{ display:flex; align-items:center; gap:8px; list-style:none; flex-wrap:wrap;}
+.nav-links a{
+  text-decoration:none; color:var(--text-soft); font-size:14px; font-weight:500;
+  padding:8.5px 16px; border-radius:100px; position:relative; white-space:nowrap;
+  background:transparent; border:1.5px solid color-mix(in srgb, var(--border) 90%, transparent);
+  transition:color .25s var(--ease), border-color .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+}
+.nav-links a:hover{
+  color:var(--text); border-color:color-mix(in srgb, var(--indigo) 45%, var(--border));
+  background:color-mix(in srgb, var(--indigo) 5%, transparent);
+}
+.nav-links a.active{
+  color:#fff; font-weight:700; background:linear-gradient(135deg, var(--indigo), color-mix(in srgb, var(--indigo) 75%, #7c3aed));
+  border-color:transparent;
+  box-shadow:0 4px 14px color-mix(in srgb, var(--indigo) 40%, transparent), 0 0 0 1px color-mix(in srgb, var(--indigo) 20%, transparent);
+}
+.nav-links a.active:hover{
+  color:#fff; background:linear-gradient(135deg, var(--indigo), color-mix(in srgb, var(--indigo) 75%, #7c3aed));
+}
 
-  /* ===== Progress panel ===== */
-  .panel {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 32px 36px;
-    backdrop-filter: blur(20px);
-    margin-bottom: 36px;
-    opacity: 0; animation: fadeSlideUp 0.9s ease 0.6s forwards;
-  }
-  .panel-top {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 18px;
-    font-size: 14px;
-  }
-  .panel-top .label { color: var(--text-dim); }
-  .panel-top .value { color: var(--gold-light); font-weight: 700; }
-  .progress-track {
-    position: relative;
-    width: 100%; height: 8px;
-    border-radius: 100px;
-    background: rgba(255,255,255,0.06);
-    overflow: hidden;
-    border: 1px solid var(--border);
-  }
-  .progress-fill {
-    position: absolute; top: 0; right: 0; height: 100%;
-    width: 68%;
-    border-radius: 100px;
-    background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
-    background-size: 200% 100%;
-    animation: shimmerFill 2.5s ease-in-out infinite;
-    box-shadow: 0 0 14px rgba(212,175,55,0.5);
-  }
-  @keyframes shimmerFill {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-  }
+.nav-actions{ display:flex; align-items:center; gap:8px; }
+.icon-btn{
+  width:40px; height:40px; border-radius:12px; border:1px solid var(--border);
+  background:var(--surface); color:var(--text); display:flex; align-items:center; justify-content:center;
+  cursor:pointer; font-size:15px; transition:all .25s var(--ease); flex-shrink:0;
+}
+.icon-btn:hover{ transform:translateY(-2px); box-shadow:var(--shadow-sm); border-color:var(--indigo-light); color:var(--indigo);}
 
-  .status-row {
-    display: flex; flex-wrap: wrap; gap: 12px;
-    margin-top: 22px;
-    justify-content: center;
-  }
-  .status-chip {
-    display: flex; align-items: center; gap: 8px;
-    padding: 8px 14px;
-    font-size: 12.5px;
-    border-radius: 100px;
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    background: rgba(255,255,255,0.02);
-  }
-  .status-chip .ind {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: #3ddc84;
-    box-shadow: 0 0 6px rgba(61,220,132,0.7);
-    flex-shrink: 0;
-  }
-  .status-chip.active .ind {
-    background: var(--gold);
-    box-shadow: 0 0 6px rgba(212,175,55,0.7);
-    animation: pulse 1.4s ease infinite;
-  }
-  .status-chip.pending .ind {
-    background: #555;
-    box-shadow: none;
-  }
-  .status-chip.active { color: var(--gold-light); border-color: var(--border-hover); }
+/* mobile nav toggle */
+.nav-burger{ display:none; }
 
-  .meta-row {
-    display: flex; align-items: center; justify-content: center; gap: 28px;
-    flex-wrap: wrap;
-    margin-bottom: 40px;
-    opacity: 0; animation: fadeSlideUp 0.9s ease 0.75s forwards;
-  }
-  .meta-item { text-align: center; }
-  .meta-item .num { font-size: 22px; font-weight: 800; color: var(--gold-light); letter-spacing: 1px; font-variant-numeric: tabular-nums; }
-  .meta-item .cap { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
-  .meta-divider { width: 1px; height: 30px; background: var(--border); }
+/* ============ SEARCH OVERLAY ============ */
+#search-overlay{
+  position:fixed; inset:0; z-index:1200; background:rgba(10,10,16,.72);
+  backdrop-filter:blur(6px);
+  display:flex; align-items:flex-start; justify-content:center;
+  padding-top:12vh; opacity:0; pointer-events:none; transition:opacity .3s var(--ease);
+}
+#search-overlay.open{ opacity:1; pointer-events:all; }
+.search-box{
+  width:min(640px, 90vw); background:var(--surface); border-radius:var(--radius);
+  box-shadow:var(--shadow-lg); overflow:hidden; transform:translateY(-16px); transition:transform .35s var(--ease);
+  border:1px solid var(--border);
+}
+#search-overlay.open .search-box{ transform:translateY(0); }
+.search-input-wrap{ display:flex; align-items:center; gap:14px; padding:20px 24px; border-bottom:1px solid var(--border); }
+.search-input-wrap i{ color:var(--indigo); font-size:18px; }
+.search-input-wrap input{
+  flex:1; border:none; outline:none; background:transparent; font-family:'Tajawal',sans-serif;
+  font-size:18px; color:var(--text);
+}
+.search-input-wrap input::placeholder{ color:var(--text-soft); }
+.search-results{ max-height:50vh; overflow-y:auto; padding:8px; }
+.search-result-item{
+  padding:14px 16px; border-radius:12px; cursor:pointer; transition:background .2s;
+  display:flex; align-items:center; gap:12px;
+}
+.search-result-item:hover{ background:var(--border); }
+.search-result-item i{ color:var(--indigo); width:20px; text-align:center;}
+.search-result-item .srt{ font-size:14px; font-weight:700; }
+.search-result-item .srm{ font-size:12px; color:var(--text-soft); }
+.search-empty{ padding:32px; text-align:center; color:var(--text-soft); font-size:14px;}
 
-  .footer-note {
-    font-size: 13px; color: var(--text-dim); opacity: 0.75;
-    opacity: 0; animation: fadeSlideUp 0.9s ease 0.9s forwards;
-  }
-  .footer-note b { color: var(--gold); font-weight: 700; }
+/* ============ HERO ============ */
+.hero{
+  position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center;
+  overflow:hidden; padding:120px 6vw 80px;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% -10%, rgba(75,79,242,.22), transparent 60%),
+    radial-gradient(ellipse 70% 60% at 90% 10%, rgba(123,127,251,.16), transparent 55%),
+    linear-gradient(180deg, var(--bg), var(--bg));
+}
+.hero-shape{ position:absolute; border-radius:50%; filter:blur(2px); opacity:.5; pointer-events:none; }
+.shape1{ width:420px; height:420px; top:-120px; right:-100px;
+  background:radial-gradient(circle at 30% 30%, rgba(75,79,242,.35), transparent 70%);
+  animation:float1 16s ease-in-out infinite; }
+.shape2{ width:280px; height:280px; bottom:-60px; left:-60px;
+  background:radial-gradient(circle at 60% 40%, rgba(123,127,251,.3), transparent 70%);
+  animation:float2 20s ease-in-out infinite; }
+.shape3{ width:180px; height:180px; top:30%; left:8%;
+  background:radial-gradient(circle, rgba(75,79,242,.18), transparent 70%);
+  animation:float3 14s ease-in-out infinite; }
+@keyframes float1{ 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-30px,40px) scale(1.08);} }
+@keyframes float2{ 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(30px,-20px) scale(1.1);} }
+@keyframes float3{ 0%,100%{transform:translate(0,0);} 50%{transform:translate(20px,30px);} }
 
-  @media (max-width: 640px) {
-    .container { padding: 40px 22px; }
-    h1 { font-size: 30px; }
-    .lead { font-size: 15px; }
-    .panel { padding: 24px 20px; }
-    .meta-row { gap: 16px; }
-    .emblem-wrap { width: 150px; height: 150px; margin-bottom: 36px; }
-    .emblem-ring.outer { inset: -16px; }
-    .gear { width: 50px; height: 50px; }
-    .emblem-spark { animation: none; display: none; }
-  }
+.hero-grid-lines{
+  position:absolute; inset:0; opacity:.4; pointer-events:none;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 60% 50% at 50% 30%, black, transparent 80%);
+}
 
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
-  }
+.hero-content{ position:relative; z-index:2; text-align:center; max-width:920px; margin:0 auto; }
+.hero-eyebrow{
+  display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:100px;
+  background:var(--surface); border:1px solid var(--border); box-shadow:var(--shadow-sm);
+  font-size:13px; font-weight:700; color:var(--indigo); margin-bottom:28px;
+  opacity:0; animation:reveal .8s var(--ease) .1s forwards;
+}
+.hero-eyebrow i{ font-size:11px; }
+.hero-logo{
+  width:96px; height:96px; margin:0 auto 32px; border-radius:28px;
+  background:linear-gradient(135deg, var(--indigo), var(--indigo-dark));
+  display:flex; align-items:center; justify-content:center; color:#fff; font-size:40px; font-weight:900;
+  box-shadow:0 20px 50px rgba(75,79,242,.4);
+  opacity:0; animation:reveal .8s var(--ease) 0s forwards, glow 5s ease-in-out infinite 1s;
+}
+@keyframes glow{ 0%,100%{ box-shadow:0 20px 50px rgba(75,79,242,.4);} 50%{ box-shadow:0 24px 64px rgba(75,79,242,.6);} }
+.hero h1{
+  font-size:clamp(2.4rem, 6vw, 4.6rem); font-weight:900; letter-spacing:-1.5px; line-height:1.15;
+  margin-bottom:22px; opacity:0; animation:reveal .9s var(--ease) .2s forwards;
+}
+.hero h1 span{
+  background:linear-gradient(100deg, var(--indigo), var(--indigo-light) 50%, var(--indigo));
+  background-size:200% auto; -webkit-background-clip:text; background-clip:text; color:transparent;
+  animation:shine 6s linear infinite;
+}
+@keyframes shine{ to{ background-position:200% center; } }
+.hero p.tag{
+  font-size:clamp(1rem, 1.6vw, 1.25rem); color:var(--text-soft); font-weight:400; max-width:640px; margin:0 auto 40px;
+  opacity:0; animation:reveal .9s var(--ease) .35s forwards;
+}
+.hero-cta{ display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap;
+  opacity:0; animation:reveal .9s var(--ease) .5s forwards; }
+.btn{
+  position:relative; overflow:hidden; border:none; cursor:pointer; font-family:'Tajawal',sans-serif;
+  font-weight:700; font-size:15px; padding:16px 32px; border-radius:100px; display:inline-flex; align-items:center; gap:10px;
+  transition:transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+.btn-primary{ background:linear-gradient(135deg, var(--indigo), var(--indigo-dark)); color:#fff; box-shadow:0 12px 30px rgba(75,79,242,.35);}
+.btn-primary:hover{ transform:translateY(-3px); box-shadow:0 18px 40px rgba(75,79,242,.45); }
+.btn-ghost{ background:var(--surface); color:var(--text); border:1px solid var(--border); }
+.btn-ghost:hover{ transform:translateY(-3px); box-shadow:var(--shadow-md); }
+.ripple{ position:absolute; border-radius:50%; background:rgba(255,255,255,.5); transform:scale(0); animation:rip .6s ease-out; pointer-events:none;}
+[data-theme="dark"] .btn-ghost .ripple{ background:rgba(255,255,255,.25); }
+@keyframes rip{ to{ transform:scale(3); opacity:0; } }
+
+@keyframes reveal{ from{ opacity:0; transform:translateY(24px);} to{ opacity:1; transform:translateY(0);} }
+
+.hero-stats{
+  margin-top:72px; display:grid; grid-template-columns:repeat(4,1fr); gap:18px; max-width:880px; margin-inline:auto;
+  opacity:0; animation:reveal .9s var(--ease) .65s forwards;
+}
+.stat{
+  position:relative; background:var(--surface); padding:24px 16px; text-align:center;
+  border:1px solid var(--border); border-radius:18px; overflow:hidden;
+  box-shadow:var(--shadow-sm);
+  aspect-ratio:1 / 1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease);
+}
+.stat::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:3px; border-radius:18px 18px 0 0;
+  background:linear-gradient(90deg, var(--indigo), var(--indigo-light));
+  transform:scaleX(0); transform-origin:center; transition:transform .45s var(--ease);
+}
+.stat:hover{ transform:translateY(-6px); box-shadow:var(--shadow-lg); border-color:color-mix(in srgb, var(--indigo-light) 40%, var(--border)); }
+.stat:hover::before{ transform:scaleX(1); }
+.stat .stat-icon{
+  width:40px; height:40px; margin:0 auto 12px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  background:color-mix(in srgb, var(--indigo) 10%, transparent); color:var(--indigo); font-size:15px;
+  transition:transform .4s var(--ease), background .4s var(--ease);
+}
+.stat:hover .stat-icon{ transform:scale(1.08) rotate(-4deg); background:color-mix(in srgb, var(--indigo) 16%, transparent); }
+.stat .num{ font-size:clamp(1.6rem,3vw,2.3rem); font-weight:900; color:var(--text); letter-spacing:-.5px; font-variant-numeric:tabular-nums; }
+.stat .lbl{ font-size:12.5px; color:var(--text-soft); margin-top:8px; font-weight:600; line-height:1.5; }
+
+.scroll-cue{
+  position:absolute; inset-inline:0; bottom:40px; margin-inline:auto; width:fit-content;
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  color:var(--text-soft); font-size:10px; font-weight:700; letter-spacing:.6px; opacity:0;
+  background:none; border:none; padding:0; box-shadow:none; cursor:pointer;
+  font-family:'Tajawal',sans-serif;
+  transition:opacity .3s var(--ease);
+  animation:reveal .9s var(--ease) .9s forwards, bob 2.6s ease-in-out 1.8s infinite;
+}
+.scroll-cue:hover{ opacity:.65; }
+.scroll-cue .mouse{
+  width:18px; height:28px; border-radius:10px; border:1.5px solid color-mix(in srgb, var(--text-soft) 45%, transparent);
+  background:none; display:flex; justify-content:center; padding-top:5px;
+}
+.scroll-cue .mouse::after{
+  content:''; width:3px; height:3px; border-radius:50%; background:var(--indigo);
+  animation:scrolldown 2s ease-in-out infinite;
+}
+@keyframes scrolldown{ 0%{ transform:translateY(0); opacity:0;} 20%{opacity:1;} 70%{opacity:1;} 100%{ transform:translateY(9px); opacity:0;} }
+@keyframes bob{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-5px);} }
+@media (max-width:760px){
+  .hero{ min-height:auto; padding-top:128px; padding-bottom:56px; }
+  .hero-stats{ margin-top:48px; }
+  .scroll-cue{ display:none; }
+}
+
+/* ============ SECTION GENERIC ============ */
+.section{ padding:120px 6vw; position:relative; }
+.section-head{ text-align:center; max-width:720px; margin:0 auto 64px; }
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:100px;
+  background:var(--surface); border:1px solid var(--border); box-shadow:var(--shadow-sm);
+  font-size:13px; font-weight:700; color:var(--indigo); letter-spacing:.2px; margin-bottom:18px;
+  transition:box-shadow .3s var(--ease), border-color .3s var(--ease);
+}
+.eyebrow:hover{ box-shadow:var(--shadow-md); border-color:color-mix(in srgb, var(--indigo-light) 40%, var(--border)); }
+.eyebrow i{ font-size:11px; }
+.section-head h2{ font-size:clamp(1.8rem,4vw,2.8rem); font-weight:900; letter-spacing:-1px; margin-bottom:16px;}
+.section-head p{ color:var(--text-soft); font-size:16px; line-height:1.9; }
+
+.reveal-el{ opacity:0; transform:translateY(40px); transition:opacity .8s var(--ease), transform .8s var(--ease); }
+.reveal-el.in{ opacity:1; transform:translateY(0); }
+
+/* ============ PHASE OVERVIEW / TIMELINE ============ */
+.phase-timeline{ max-width:960px; margin:0 auto; position:relative; }
+.phase-timeline::before{
+  content:''; position:absolute; top:0; bottom:0; right:39px; width:2px;
+  background:linear-gradient(180deg, var(--indigo), var(--border) 90%);
+}
+.phase-row{ display:flex; gap:28px; align-items:flex-start; padding-bottom:56px; position:relative; }
+.phase-row:last-child{ padding-bottom:0; }
+.phase-node{
+  width:80px; height:80px; border-radius:22px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+  background:var(--surface); border:1px solid var(--border); box-shadow:var(--shadow-sm); position:relative; z-index:2;
+  font-size:26px; color:var(--indigo); transition:all .4s var(--ease);
+}
+.phase-row.in .phase-node{ background:linear-gradient(135deg, var(--indigo), var(--indigo-dark)); color:#fff; box-shadow:0 14px 30px rgba(75,79,242,.35); }
+.phase-body{ flex:1; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:28px 32px; box-shadow:var(--shadow-sm); transition:box-shadow .3s, transform .3s;}
+.phase-body:hover{ box-shadow:var(--shadow-md); transform:translateY(-2px);}
+.phase-body .ph-top{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:10px;}
+.phase-body h3{ font-size:1.25rem; font-weight:800; }
+.phase-badge{ font-size:12px; font-weight:700; color:var(--indigo); background:rgba(75,79,242,.1); padding:6px 14px; border-radius:100px; white-space:nowrap;}
+.phase-body p{ color:var(--text-soft); font-size:14.5px; }
+
+/* ============ POLICY CARDS ============ */
+.policy-grid{ display:flex; flex-direction:column; gap:24px; max-width:980px; margin:0 auto; }
+.policy-card{
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  overflow:hidden; box-shadow:var(--shadow-sm); transition:box-shadow .4s var(--ease), transform .4s var(--ease), border-color .3s;
+  position:relative;
+}
+.policy-card::before{
+  content:''; position:absolute; top:0; right:0; width:5px; height:100%;
+  background:linear-gradient(180deg, var(--indigo), var(--indigo-light));
+  opacity:0; transition:opacity .3s;
+}
+.policy-card:hover{ box-shadow:var(--shadow-lg); transform:translateY(-4px); }
+.policy-card:hover::before{ opacity:1; }
+.policy-card.hidden-by-search{ display:none; }
+
+.policy-head{
+  display:flex; align-items:center; gap:20px; padding:28px 32px; cursor:pointer; user-select:none;
+}
+.policy-icon{
+  width:60px; height:60px; border-radius:16px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+  font-size:24px; background:rgba(75,79,242,.1); color:var(--indigo); transition:all .4s var(--ease);
+}
+.policy-card:hover .policy-icon{ background:linear-gradient(135deg, var(--indigo), var(--indigo-dark)); color:#fff; transform:rotate(-6deg) scale(1.05); }
+.policy-titles{ flex:1; min-width:0; }
+.policy-num{ font-size:11px; font-weight:800; color:var(--indigo); letter-spacing:1px; text-transform:uppercase; margin-bottom:4px;}
+.policy-titles h3{ font-size:1.15rem; font-weight:800; }
+.policy-titles h3 mark{ background:rgba(75,79,242,.22); color:inherit; border-radius:4px; padding:0 2px;}
+.policy-toggle{
+  width:38px; height:38px; border-radius:50%; border:1px solid var(--border); display:flex; align-items:center; justify-content:center;
+  color:var(--text-soft); flex-shrink:0; transition:all .4s var(--ease);
+}
+.policy-card.open .policy-toggle{ background:var(--indigo); color:#fff; border-color:var(--indigo); transform:rotate(180deg); }
+
+.policy-body{ max-height:0; overflow:hidden; transition:max-height .5s var(--ease); }
+.policy-body-inner{ padding:0 32px 32px 32px; border-top:1px solid var(--border); }
+.policy-body-inner{ padding-top:24px; }
+
+.pb-sub{ font-size:15px; font-weight:800; margin:22px 0 10px; display:flex; align-items:center; gap:8px; color:var(--text); }
+.pb-sub i{ color:var(--indigo); font-size:13px; }
+.pb-sub:first-child{ margin-top:0; }
+.pb-list{ list-style:none; display:flex; flex-direction:column; gap:9px; }
+.pb-list li{ display:flex; align-items:flex-start; gap:10px; font-size:14.5px; color:var(--text-soft); line-height:1.8;}
+.pb-list li i{ color:var(--indigo); font-size:12px; margin-top:6px; flex-shrink:0;}
+.pb-text{ font-size:14.5px; color:var(--text-soft); line-height:1.9; }
+
+.callout{ display:flex; gap:14px; padding:18px 20px; border-radius:14px; margin:16px 0; font-size:14px; line-height:1.85; }
+.callout i{ font-size:18px; margin-top:2px; flex-shrink:0; }
+.callout.info{ background:rgba(75,79,242,.08); color:var(--text); border:1px solid rgba(75,79,242,.18); }
+.callout.info i{ color:var(--indigo); }
+.callout.warn{ background:rgba(245,158,11,.09); border:1px solid rgba(245,158,11,.22); }
+.callout.warn i{ color:#d97706; }
+.callout.success{ background:rgba(16,185,129,.08); border:1px solid rgba(16,185,129,.2); }
+.callout.success i{ color:#059669; }
+
+.mini-table{ width:100%; border-collapse:collapse; margin:14px 0; font-size:13.5px; }
+.mini-table th, .mini-table td{ padding:12px 14px; border:1px solid var(--border); text-align:right; }
+.mini-table th{ background:var(--bg); font-weight:800; color:var(--text); }
+.mini-table td{ color:var(--text-soft); }
+
+.case-steps{ display:flex; flex-direction:column; gap:12px; margin:16px 0; }
+.case-step{
+  background:var(--bg); border:1px solid var(--border); border-radius:16px;
+  padding:18px 20px; display:flex; align-items:flex-start; gap:16px;
+  transition:box-shadow .25s ease, transform .25s ease, border-color .25s ease;
+}
+.case-step:hover{ box-shadow:0 10px 26px rgba(17,24,39,.06); transform:translateY(-2px); border-color:color-mix(in srgb, var(--indigo) 25%, var(--border)); }
+.case-step .case-badge{
+  flex-shrink:0; width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+  font-size:18px; color:#fff;
+  background:linear-gradient(135deg, var(--indigo), var(--indigo-dark));
+  box-shadow:0 8px 18px rgba(75,79,242,.28);
+}
+.case-step .case-body{ flex:1; }
+.case-step .case-title{ font-weight:800; font-size:14.5px; color:var(--text); margin-bottom:4px; }
+.case-step .case-desc{ font-size:13.5px; color:var(--text-soft); line-height:1.7; }
+
+.mini-day-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; margin:16px 0; }
+.mini-day{ background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:14px 16px; }
+.mini-day .d-label{ font-size:11px; font-weight:800; color:var(--indigo); margin-bottom:6px;}
+.mini-day .d-task{ font-size:13px; color:var(--text-soft); line-height:1.6;}
+
+.checklist-box{ margin-top:20px; }
+.check-item{ display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px dashed var(--border); font-size:14px; color:var(--text-soft); }
+.check-item:last-child{ border-bottom:none; }
+.check-item i{ color:#10b981; font-size:15px; }
+
+.copy-btn-wrap{
+  margin-top:24px; padding-top:20px; border-top:1px solid var(--border);
+}
+.copy-btn{
+  display:inline-flex; align-items:center; gap:8px; font-size:12.5px; font-weight:700; color:var(--indigo);
+  background:rgba(75,79,242,.08); border:1px solid rgba(75,79,242,.18); padding:9px 16px; border-radius:100px;
+  cursor:pointer; transition:all .25s var(--ease);
+}
+.copy-btn:hover{ background:var(--indigo); color:#fff; }
+.copy-btn.copied{ background:#10b981; border-color:#10b981; color:#fff; }
+
+.module-tag{ display:inline-block; font-size:11px; font-weight:800; color:#fff; background:var(--indigo); padding:4px 12px; border-radius:100px; margin-bottom:10px;}
+
+/* ============ FOLLOW-UP STAGES (STEPPER) ============ */
+.stage-list{ display:flex; flex-direction:column; gap:14px; margin:16px 0; }
+.stage-item{
+  background:var(--bg); border:1px solid var(--border); border-radius:14px;
+  padding:16px 18px; transition:border-color .25s var(--ease), box-shadow .25s var(--ease), transform .25s var(--ease);
+}
+.stage-item:hover{ border-color:rgba(75,79,242,.35); box-shadow:0 8px 24px -12px rgba(75,79,242,.25); transform:translateY(-2px); }
+.stage-top{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.stage-title{ display:flex; align-items:center; gap:10px; font-size:14.5px; font-weight:800; color:var(--text); }
+.stage-num{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:26px; height:26px; padding:0 4px; border-radius:8px;
+  background:rgba(75,79,242,.1); color:var(--indigo); font-size:13px; font-weight:800;
+  border:1px solid rgba(75,79,242,.18); flex-shrink:0;
+}
+.stage-desc{ font-size:13.5px; color:var(--text-soft); line-height:1.85; margin-top:10px; padding-right:36px; }
+
+/* ============ CTA / TRANSITION DIVIDER ============ */
+.divider-wave{ height:100px; position:relative; overflow:hidden; }
+.divider-wave svg{ position:absolute; width:100%; height:100%; }
+
+.final-cta{
+  margin:130px 6vw 100px; padding:96px 6vw; border-radius:32px; text-align:center;
+  background:
+    radial-gradient(circle at 18% 15%, rgba(255,255,255,.18), transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(255,255,255,.12), transparent 50%),
+    linear-gradient(135deg, var(--indigo-light), var(--indigo) 45%, var(--indigo-dark));
+  position:relative; overflow:hidden; color:#fff;
+  box-shadow:0 -10px 40px -25px rgba(20,22,40,.12), 0 40px 80px -20px rgba(48,47,201,.45), inset 0 1px 0 rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.08);
+  isolation:isolate;
+}
+.final-cta::before{
+  content:''; position:absolute; inset:-2px; z-index:-1; opacity:.5;
+  background-image:
+    linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+  background-size:44px 44px;
+  mask-image:radial-gradient(circle at 50% 40%, #000 0%, transparent 75%);
+}
+.final-cta::after{
+  content:''; position:absolute; width:340px; height:340px; border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,.25), transparent 70%);
+  top:-140px; left:-100px; filter:blur(10px); pointer-events:none;
+}
+.final-cta .fc-badge{
+  display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:800; letter-spacing:.5px;
+  color:#fff; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.28);
+  padding:8px 18px; border-radius:100px; margin-bottom:24px; position:relative; backdrop-filter:blur(6px);
+}
+.final-cta .fc-badge i{ font-size:11px; }
+.final-cta h2{ font-size:clamp(1.9rem,4vw,2.75rem); font-weight:900; margin-bottom:18px; position:relative; letter-spacing:-.5px; line-height:1.25; }
+.final-cta p{ opacity:.92; max-width:540px; margin:0 auto 40px; position:relative; font-size:16px; line-height:1.9; }
+.final-cta .btn-primary{
+  background:#fff; color:var(--indigo-dark); box-shadow:0 16px 36px rgba(0,0,0,.25); position:relative;
+  padding:17px 36px; font-size:15.5px;
+}
+.final-cta .btn-primary:hover{ transform:translateY(-4px); box-shadow:0 22px 46px rgba(0,0,0,.3); }
+.final-cta .btn-primary i{ transition:transform .3s var(--ease); }
+.final-cta .btn-primary:hover i{ transform:translateY(-3px); }
+
+/* ============ FOOTER ============ */
+footer{
+  position:relative; overflow:hidden;
+  display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:18px;
+  padding:14px 30px;
+  margin:0 4vw 24px 4vw;
+  border-radius:100px;
+  background:color-mix(in srgb, var(--surface) 72%, transparent);
+  backdrop-filter:blur(24px) saturate(160%);
+  -webkit-backdrop-filter:blur(24px) saturate(160%);
+  border:1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  box-shadow:0 8px 28px rgba(20,22,40,.07), inset 0 1px 0 rgba(255,255,255,.3);
+  isolation:isolate;
+  transition:background .4s var(--ease), border-color .4s var(--ease), box-shadow .4s var(--ease);
+}
+footer::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg, transparent, color-mix(in srgb, var(--indigo-light) 40%, transparent), transparent);
+}
+footer::after{
+  content:''; position:absolute; inset:0; z-index:-1; opacity:.35; pointer-events:none;
+  background:radial-gradient(circle at 12% 50%, color-mix(in srgb, var(--indigo) 10%, transparent), transparent 55%),
+             radial-gradient(circle at 88% 50%, color-mix(in srgb, var(--indigo) 6%, transparent), transparent 55%);
+}
+footer .f-brand{
+  display:flex; align-items:center; gap:8px; color:var(--text); font-size:12.5px; font-weight:700;
+  letter-spacing:.2px;
+  justify-self:start; white-space:nowrap;
+}
+footer .f-brand .heart-icon{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:20px; height:20px; border-radius:50%; flex:none;
+  background:radial-gradient(circle at 35% 30%, #ffc27a, #ff9130 60%, #e8641c);
+  box-shadow:0 0 0 3px rgba(255,145,48,.14), 0 2px 8px rgba(255,145,48,.4);
+  animation:heartbeat 1.8s ease-in-out infinite;
+}
+footer .f-brand .heart-icon i{ color:#fff; font-size:9.5px; }
+@keyframes heartbeat{
+  0%, 100%{ transform:scale(1); }
+  15%{ transform:scale(1.18); }
+  30%{ transform:scale(.96); }
+  45%{ transform:scale(1.1); }
+  60%{ transform:scale(1); }
+}
+footer .f-copyright{
+  justify-self:center; text-align:center; color:var(--text-soft); font-size:11.5px; font-weight:500;
+  letter-spacing:.2px; opacity:.85;
+  white-space:nowrap;
+}
+footer .f-credit{
+  display:flex; align-items:center; gap:8px; color:var(--text); font-size:12.5px; font-weight:700;
+  letter-spacing:.2px; justify-self:end; white-space:nowrap;
+}
+footer .f-credit .dev-icon{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:20px; height:20px; border-radius:50%; flex:none;
+  background:linear-gradient(135deg, var(--indigo-light), var(--indigo));
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--indigo) 12%, transparent), 0 2px 8px rgba(75,79,242,.35);
+}
+footer .f-credit .dev-icon i{ color:#fff; font-size:9.5px; }
+@media (max-width:760px){
+  footer{ grid-template-columns:1fr; justify-items:center; text-align:center; padding:20px 6vw; margin:0 4vw 18px 4vw; border-radius:28px; }
+  footer .f-brand, footer .f-copyright, footer .f-credit{ justify-self:center; }
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:900px){
+  .nav-links{ display:none; }
+  .nav-burger{ display:flex; }
+  .hero-stats{ grid-template-columns:repeat(2,1fr); gap:14px; }
+  .stat{ padding:20px 12px; }
+  .phase-timeline::before{ right:29px; }
+  .phase-node{ width:60px; height:60px; font-size:20px; border-radius:16px;}
+  .policy-head{ padding:22px; gap:14px; }
+  .section{ padding:80px 5vw; }
+  .final-cta{ margin:80px 4vw 70px; padding:64px 6vw; }
+}
+@media (max-width:560px){
+  .policy-icon{ width:48px; height:48px; font-size:19px;}
+  .policy-titles h3{ font-size:1rem; }
+}
+
+/* print */
+@media print{
+  header.nav, #search-overlay, .hero-shape, #progress-bar, .nav-burger{ display:none !important; }
+  .policy-body{ max-height:none !important; }
+  body{ background:#fff; color:#000; }
+  .section{ padding:20px 0; }
+}
+
+/* focus visibility */
+a:focus-visible, button:focus-visible{ outline:2px solid var(--indigo); outline-offset:3px; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+}
+
+/* ============ LOGIN GATE ============ */
+body.gate-locked{ overflow:hidden; height:100vh; }
+#login-gate{
+  position:fixed; inset:0; z-index:5000;
+  display:flex; align-items:center; justify-content:center;
+  padding:24px;
+  background:
+    radial-gradient(ellipse 80% 60% at 15% -10%, rgba(75,79,242,.24), transparent 60%),
+    radial-gradient(ellipse 70% 60% at 95% 105%, rgba(123,127,251,.18), transparent 55%),
+    linear-gradient(180deg, var(--bg), var(--bg));
+  transition:opacity .6s var(--ease), visibility .6s var(--ease);
+}
+#login-gate.gate-hidden{ opacity:0; visibility:hidden; pointer-events:none; }
+#login-gate .gate-grid{
+  position:absolute; inset:0; opacity:.4; pointer-events:none;
+  background-image:linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(ellipse 65% 55% at 50% 40%, black, transparent 80%);
+}
+#login-gate .gate-shape{ position:absolute; border-radius:50%; filter:blur(2px); opacity:.55; pointer-events:none; }
+#login-gate .gs1{ width:380px; height:380px; top:-100px; right:-90px;
+  background:radial-gradient(circle at 30% 30%, rgba(75,79,242,.35), transparent 70%); animation:float1 16s ease-in-out infinite; }
+#login-gate .gs2{ width:260px; height:260px; bottom:-70px; left:-60px;
+  background:radial-gradient(circle at 60% 40%, rgba(123,127,251,.3), transparent 70%); animation:float2 20s ease-in-out infinite; }
+
+.gate-card{
+  position:relative; z-index:2; width:min(420px, 100%);
+  background:color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter:blur(22px) saturate(180%); -webkit-backdrop-filter:blur(22px) saturate(180%);
+  border:1px solid var(--border); border-radius:28px;
+  box-shadow:var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,.5);
+  padding:44px 38px 38px;
+  opacity:0; transform:translateY(24px) scale(.97);
+  animation:reveal .8s var(--ease) .1s forwards;
+}
+[data-theme="dark"] .gate-card{ box-shadow:var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,.06); }
+.gate-card.shake{ animation:gateShake .5s var(--ease); }
+@keyframes gateShake{
+  10%,90%{ transform:translateX(-2px); }
+  20%,80%{ transform:translateX(4px); }
+  30%,50%,70%{ transform:translateX(-8px); }
+  40%,60%{ transform:translateX(8px); }
+}
+.gate-logo{
+  width:72px; height:72px; margin:0 auto 22px; border-radius:22px;
+  background:linear-gradient(135deg, var(--indigo), var(--indigo-dark));
+  display:flex; align-items:center; justify-content:center; color:#fff; font-size:28px;
+  box-shadow:0 16px 40px rgba(75,79,242,.4);
+  animation:glow 5s ease-in-out infinite 1s;
+}
+.gate-card h2{ text-align:center; font-size:1.5rem; font-weight:900; letter-spacing:-.5px; margin-bottom:8px; }
+.gate-card p.gate-sub{ text-align:center; color:var(--text-soft); font-size:13.5px; margin-bottom:30px; line-height:1.8; }
+
+.gate-field{ margin-bottom:16px; }
+.gate-field label{ display:block; font-size:12.5px; font-weight:700; color:var(--text-soft); margin-bottom:8px; }
+.gate-input-wrap{
+  display:flex; align-items:center; gap:10px; padding:0 16px; border-radius:14px;
+  border:1.5px solid var(--border); background:var(--bg);
+  transition:border-color .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+}
+.gate-input-wrap i{ color:var(--text-soft); font-size:14px; width:16px; text-align:center; flex-shrink:0; transition:color .25s var(--ease); }
+.gate-input-wrap input{
+  flex:1; border:none; outline:none; background:transparent; font-family:'Tajawal',sans-serif;
+  font-size:14.5px; color:var(--text); padding:14px 0; min-width:0;
+}
+.gate-input-wrap input::placeholder{ color:color-mix(in srgb, var(--text-soft) 70%, transparent); }
+.gate-input-wrap:focus-within{
+  border-color:var(--indigo-light); background:var(--surface);
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--indigo-light) 16%, transparent);
+}
+.gate-input-wrap:focus-within i{ color:var(--indigo); }
+.gate-toggle-pass{
+  cursor:pointer; color:var(--text-soft); background:none; border:none; font-size:14px; padding:6px; flex-shrink:0;
+  transition:color .2s;
+}
+.gate-toggle-pass:hover{ color:var(--indigo); }
+
+.gate-error{
+  display:flex; align-items:center; gap:8px; font-size:12.5px; font-weight:600; color:#dc2626;
+  background:rgba(220,38,38,.08); border:1px solid rgba(220,38,38,.2);
+  padding:10px 14px; border-radius:12px; margin-bottom:16px;
+  max-height:0; opacity:0; overflow:hidden; padding-top:0; padding-bottom:0; margin-bottom:0;
+  transition:all .35s var(--ease);
+}
+.gate-error.show{ max-height:60px; opacity:1; padding-top:10px; padding-bottom:10px; margin-bottom:16px; }
+
+.gate-submit{
+  width:100%; border:none; cursor:pointer; font-family:'Tajawal',sans-serif;
+  font-weight:800; font-size:15px; padding:16px; border-radius:14px;
+  background:linear-gradient(135deg, var(--indigo), var(--indigo-dark)); color:#fff;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  box-shadow:0 14px 30px rgba(75,79,242,.35);
+  transition:transform .3s var(--ease), box-shadow .3s var(--ease);
+  position:relative; overflow:hidden; margin-top:6px;
+}
+.gate-submit:hover{ transform:translateY(-2px); box-shadow:0 18px 38px rgba(75,79,242,.45); }
+.gate-submit:active{ transform:translateY(0); }
+.gate-submit .fa-spinner{ display:none; }
+.gate-submit.loading .fa-spinner{ display:inline-block; animation:spin .7s linear infinite; }
+.gate-submit.loading .gate-submit-label{ opacity:.6; }
+@keyframes spin{ to{ transform:rotate(360deg); } }
+
+.gate-footnote{ text-align:center; margin-top:22px; font-size:11.5px; color:var(--text-soft); display:flex; align-items:center; justify-content:center; gap:6px; }
+.gate-footnote i{ color:var(--indigo); font-size:11px; }
+
+@media (max-width:480px){
+  .gate-card{ padding:36px 24px 30px; border-radius:22px; }
+}
 </style>
 </head>
-
 <body>
-<div class="bg-orb orb-1"></div>
-<div class="bg-orb orb-2"></div>
-<div class="bg-orb orb-3"></div>
-<div class="noise"></div>
-<div class="grid-lines"></div>
 
-<div class="container">
-  <div class="header-badge"><span class="dot"></span>Gib Gas Governance & Standards</div>
+<!-- ============ LOGIN GATE ============ -->
+<div id="login-gate">
+  <div class="gate-grid"></div>
+  <div class="gate-shape gs1"></div>
+  <div class="gate-shape gs2"></div>
+  <form class="gate-card" id="gate-form" autocomplete="off">
+    <div class="gate-logo"><i class="fa-solid fa-lock"></i></div>
+    <h2>بوابة تسجيل الدخول</h2>
+    <p class="gate-sub">يرجى تسجيل الدخول للوصول إلى دليل تدريب تحديد المستوى الخاص بالفريق</p>
 
-  <div class="emblem-wrap">
-    <div class="emblem-ring outer"></div>
-    <div class="emblem-ring"></div>
-    <div class="emblem-core">
-      <svg class="gear" viewBox="0 0 24 24">
-        <path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/>
-        <path d="M19.4 13a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V19a2 2 0 11-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H4a2 2 0 110-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H10a1.65 1.65 0 001-1.51V4a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V10a1.65 1.65 0 001.51 1H20a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/>
-      </svg>
-      <svg class="gear-small" viewBox="0 0 24 24">
-        <path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/>
-        <path d="M19.4 13a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V19a2 2 0 11-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H4a2 2 0 110-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H10a1.65 1.65 0 001-1.51V4a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V10a1.65 1.65 0 001.51 1H20a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/>
-      </svg>
+    <div class="gate-error" id="gate-error"><i class="fa-solid fa-circle-exclamation"></i><span>اسم المستخدم أو كلمة المرور غير صحيحة</span></div>
+
+    <div class="gate-field">
+      <label for="gate-user">اسم المستخدم</label>
+      <div class="gate-input-wrap">
+        <i class="fa-solid fa-user"></i>
+        <input type="text" id="gate-user" placeholder="مُحيي الشرقاوي 2 00 1111 010" autocomplete="username" required>
+      </div>
     </div>
-    <div class="emblem-spark"></div>
-    <div class="emblem-spark s2"></div>
-  </div>
 
-  <h1>المنصة قيد <span>الصيانة</span></h1>
-  <p class="lead">نعمل (اللي هو انا يعني 🚶🏻) حاليًا على تحديث وتطوير الأنظمة لضمان تجربة أعلى جودة وأداء. جميع البيانات محفوظة بأمان، وستعود المنصة للعمل فور الانتهاء.</p>
-
-  <div class="panel">
-    <div class="panel-top">
-      <span class="label">حالة التحديث</span>
-      <span class="value">68% مكتمل</span>
+    <div class="gate-field">
+      <label for="gate-pass">انطق كلمة السر</label>
+      <div class="gate-input-wrap">
+        <i class="fa-solid fa-key"></i>
+        <input type="password" id="gate-pass" placeholder="يوم ورا يوم" autocomplete="current-password" required>
+        <button type="button" class="gate-toggle-pass" id="gate-toggle-pass" aria-label="إظهار كلمة المرور"><i class="fa-regular fa-eye"></i></button>
+      </div>
     </div>
-    <div class="progress-track"><div class="progress-fill"></div></div>
 
-    <div class="status-row">
-      <div class="status-chip"><span class="ind"></span>فحص الأنظمة</div>
-      <div class="status-chip"><span class="ind"></span>نسخ البيانات احتياطيًا</div>
-      <div class="status-chip active"><span class="ind"></span>تحديث الخوادم</div>
-      <div class="status-chip pending"><span class="ind"></span>الاختبار النهائي</div>
-    </div>
-  </div>
+    <button type="submit" class="gate-submit" id="gate-submit">
+      <i class="fa-solid fa-spinner"></i>
+      <span class="gate-submit-label">تسجيل الدخول</span>
+      <i class="fa-solid fa-arrow-left-long"></i>
+    </button>
 
-  <div class="meta-row">
-    <div class="meta-item"><div class="num">تحديثات تقنية</div><div class="cap">Gib Gas 2.0</div></div>
-    <div class="meta-divider"></div>
-    <div class="meta-item"><div class="num">دعم متواصل</div><div class="cap">على مدار الساعه</div></div>
-    <div class="meta-divider"></div>
-    <div class="meta-item"><div class="num">العوده قريبا</div><div class="cap">في المرحلة الأخيرة</div></div>
-  </div>
-
-  <div class="footer-note">نعمل (اللي هو انا برضو) خلف الكواليس لنقدم لكم الأفضل<b>Gib Gas</b> © 2025</div>
+    <div class="gate-footnote"><i class="fa-solid fa-shield-halved"></i> وصول محمي — فريق Gib Gas</div>
+  </form>
 </div>
 
+<div id="progress-bar"></div>
+
+<!-- ============ NAVBAR ============ -->
+<header class="nav" id="navbar">
+  <div class="nav-brand">
+    <img src="https://raw.githubusercontent.com/DrIslambinalkhattab/GibGas/main/GibGasB.png" alt="Logo" class="nav-logo" id="nav-logo-img">
+    <div class="nav-brand-text">
+      <strong>فريق Gib Gas</strong>
+      <span>دليل تدريب تحديد المستوى</span>
+    </div>
+  </div>
+  <nav>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#overview" class="active">نظرة عامة</a></li>
+      <li><a href="#phase1">المرحلة 1</a></li>
+      <li><a href="#phase2">المرحلة 2</a></li>
+      <li><a href="#phase3">المرحلة 3</a></li>
+      <li><a href="#phase4">المرحلة 4</a></li>
+      <li><a href="#phase5">المرحلة 5</a></li>
+      <li><a href="#phase6">المرحلة 6</a></li>
+    </ul>
+  </nav>
+  <div class="nav-actions">
+    <button class="icon-btn" id="search-btn" aria-label="بحث"><i class="fa-solid fa-magnifying-glass"></i></button>
+    <button class="icon-btn" id="print-btn" aria-label="طباعة"><i class="fa-solid fa-print"></i></button>
+    <button class="icon-btn" id="theme-btn" aria-label="تبديل الوضع"><i class="fa-solid fa-moon"></i></button>
+    <button class="icon-btn nav-burger" id="burger-btn" aria-label="القائمة"><i class="fa-solid fa-bars"></i></button>
+  </div>
+</header>
+
+<!-- ============ SEARCH OVERLAY ============ -->
+<div id="search-overlay">
+  <div class="search-box">
+    <div class="search-input-wrap">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="search-input" placeholder="ابحث في الدليل… (مثال: Perfekt، Probing، النطق)">
+    </div>
+    <div class="search-results" id="search-results"></div>
+  </div>
+</div>
+
+<!-- ============ SIDE DOT NAV ============ -->
+<nav id="side-nav" aria-label="التنقل بين أقسام الصفحة">
+  <span class="side-nav-pct" id="side-nav-pct">0%</span>
+  <div class="side-nav-items">
+    <div class="side-nav-track"><div class="side-nav-fill" id="side-nav-fill"></div></div>
+    <button class="side-nav-item" data-target="overview"><span class="side-nav-dot"></span><span class="side-nav-label" data-num="1">نظرة عامة</span></button>
+    <button class="side-nav-item" data-target="phase1"><span class="side-nav-dot"></span><span class="side-nav-label" data-num="2">المرحلة الأولى</span></button>
+    <button class="side-nav-item" data-target="phase2"><span class="side-nav-dot"></span><span class="side-nav-label" data-num="3">المرحلة الثانية</span></button>
+    <button class="side-nav-item" data-target="phase3"><span class="side-nav-dot"></span><span class="side-nav-label" data-num="4">المرحلة الثالثة</span></button>
+    <button class="side-nav-item" data-target="phase4"><span class="side-nav-dot"></span><span class="side-nav-label" data-num="5">المرحلة الرابعة</span></button>
+    <button class="side-nav-item" data-target="phase5"><span class="side-nav-dot"></span><span class="side-nav-label" data-num="6">المرحلة الخامسة</span></button>
+    <button class="side-nav-item" data-target="phase6"><span class="side-nav-dot"></span><span class="side-nav-label" data-num="7">المرحلة السادسة</span></button>
+    <button class="side-nav-item" data-target="cta"><span class="side-nav-dot"></span><span class="side-nav-label" data-num="8">ابدأ رحلتك</span></button>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-grid-lines"></div>
+  <div class="hero-shape shape1"></div>
+  <div class="hero-shape shape2"></div>
+  <div class="hero-shape shape3"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow"><i class="fa-solid fa-circle-check"></i>دليل تدريب تحديد المستوى — إصدار 2026</div>
+    <div class="hero-logo"><i class="fa-solid fa-comments"></i></div>
+    <h1>مسار <span>مدرب تحديد المستوى</span> المعتمد</h1>
+    <p class="tag">
+      رحلة تدريبية من ست مراحل متكاملة تُحوّل المدرب إلى <strong>خبير معتمد في تحديد المستوى</strong>، عبر فهم المعايير، تحليل كولات حقيقية، الـShadowing، وصولاً إلى إدارة كولات الـPlacement بشكل مستقل ومبرَّر.
+    </p>
+    <div class="hero-cta">
+      <button class="btn btn-primary" onclick="document.getElementById('phase1').scrollIntoView({behavior:'smooth'})">
+        عرض المرحلة الأولى <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <button class="btn btn-ghost" onclick="document.getElementById('overview').scrollIntoView({behavior:'smooth'})">استعراض المسار الكامل <i class="fa-solid fa-route"></i></button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-icon"><i class="fa-solid fa-layer-group"></i></div><div class="num" data-count="6">0</div><div class="lbl">مراحل تدريب</div></div>
+      <div class="stat"><div class="stat-icon"><i class="fa-solid fa-headphones-simple"></i></div><div class="num" data-count="4">0</div><div class="lbl">كولات Shadowing</div></div>
+      <div class="stat"><div class="stat-icon"><i class="fa-solid fa-gauge-high"></i></div><div class="num" data-count="7">0</div><div class="lbl">مستويات Private</div></div>
+      <div class="stat"><div class="stat-icon"><i class="fa-solid fa-award"></i></div><div class="num" data-count="100">0</div><div class="lbl">% اعتماد بالأدلة</div></div>
+    </div>
+  </div>
+  <button type="button" class="scroll-cue" onclick="document.getElementById('overview').scrollIntoView({behavior:'smooth'})" aria-label="مرر للأسفل">
+    <span>مرر للأسفل</span><div class="mouse"></div>
+  </button>
+</section>
+
+<!-- ============ OVERVIEW / TIMELINE ============ -->
+<section class="section" id="overview">
+  <div class="section-head reveal-el">
+    <div class="eyebrow"><i class="fa-solid fa-route"></i> خريطة الطريق</div>
+    <h2>لماذا نبني مدرب تحديد المستوى على ست مراحل؟</h2>
+    <p class="tag">
+      لا يُصبح المدرب جاهزًا لإدارة كول تحديد مستوى حقيقي بمجرد حفظ المعايير. صمّم هذا المسار كتدرّج منطقي: يبدأ بفهم معايير كل مستوى، ثم يحلّل كولات حقيقية ويقارن تقييمه بالتقييم الأساسي، ثم يراقب مدربًا معتمدًا عبر الـShadowing، وبعدها يبدأ في تنفيذ الكولات بنفسه تحت الإشراف، وصولًا إلى الاعتماد النهائي والمتابعة الدورية بعده. الانتقال بين كل مرحلة والتي تليها <strong>مشروط دائمًا بإثبات القدرة على جمع Evidence وتطبيق المعايير</strong>، لا بمرور الوقت فقط.
+    </p>
+  </div>
+  <div class="phase-timeline">
+    <div class="phase-row reveal-el">
+      <div class="phase-node"><i class="fa-solid fa-clipboard-list"></i></div>
+      <div class="phase-body">
+        <div class="ph-top"><h3>Phase 1 — معايير تحديد المستوى وفهم طريقة التقييم</h3><span class="phase-badge">أساسيات</span></div>
+        <p>فهم معايير اجتياز كل مستوى من السبعة في الـPrivate، ومعرفة ما يبحث عنه المدرب أثناء كول تحديد المستوى.</p>
+      </div>
+    </div>
+    <div class="phase-row reveal-el">
+      <div class="phase-node"><i class="fa-solid fa-headphones-simple"></i></div>
+      <div class="phase-body">
+        <div class="ph-top"><h3>Phase 2 — أول تقييم لكول ومقارنته بالتقييم الأساسي</h3><span class="phase-badge">تحليل عملي</span></div>
+        <p>تطبيق المعايير على كول حقيقي مسجّل، وتسليم تقييم مستقل قبل الاطلاع على الـOfficial Feedback، ثم مقارنة ومناقشة.</p>
+      </div>
+    </div>
+    <div class="phase-row reveal-el">
+      <div class="phase-node"><i class="fa-solid fa-user-group"></i></div>
+      <div class="phase-body">
+        <div class="ph-top"><h3>Phase 3 — Shadowing وملاحظة مهارات تحديد المستوى</h3><span class="phase-badge">4 كولات</span></div>
+        <p>حضور 2 كول Private و2 كول Group مع مدرب معتمد، مع تسجيل Learning Notes وDebrief بعد كل كول.</p>
+      </div>
+    </div>
+    <div class="phase-row reveal-el">
+      <div class="phase-node"><i class="fa-solid fa-diagram-project"></i></div>
+      <div class="phase-body">
+        <div class="ph-top"><h3>Phase 4 — إطار الموضوعات والـPrompts المتدرج</h3><span class="phase-badge">Topic Bank</span></div>
+        <p>بناء القدرة على إدارة الكول عبر Topic → Prompt → Probing → رفع مستوى التحدي، دون الاعتماد على أسئلة محفوظة.</p>
+      </div>
+    </div>
+    <div class="phase-row reveal-el">
+      <div class="phase-node"><i class="fa-solid fa-chalkboard-user"></i></div>
+      <div class="phase-body">
+        <div class="ph-top"><h3>Phase 5 — تنفيذ كولات تحديد المستوى تحت الإشراف</h3><span class="phase-badge">Guided Placement</span></div>
+        <p>تنفيذ كولات حقيقية بنفسه تحت إشراف مدرب معتمد، مع تدرّج تدريجي في الاستقلالية عبر ثلاث مراحل فرعية.</p>
+      </div>
+    </div>
+    <div class="phase-row reveal-el">
+      <div class="phase-node"><i class="fa-solid fa-award"></i></div>
+      <div class="phase-body">
+        <div class="ph-top"><h3>Phase 6 — التقييم والاعتماد النهائي</h3><span class="phase-badge">اعتماد + متابعة</span></div>
+        <p>اختبار المدرب في كولات مستقلة متنوعة، وتقييمه في 4 محاور أساسية، وصولًا إلى الاعتماد الرسمي والمتابعة الدورية.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PHASE 1 ============ -->
+<section class="section" id="phase1" style="background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="section-head reveal-el">
+    <div class="eyebrow"><i class="fa-solid fa-flag"></i> المرحلة الأولى</div>
+    <h2>معايير تحديد المستوى وفهم طريقة التقييم</h2>
+    <p>أن يتعرف المدرب على معايير اجتياز كل مستوى في الـPrivate، ويفهم ما الذي يجب أن يبحث عنه أثناء كول تحديد المستوى.</p>
+  </div>
+
+  <div class="policy-grid" id="policy-container-1">
+
+    <!-- Card: مقدمة عن المعايير -->
+    <div class="policy-card reveal-el" data-section="1">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-bullseye"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 1.1</div><h3>الهدف من المرحلة ومبدأ العمل بالمعايير</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">أن يتعرف المدرب على معايير اجتياز كل مستوى في الـPrivate، ويفهم ما الذي يجب أن يبحث عنه أثناء كول تحديد المستوى، وكيف يستخدم هذه المعايير في تقييم أداء الطالب واتخاذ قرار المستوى.</p>
+          <div class="callout warn"><i class="fa-solid fa-triangle-exclamation"></i> <strong>مهم:</strong> المعايير هي المرجع الأساسي في تحديد المستوى، والمدرب لا يعتمد على إحساسه بالمستوى أو عدد الأخطاء فقط.</div>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: المستوى الأول -->
+    <div class="policy-card reveal-el" data-section="2">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-1"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 1.2</div><h3>المستوى الأول — Sich vorstellen</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">يجتاز الطالب المستوى الأول عند قدرته على التعامل مع الموضوعات والأسئلة الأساسية الخاصة بالتعريف بنفسه وحياته اليومية.</p>
+          <div class="pb-sub"><i class="fa-solid fa-id-card"></i> Sich vorstellen</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> الاسم، الحالة، محل الإقامة، العمر.</li>
+            <li><i class="fa-solid fa-check"></i> البلد/الجنسية، اللغات، رقم الهاتف.</li>
+            <li><i class="fa-solid fa-check"></i> الحالة الاجتماعية، المهنة.</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-futbol"></i> Hobbys — الهوايات</div>
+          <ul class="pb-list"><li><i class="fa-solid fa-check"></i> القدرة على التحدث عن بعض الأنشطة والهوايات البسيطة.</li></ul>
+          <div class="pb-sub"><i class="fa-solid fa-clock"></i> Freizeit</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> الأنشطة التي يقوم بها في وقت الفراغ.</li>
+            <li><i class="fa-solid fa-check"></i> الرياضة، الذهاب إلى السينما، الأنشطة المختلفة.</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-people-roof"></i> Familie</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> أفراد الأسرة وأسماؤهم، المهن، الأعمار.</li>
+            <li><i class="fa-solid fa-check"></i> معلومات أساسية عن الأسرة.</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-heart-pulse"></i> Körper / Gesundheit</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> فهم أسئلة بسيطة عن الألم وأجزاء الجسم.</li>
+            <li><i class="fa-solid fa-check"></i> القدرة على تسمية المفردات الأساسية المتعلقة بالموضوع.</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-clock-rotate-left"></i> Uhrzeit</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> معرفة الوقت.</li>
+            <li><i class="fa-solid fa-check"></i> القدرة على التعامل مع صيغة الوقت الرسمية وغير الرسمية.</li>
+          </ul>
+          <div class="callout info"><i class="fa-solid fa-circle-info"></i> الأسئلة المستخدمة في هذه الموضوعات ليست Script ثابتًا، وإنما أفكار يمكن للمدرب استخدامها بأكثر من طريقة للتأكد من قدرة الطالب الحقيقية.</div>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: المستوى الثاني -->
+    <div class="policy-card reveal-el" data-section="3">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-2"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 1.3</div><h3>المستوى الثاني — معايير النطق</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">المستوى الثاني هو مستوى يركز بشكل أساسي على النطق.</p>
+          <div class="pb-sub"><i class="fa-solid fa-volume-high"></i> أخطاء نطق الأصوات</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> z / r / er / ch / V / H (في الأماكن اللي بتختفي فيها) / W.</li>
+            <li><i class="fa-solid fa-check"></i> عدم إضافة حرف بين كلمتين، مثل: keinen Bruder / ich glaube / mein Großvater / bis drei.</li>
+            <li><i class="fa-solid fa-check"></i> عدم إضافة حرف بين آخر حرفين من الكلمة، مثل: glaubt / trinkt / lernt.</li>
+          </ul>
+          <div class="callout warn"><i class="fa-solid fa-triangle-exclamation"></i> إذا كان الطالب يقرأ بشكل تقريبي ولا يهتم بمطابقة النطق مع الكلمة، يحتاج إلى الاستمرار في التدريب.</div>
+          <div class="pb-sub"><i class="fa-solid fa-ear-listen"></i> يجب أن يكون الطالب قادرًا على التفرقة بين</div>
+          <ul class="pb-list"><li><i class="fa-solid fa-check"></i> o / u — ö / ü — ie / ei — ä</li></ul>
+          <div class="callout success"><i class="fa-solid fa-percent"></i> نسبة القبول: أقل نسبة مقبولة <strong>80%</strong>.</div>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: المستوى الثالث -->
+    <div class="policy-card reveal-el" data-section="4">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-3"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 1.4</div><h3>المستوى الثالث — القواعد والمحادثة</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">للمستوى الثالث أكثر من مسار حسب احتياج الطالب: محادثة فقط، محادثة + دراسة قواعد A1 &amp; A2، أو محادثة + مراجعة قواعد. وفي بعض الحالات يتم عمل اختبار قواعد قبل اتخاذ القرار النهائي.</p>
+          <div class="pb-sub"><i class="fa-solid fa-spell-check"></i> أولًا: القواعد المطلوبة</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> ترتيب الجملة العادية، وترتيبها في Perfekt، ومع Modalverben.</li>
+            <li><i class="fa-solid fa-check"></i> Akkusativ / Dativ / Nebensatz.</li>
+            <li><i class="fa-solid fa-check"></i> Perfekt / Modalverben / um … zu / deshalb.</li>
+          </ul>
+          <div class="callout info"><i class="fa-solid fa-percent"></i> من الطبيعي وجود أخطاء في القواعد السابقة، والمهم أن تكون نسبة الجمل الصحيحة <strong>70% على الأقل</strong>.</div>
+          <div class="pb-sub"><i class="fa-solid fa-ban"></i> نقاط أساسية</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-xmark" style="color:#dc2626;"></i> لا يُقبل الطالب إذا كان يخطئ بشكل واضح في تصريف الأفعال.</li>
+            <li><i class="fa-solid fa-xmark" style="color:#dc2626;"></i> لا يُقبل الطالب إذا كان يخطئ بشكل واضح في Personalpronomen.</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-lightbulb"></i> ثانيًا: الأفكار والمحتوى</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> يفهم الأسئلة الموجهة إليه، ويمكن للمدرب إعادة صياغة السؤال الصعب.</li>
+            <li><i class="fa-solid fa-check"></i> يفرق بين السؤال العام والسؤال الذي يطلب تفاصيل محددة.</li>
+            <li><i class="fa-solid fa-check"></i> يستطيع الاسترسال في الموضوعات التي درسها بما لا يقل عن 7 جمل، وفي الجديدة 3–4 جمل.</li>
+            <li><i class="fa-solid fa-check"></i> يستطيع وصف البيت، صاحبه، ويومه بالتفصيل.</li>
+            <li><i class="fa-solid fa-check"></i> يستطيع في بعض النقاط أن يسأل ويتحاور، وليس فقط يجيب على أسئلة المدرب.</li>
+          </ul>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: المستوى الرابع -->
+    <div class="policy-card reveal-el" data-section="5">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-4"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 1.5</div><h3>المستوى الرابع — القواعد والأفكار</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <div class="pb-sub"><i class="fa-solid fa-spell-check"></i> معايير القواعد</div>
+          <p class="pb-text">يستخدم أو بدأ في استخدام: Perfekt / Wechselpräpositionen / Konjunktionen / um … zu / Infinitiv mit zu / Konjunktiv II / Verben mit Präpositionen.</p>
+          <p class="pb-text">كما يجب أن يكون قد بدأ في استخدام Genitiv وRelativsatz، حتى لو كان استخدامهما يحتوي على أخطاء، طالما بدأ في استخدامهما. ويكون قادرًا على استخدام تصريف الصفات إلى حد مناسب للمستوى.</p>
+          <div class="callout info"><i class="fa-solid fa-percent"></i> في القواعد الأساسية السابقة (Akkusativ / Dativ / Nebensatz) يجب ألا تتجاوز نسبة الأخطاء <strong>20%</strong>. وفي قواعد المستوى الرابع يكفي أن تغطي الجمل الصحيحة <strong>70%</strong>.</div>
+          <div class="pb-sub"><i class="fa-solid fa-lightbulb"></i> الأفكار والمحتوى</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> لديه أفكار كثيرة، والأهم أن تكون مرتبة.</li>
+            <li><i class="fa-solid fa-check"></i> يستطيع التعامل مع الأسئلة التي تطلب تفاصيل من داخل الموضوع.</li>
+            <li><i class="fa-solid fa-check"></i> يستطيع ربط كلامه ببعضه بدل إنتاج جمل منفصلة.</li>
+            <li><i class="fa-solid fa-check"></i> في الأسئلة الـspontan يستطيع الإجابة بما لا يقل عن 4 جمل.</li>
+            <li><i class="fa-solid fa-check"></i> يستخدم ما لا يقل عن 2–3 Redemittel في الأسئلة التي تسمح بذلك.</li>
+          </ul>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: المستوى الخامس -->
+    <div class="policy-card reveal-el" data-section="6">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-5"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 1.6</div><h3>المستوى الخامس — القواعد والأفكار</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <div class="pb-sub"><i class="fa-solid fa-spell-check"></i> معايير القواعد</div>
+          <p class="pb-text">يستطيع التعامل مع Reflexivverben / Infinitiv mit zu / Passiv / Genitiv / تصريف الصفات / Relativsatz بكل أشكاله، وKonjunktionen مثل: falls, ob, während, obwohl, trotzdem, wegen، وAdjektivdeklination.</p>
+          <div class="callout success"><i class="fa-solid fa-circle-check"></i> لا توجد أخطاء في أساسيات A1 وA2 إلا بشكل نادر أو كسهو. أما قواعد المستوى فيكفي أن تكون نسبة الجمل الصحيحة <strong>70%</strong>.</div>
+          <div class="pb-sub"><i class="fa-solid fa-lightbulb"></i> الأفكار والمحتوى</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> إجابة أي سؤال تتضمن Redemittel مناسبة.</li>
+            <li><i class="fa-solid fa-check"></i> يستطيع التحاور وعرض رأيه الشخصي بشكل بناء، والتعليق على رأي الآخر.</li>
+            <li><i class="fa-solid fa-check"></i> يستخدم مصطلحات B1 المناسبة للمستوى، ولا يتوقف أمام الأسئلة الـspontan.</li>
+            <li><i class="fa-solid fa-check"></i> لا يكتفي بجملة أو جملتين؛ أفكاره يجب أن تكون كثيرة وقابلة للتوسع.</li>
+          </ul>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: المستوى السادس -->
+    <div class="policy-card reveal-el" data-section="7">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-6"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 1.7</div><h3>المستوى السادس — القواعد والمفردات</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <div class="pb-sub"><i class="fa-solid fa-spell-check"></i> معايير القواعد</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> Passiv مع Modalverben، وlassen.</li>
+            <li><i class="fa-solid fa-check"></i> Relativsatz مع Präpositionen.</li>
+            <li><i class="fa-solid fa-check"></i> إيجاد بدائل للكلمات والـKonjunktionen بسرعة.</li>
+            <li><i class="fa-solid fa-check"></i> استخدام Dativobjekte مثل mir / ihm / ihr بدل الاعتماد دائمًا على für mich / für ihn / für sie.</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-book"></i> المفردات</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> يستطيع تقديم بدائل لمعظم المصطلحات البسيطة، ولا يكرر الكلمات.</li>
+            <li><i class="fa-solid fa-check"></i> يتخطى الاعتماد على كلمات A1/A2 البسيطة مثل machen / normalerweise / ja.</li>
+          </ul>
+          <div class="callout success"><i class="fa-solid fa-percent"></i> أخطاء القواعد بسيطة ومتباعدة؛ نسبة الجمل الصحيحة في قواعد المستوى حوالي <strong>80%</strong>.</div>
+          <div class="pb-sub"><i class="fa-solid fa-lightbulb"></i> الأفكار والمحتوى</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> تعتمد الإجابات على مصطلحات B1 بنسبة تقارب 80%.</li>
+            <li><i class="fa-solid fa-check"></i> يستطيع إدارة الحوار، وإكمال الفكرة التي يطرحها المدرب.</li>
+            <li><i class="fa-solid fa-check"></i> يستطيع تكوين جمل طويلة وربط الجمل والأفكار بسهولة وسرعة.</li>
+          </ul>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: المستوى السابع -->
+    <div class="policy-card reveal-el" data-section="8">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-7"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 1.8</div><h3>المستوى السابع — Bewertungsraster</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">يركز التقييم في المستوى السابع على خمسة محاور رئيسية:</p>
+          <div class="pb-sub"><i class="fa-solid fa-wind"></i> Flüssigkeit</div>
+          <ul class="pb-list"><li><i class="fa-solid fa-check"></i> الطلاقة، سرعة تكوين الجمل، والقدرة على الاستمرار في الكلام.</li></ul>
+          <div class="pb-sub"><i class="fa-solid fa-spell-check"></i> Grammatik &amp; Strukturen</div>
+          <ul class="pb-list"><li><i class="fa-solid fa-check"></i> دقة القواعد وتنوع التراكيب المستخدمة.</li></ul>
+          <div class="pb-sub"><i class="fa-solid fa-book"></i> Wortschatz</div>
+          <ul class="pb-list"><li><i class="fa-solid fa-check"></i> استخدام مفردات متقدمة ومناسبة لمستوى B2.</li></ul>
+          <div class="pb-sub"><i class="fa-solid fa-scale-balanced"></i> Argumentation</div>
+          <ul class="pb-list"><li><i class="fa-solid fa-check"></i> منطقية عرض الأفكار، ترتيب الحجج، وسلاسة التعبير عن الرأي.</li></ul>
+          <div class="pb-sub"><i class="fa-solid fa-people-arrows"></i> Interaktion</div>
+          <ul class="pb-list"><li><i class="fa-solid fa-check"></i> القدرة على متابعة الحوار، والتعامل مع Follow-ups، والتفاعل الحقيقي مع المدرب.</li></ul>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: كيف نستخدم المعايير -->
+    <div class="policy-card reveal-el" data-section="9">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 1.9</div><h3>كيف نستخدم المعايير في تحديد المستوى؟</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">المطلوب من المدرب ألا يحاول حفظ كل معيار، وإنما يفهم أن كل مستوى له متطلبات محددة. أثناء الكول يبحث المدرب عن أدلة فعلية على قدرة الطالب على تحقيق هذه المتطلبات.</p>
+          <div class="callout info"><i class="fa-solid fa-lightbulb"></i> مثال: إذا كان من معايير المستوى الثالث استخدام Perfekt، فلا يكفي أن يقول الطالب جملة واحدة صحيحة فيه. يجب أن تتاح له فرصة استخدام Perfekt أثناء الكلام، حتى يعرف المدرب مدى استقرار استخدامه للقاعدة.</div>
+          <div class="pb-sub"><i class="fa-solid fa-route"></i> استخدام الموضوعات بدل الأسئلة المحفوظة</div>
+          <p class="pb-text">لا يتم الاعتماد على قائمة أسئلة ثابتة كـScript، وإنما على: Topic / فكرة ← متابعة ← تفاصيل ← تغيير طريقة السؤال عند الحاجة، وذلك لاختبار قدرة الطالب الحقيقية وتقليل تأثير الحفظ.</p>
+          <div class="callout success"><i class="fa-solid fa-comment-dots"></i> مثال: بدل الاعتماد فقط على "Was machen Sie am Wochenende?"، يستخدم المدرب موضوع Freizeit / Wochenende وينتقل منه إلى الأنشطة، نشاط سابق، نشاط مفضل، سبب التفضيل، تفاصيل إضافية، وسؤال متابعة غير متوقع.</div>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: الفرق بين الخطأ وقرار المستوى -->
+    <div class="policy-card reveal-el" data-section="10">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-scale-unbalanced"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 1.10</div><h3>الفرق بين الخطأ وقرار المستوى</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">وجود خطأ واحد لا يعني تلقائيًا أن الطالب لا يجتاز المستوى. يتم النظر إلى: تكرار الخطأ، تأثيره على التواصل، نسبة الجمل الصحيحة، القاعدة التي حدث فيها الخطأ، هل هو في أساسيات المستوى أم في نقطة متقدمة، وقدرة الطالب على استخدام اللغة بشكل عام.</p>
+          <div class="callout warn"><i class="fa-solid fa-triangle-exclamation"></i> لذلك لا يكون القرار: "الطالب أخطأ ← إذن لا يجتاز"، ولكن: أداء الطالب ← الملاحظات والأدلة ← مقارنتها بالمعايير ← قرار المستوى.</div>
+          <div class="pb-sub"><i class="fa-solid fa-flag-checkered"></i> المطلوب من المدرب في نهاية المرحلة</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> معرفة متطلبات كل مستوى والفرق بين مستويات الـPrivate.</li>
+            <li><i class="fa-solid fa-check"></i> معرفة ما الذي يبحث عنه أثناء الكول.</li>
+            <li><i class="fa-solid fa-check"></i> معرفة الفرق بين الخطأ العابر والمشكلة المؤثرة.</li>
+            <li><i class="fa-solid fa-check"></i> معرفة الفرق بين ضعف اللغة وعدم فهم السؤال أو نقص الأفكار.</li>
+            <li><i class="fa-solid fa-check"></i> استخدام الـTopics والـProbing بدل الاعتماد على أسئلة محفوظة.</li>
+            <li><i class="fa-solid fa-check"></i> ربط أداء الطالب بمعايير المستوى، وفهم أساس بناء قرار تحديد المستوى.</li>
+          </ul>
+          <div class="callout success"><i class="fa-solid fa-arrow-left-long"></i> بعد إتمام هذه المرحلة ننتقل إلى <strong>المرحلة الثانية</strong>: المدرب يسمع كول تحديد مستوى حقيقي ويعمل تقييمه بنفسه قبل أن يرى التقييم الأساسي.</div>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ PHASE 2 ============ -->
+<section class="section" id="phase2">
+  <div class="section-head reveal-el">
+    <div class="eyebrow"><i class="fa-solid fa-headphones-simple"></i> المرحلة الثانية</div>
+    <h2>أول تقييم لكول تحديد مستوى ومقارنته بالتقييم الأساسي</h2>
+    <p>تدريب المدرب على تطبيق معايير تحديد المستوى على كول حقيقي، ومعرفة مدى قدرته على تحليل مستوى الطالب قبل الاطلاع على التقييم الأساسي.</p>
+  </div>
+
+  <div class="policy-grid">
+
+    <div class="policy-card reveal-el" data-section="11">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-headphones"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 2.1</div><h3>إرسال الكول والاستماع المستقل</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">يتم إرسال كول حقيقي مسجّل للمدرب، بدون إرسال الـPlacement Feedback أو نتيجة تحديد المستوى الخاصة بالكول. يُطلب من المدرب الاستماع إلى الكول كاملًا أكثر من مرة إذا احتاج، ثم إعداد تقييمه بشكل مستقل.</p>
+          <div class="callout warn"><i class="fa-solid fa-triangle-exclamation"></i> <strong>مهم:</strong> لا يتم إعطاؤه أي معلومات عن التقييم الأساسي قبل أن يسلم تقييمه، حتى نستطيع معرفة طريقة تحليله الفعلية.</div>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="12">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-ear-listen"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 2.2</div><h3>المطلوب من المدرب أثناء الاستماع</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">يسجل المدرب ملاحظاته بناءً على معايير المستويات التي درسها في المرحلة الأولى، مع التركيز على المحاور التالية:</p>
+          <div class="pb-sub"><i class="fa-solid fa-spell-check"></i> القواعد</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> ما القواعد التي ظهر أن الطالب يستطيع استخدامها؟ وأين ظهرت المشاكل؟</li>
+            <li><i class="fa-solid fa-check"></i> هل المشكلة في معرفة القاعدة أم في استخدامها أثناء الكلام؟</li>
+            <li><i class="fa-solid fa-check"></i> هل الأخطاء متكررة أم عابرة؟ وهل توجد أخطاء في أساسيات المستوى السابق؟</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-volume-high"></i> النطق</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> هل توجد مشاكل واضحة في النطق؟ وهل تؤثر على فهم الكلام؟</li>
+            <li><i class="fa-solid fa-check"></i> هل المشكلة في أصوات معينة أم في النطق بشكل عام؟</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-brain"></i> الفهم</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> هل الطالب يفهم الأسئلة من أول مرة؟ وهل يحتاج المدرب لإعادة الصياغة؟</li>
+            <li><i class="fa-solid fa-check"></i> هل يستطيع التعامل مع تغيير طريقة السؤال؟</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-comments"></i> الكلام والمحتوى</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> هل يجيب بجمل كاملة؟ وهل يستطيع الاسترسال وإضافة تفاصيل؟</li>
+            <li><i class="fa-solid fa-check"></i> هل يستطيع التعامل مع أسئلة Follow-up أو Spontan؟</li>
+            <li><i class="fa-solid fa-check"></i> هل يتفاعل مع المدرب أم يكتفي بالإجابة؟</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-book"></i> المفردات والتعبيرات</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> هل مفرداته مناسبة للمستوى؟ وهل يعتمد على كلمات بسيطة جدًا؟</li>
+            <li><i class="fa-solid fa-check"></i> هل يستخدم Redemittel المناسبة للمستوى؟</li>
+          </ul>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="13">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-file-lines"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 2.3</div><h3>نموذج التقييم المطلوب تسليمه</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">يقدم المدرب تقييمًا مختصرًا يحتوي على النقاط التالية:</p>
+          <div class="pb-sub"><i class="fa-solid fa-1"></i> المستوى المتوقع</div>
+          <ul class="pb-list"><li><i class="fa-solid fa-check"></i> يحدد المستوى الذي يرى أنه يناسب الطالب، ويذكر سبب اختياره بناءً على المعايير.</li></ul>
+          <div class="pb-sub"><i class="fa-solid fa-2"></i> نقاط القوة</div>
+          <ul class="pb-list"><li><i class="fa-solid fa-check"></i> ما الذي يستطيع الطالب القيام به بشكل جيد؟</li></ul>
+          <div class="pb-sub"><i class="fa-solid fa-3"></i> نقاط الضعف</div>
+          <ul class="pb-list"><li><i class="fa-solid fa-check"></i> ما أهم المشاكل التي ظهرت أثناء الكول؟</li></ul>
+          <div class="pb-sub"><i class="fa-solid fa-4"></i> المعايير المحققة وغير المحققة</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> أهم معايير المستوى التي ظهرت بشكل واضح.</li>
+            <li><i class="fa-solid fa-check"></i> أهم المعايير التي ما زال الطالب لا يحققها أو يحتاج لتطويرها.</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-5"></i> التوصية</div>
+          <ul class="pb-list"><li><i class="fa-solid fa-check"></i> إذا كان هناك أكثر من مسار مناسب: محادثة فقط، محادثة + قواعد، مراجعة قواعد، أو اختبار قواعد قبل القرار.</li></ul>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="14">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-code-compare"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 2.4</div><h3>المقارنة بين التقييمين وأنواع الاختلاف</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">يسلم المدرب تقييمه أولًا، وبعد ذلك فقط يتم إرسال التقييم الأساسي للكول والقرار النهائي للمستوى، لمعرفة ماذا لاحظ المدرب من تلقاء نفسه وهل وصل لنفس المستوى.</p>
+          <div class="pb-sub"><i class="fa-solid fa-a"></i> اختلاف في الملاحظة</div>
+          <p class="pb-text">مثال: الـOfficial Feedback لاحظ أن الطالب لا يستخدم Perfekt مع sein، والمدرب لم يلاحظ ذلك — هل لم يسمع المشكلة أم سمعها ولم يعتبرها مهمة؟</p>
+          <div class="pb-sub"><i class="fa-solid fa-b"></i> اختلاف في تفسير المشكلة</div>
+          <p class="pb-text">مثال: المدرب اعتبر عدم إجابة الطالب عن Topic معين ضعف مستوى، بينما التقييم الأساسي اعتبر أن المشكلة كانت في عدم فهم السؤال.</p>
+          <div class="pb-sub"><i class="fa-solid fa-c"></i> اختلاف في تطبيق المعيار</div>
+          <p class="pb-text">المدرب لاحظ وجود Perfekt واعتبر ذلك كافيًا، بينما المعيار يتطلب استخدامًا مستقرًا بنسبة معينة.</p>
+          <div class="pb-sub"><i class="fa-solid fa-d"></i> اختلاف في قرار المستوى</div>
+          <p class="pb-text">إذا وصل المدرب إلى Level مختلف، نرجع خطوة للخلف ونحدد الأدلة والمعايير التي اعتمد عليها، وما إذا كانت المشكلة في الـObservation أم في الـDecision.</p>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="15">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-people-arrows"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 2.5</div><h3>جلسة الـCalibration وناتج المرحلة</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">تُعقد جلسة مع المدرب لمناقشة الفرق بين تقييمه والتقييم الأساسي، مع التركيز على الأسئلة التالية:</p>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> ما أكثر شيء وجدته واضحًا أثناء تقييم الكول؟</li>
+            <li><i class="fa-solid fa-check"></i> ما الأشياء التي لم تكن متأكدًا منها؟</li>
+            <li><i class="fa-solid fa-check"></i> ما الذي جعلك تختار هذا المستوى؟ وما الدليل الذي اعتمدت عليه؟</li>
+            <li><i class="fa-solid fa-check"></i> ما الملاحظة التي اكتشفت بعد المقارنة أنك لم تنتبه لها؟</li>
+            <li><i class="fa-solid fa-check"></i> لو أعدت تقييم الكول الآن، هل ستغير قرارك؟ ولماذا؟</li>
+          </ul>
+          <div class="checklist-box">
+            <div class="check-item"><i class="fa-solid fa-circle-check"></i> تطبيق معايير المستويات على أداء حقيقي</div>
+            <div class="check-item"><i class="fa-solid fa-circle-check"></i> ملاحظة الأدلة المهمة أثناء الكول</div>
+            <div class="check-item"><i class="fa-solid fa-circle-check"></i> التفرقة بين أنواع المشاكل المختلفة</div>
+            <div class="check-item"><i class="fa-solid fa-circle-check"></i> تبرير قرار المستوى بناءً على معايير واضحة</div>
+            <div class="check-item"><i class="fa-solid fa-circle-check"></i> اكتشاف الفارق بين "وجود القاعدة" و"القدرة على استخدامها"</div>
+          </div>
+          <div class="callout warn"><i class="fa-solid fa-arrow-left-long"></i> بعد إتمام هذه المرحلة ننتقل إلى <strong>المرحلة الثالثة</strong>: Shadowing لأربع كولات تحديد مستوى (2 Private + 2 Group).</div>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ PHASE 3 ============ -->
+<section class="section" id="phase3" style="background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="section-head reveal-el">
+    <div class="eyebrow"><i class="fa-solid fa-user-group"></i> المرحلة الثالثة</div>
+    <h2>Shadowing وملاحظة مهارات تحديد المستوى</h2>
+    <p>اكتساب خبرة عملية من خلال مشاهدة مدرب معتمد أثناء تنفيذ الكول، وملاحظة طريقة التفكير وليس فقط النتيجة النهائية.</p>
+  </div>
+
+  <div class="policy-grid">
+
+    <div class="policy-card reveal-el" data-section="16">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-hashtag"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 3.1</div><h3>عدد الكولات ونطاق الـShadowing</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">يحضر المدرب 4 كولات تحديد مستوى مع مدرب معتمد: 2 كول Private، و2 كول Group. ويُفضل أن تكون الحالات مختلفة في المستوى والأداء، حتى يتعرض المدرب لأكثر من نوع من الطلاب.</p>
+          <div class="mini-day-grid">
+            <div class="mini-day"><div class="d-label">النوع 1</div><div class="d-task">2 كول Private</div></div>
+            <div class="mini-day"><div class="d-label">النوع 2</div><div class="d-task">2 كول Group</div></div>
+          </div>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="17">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-eye"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 3.2</div><h3>المطلوب ملاحظته أثناء الـShadowing</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">المدرب لا يكتفي بسماع الكول، وإنما يسجل ملاحظاته حول مهارات تحديد المستوى التي يستخدمها المدرب الأساسي، عبر سبعة محاور:</p>
+          <div class="pb-sub"><i class="fa-solid fa-clipboard-list"></i> 1. إدارة الكول</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> كيف بدأ المدرب الكول؟ وكيف جعل الطالب يتكلم بشكل طبيعي؟</li>
+            <li><i class="fa-solid fa-check"></i> هل التزم بترتيب ثابت أم تحرك حسب إجابات الطالب؟ وكيف وزع الوقت؟</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-magnifying-glass"></i> 2. استخراج مستوى الطالب</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> كيف اكتشف المدرب مستوى الطالب الحقيقي؟ وكيف اختبر حدود مستواه؟</li>
+            <li><i class="fa-solid fa-check"></i> كيف تعامل مع طالب يبدو أفضل أو أضعف من المتوقع؟</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-arrows-split-up-and-left"></i> 3. الـProbing</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> ماذا يفعل عندما تكون الإجابة قصيرة؟ وكيف يطلب تفاصيل إضافية؟</li>
+            <li><i class="fa-solid fa-check"></i> كيف يخرج الطالب من الإجابة المحفوظة؟</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-spell-check"></i> 4. اختبار القواعد من خلال الكلام</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> كيف استخرج Perfekt؟ وكيف ظهر استخدام Akkusativ / Dativ / Modalverben / Nebensatz؟</li>
+            <li><i class="fa-solid fa-check"></i> كيف عرف هل القاعدة مستقرة أم ظهرت بالصدفة؟</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-book-bookmark"></i> 5. التعامل مع الطالب المحضّر</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> كيف اكتشف أن الإجابة محفوظة؟ وكيف غيّر السؤال وانتقل لتفصيلة غير متوقعة؟</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-circle-question"></i> 6. التعامل مع عدم فهم السؤال</div>
+          <p class="pb-text">التفرقة بين: الطالب لا يعرف الإجابة، لا يفهم السؤال، يفهمه لكن لا يمتلك المفردات، أو يمتلك الفكرة لكن لا يستطيع تكوين الجملة.</p>
+          <div class="pb-sub"><i class="fa-solid fa-arrow-trend-up"></i> 7. اتخاذ قرار الانتقال بين المستويات</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> متى قرر المدرب أن الطالب حقق معايير المستوى؟ ومتى توقف عن اختبار مستوى أعلى؟</li>
+          </ul>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="18">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 3.3</div><h3>Learning Notes والـDebrief بعد كل كول</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">بعد كل كول، يكتب المدرب ملاحظاته بشكل مختصر تحت عناوين مثل:</p>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> مهارة جديدة لاحظتها، وطريقة جديدة في الـProbing.</li>
+            <li><i class="fa-solid fa-check"></i> طريقة جديدة في اختبار مستوى الطالب أو التعامل مع مشكلة.</li>
+            <li><i class="fa-solid fa-check"></i> شيء لاحظته في طريقة اتخاذ القرار، وشيء كنت سأفعله بشكل مختلف.</li>
+            <li><i class="fa-solid fa-check"></i> أهم شيء أريد تطبيقه في الكول القادم.</li>
+          </ul>
+          <div class="callout info"><i class="fa-solid fa-comments"></i> بعد انتهاء الكول تتم مناقشته مع المدرب الأساسي: لماذا اخترت هذا الـTopic؟ لماذا عملت Follow-up هنا؟ ما الذي جعلك تعتبر أن الطالب حقق المعيار؟ الهدف أن يفهم المتدرب طريقة التفكير وراء التصرفات، وليس فقط يقلد ما حدث.</div>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="19">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-flag-checkered"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 3.4</div><h3>ناتج المرحلة والانتقال للمرحلة التالية</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">بعد انتهاء الـ4 كولات، تُعقد جلسة مراجعة نهائية يُطلب فيها من المدرب تحديد: أهم مهارات تحديد المستوى التي تعلمها، أكثر مهارة ما زال يحتاج للتدريب عليها، وأكثر شيء تغير في نظرته للـPlacement بعد الـShadowing.</p>
+          <div class="checklist-box">
+            <div class="check-item"><i class="fa-solid fa-circle-check"></i> فهم كيفية إدارة كول تحديد المستوى بشكل طبيعي</div>
+            <div class="check-item"><i class="fa-solid fa-circle-check"></i> استخدام الموضوعات بدل الاعتماد على Script ثابت</div>
+            <div class="check-item"><i class="fa-solid fa-circle-check"></i> عمل Probing مناسب واكتشاف الإجابات المحفوظة</div>
+            <div class="check-item"><i class="fa-solid fa-circle-check"></i> اختبار حدود مستوى الطالب وتقييم القواعد من خلال الكلام</div>
+            <div class="check-item"><i class="fa-solid fa-circle-check"></i> فهم طريقة اتخاذ قرار الانتقال أو التوقف عند مستوى معين</div>
+          </div>
+          <div class="callout warn"><i class="fa-solid fa-arrow-left-long"></i> بعد إتمام هذه المرحلة ننتقل إلى <strong>المرحلة الرابعة</strong>: إطار الموضوعات والـPrompts المتدرج لكول تحديد المستوى.</div>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ PHASE 4 ============ -->
+<section class="section" id="phase4">
+  <div class="section-head reveal-el">
+    <div class="eyebrow"><i class="fa-solid fa-diagram-project"></i> المرحلة الرابعة</div>
+    <h2>إطار الموضوعات والـPrompts المتدرج</h2>
+    <p>تدريب المدرب على إجراء كول تحديد مستوى له هيكل واضح ومتدرج: Topic → Prompt مناسب → Probing → رفع مستوى التحدي → تحديد حدود المستوى.</p>
+  </div>
+
+  <div class="policy-grid">
+
+    <div class="policy-card reveal-el" data-section="20">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-lightbulb"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 4.1</div><h3>المبدأ الأساسي وTopic Bank للمستويات A1/A2</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">لا نعتمد على "سؤال ثابت ← إجابة محفوظة ← سؤال ثابت"، ولكن على: Topic → صياغة مناسبة للمستوى → متابعة → تغيير زاوية السؤال → رفع مستوى التحدي.</p>
+          <div class="callout info"><i class="fa-solid fa-circle-info"></i> الأمثلة في التدريب ليست Script؛ المدرب غير مطالب باستخدام نفس السؤال حرفيًا، وإنما يفهم نوع السؤال المطلوب في كل مستوى.</div>
+          <div class="pb-sub"><i class="fa-solid fa-bank"></i> Topic Bank — الموضوعات الأساسية (A1/A2)</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> Sich vorstellen، Familie، Tagesablauf / Alltag.</li>
+            <li><i class="fa-solid fa-check"></i> Wohnung / Wohnen، Aussehen / Personen beschreiben.</li>
+            <li><i class="fa-solid fa-check"></i> Gesundheit، Freizeit / Hobbys، Essen / Ernährung.</li>
+            <li><i class="fa-solid fa-check"></i> Sprachen / Deutsch lernen، Freunde.</li>
+          </ul>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="21">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-layer-group"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 4.2</div><h3>موضوعات B1 وB1+/B2</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <div class="pb-sub"><i class="fa-solid fa-b"></i> موضوعات B1</div>
+          <p class="pb-text">توسّع في الموضوعات الأساسية، بالإضافة إلى: Arbeit &amp; Beruf، Reisen، Gesundheit، Ernährung، Sport، Lernen &amp; Bildung، Medien، Freundschaft &amp; Beziehungen، Wohnen، Stadt &amp; Leben، Technologie، Umwelt، Alltag in Deutschland.</p>
+          <div class="pb-sub"><i class="fa-solid fa-b"></i> موضوعات B1+ / B2</div>
+          <p class="pb-text">موضوعات تسمح بالنقاش والتحليل وإبداء الرأي: Digitalisierung، Soziale Medien، Künstliche Intelligenz، Umwelt &amp; Klimawandel، Bildung، Arbeitswelt، Work-Life-Balance، Gesundheitssystem، Gesellschaft، Generationen، Migration &amp; Integration، Technologie، Medien، Konsum، Stadtentwicklung، Nachhaltigkeit.</p>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="22">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-people-roof"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 4.3</div><h3>استخدام نفس الـTopic لاختبار أكثر من مستوى — مثال Familie</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">الموضوع نفسه لا يحدد المستوى؛ الذي يحدده هو طريقة تعامل الطالب مع الموضوع + مستوى الـPrompt + مستوى الـProbing + جودة اللغة المستخدمة.</p>
+          <div class="mini-table" style="overflow-x:auto; display:block;">
+            <table class="mini-table" style="width:100%;">
+              <tr><th>المستوى</th><th>الهدف</th><th>مثال</th></tr>
+              <tr><td>A1</td><td>معلومات أساسية</td><td>Wer gehört zu Ihrer Familie?</td></tr>
+              <tr><td>A2</td><td>وصف + تفاصيل</td><td>Wie würden Sie Ihre Familie beschreiben?</td></tr>
+              <tr><td>B1</td><td>تجربة + شرح + رأي</td><td>Welche Rolle spielt Ihre Familie in Ihrem Alltag?</td></tr>
+              <tr><td>B1+</td><td>رأي + تبرير + مقارنة</td><td>Was hat sich im Familienleben verändert?</td></tr>
+              <tr><td>B2</td><td>تحليل + حجج + وجهات نظر</td><td>Welche Bedeutung hat die Familie heute für die Gesellschaft?</td></tr>
+            </table>
+          </div>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="23">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-stairs"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 4.4</div><h3>مستويات صياغة الـPrompts</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">يجب أن يعرف المدرب الفرق بين مستوى السؤال نفسه:</p>
+          <div class="pb-sub"><i class="fa-solid fa-a"></i> A1 — Informationen</div>
+          <p class="pb-text">أسئلة مباشرة للحصول على معلومات أساسية (Wer? Was? Wo? Wann?) — الهدف: فهم السؤال، إنتاج جملة بسيطة، إعطاء معلومات مباشرة.</p>
+          <div class="pb-sub"><i class="fa-solid fa-a"></i> A2 — Beschreibung + Details</div>
+          <p class="pb-text">أسئلة تطلب وصفًا أو تفاصيل أكثر (Wie? Welche? Was genau?) — الهدف: الوصف، التفاصيل، توسيع الإجابة.</p>
+          <div class="pb-sub"><i class="fa-solid fa-b"></i> B1 — Erfahrung + Erklärung + Meinung</div>
+          <p class="pb-text">أسئلة تطلب تجربة أو تفسيرًا أو رأيًا بسيطًا (Warum? Wie? Was denken Sie?) — الهدف: شرح السبب، التعبير عن الرأي، ربط الأفكار.</p>
+          <div class="pb-sub"><i class="fa-solid fa-b"></i> B1+ — Meinung + Begründung + Vergleich</div>
+          <p class="pb-text">أسئلة تحتاج رأيًا أكثر وضوحًا مع أسباب أو مقارنة — الهدف: تقديم أسباب، المقارنة، استخدام Redemittel.</p>
+          <div class="pb-sub"><i class="fa-solid fa-b"></i> B2 — Analyse + Argumentation + verschiedene Perspektiven</div>
+          <p class="pb-text">أسئلة ومهام تتطلب تحليلًا ومناقشة وحججًا ووجهات نظر مختلفة، مثل: Welche Auswirkungen hat...? Inwiefern...? Wie würden Sie diese Entwicklung beurteilen?</p>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="24">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-arrow-up-right-dots"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 4.5</div><h3>تصاعد مستوى الـPrompt والـProbing داخل الكول</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">المدرب لا يبدأ مباشرة بسؤال B2 لمجرد أنه يريد اختبار B2. الكول له تصاعد طبيعي:</p>
+          <div class="stage-list">
+            <div class="stage-item"><div class="stage-top"><div class="stage-title"><span class="stage-num">1</span> معلومات أساسية</div></div></div>
+            <div class="stage-item"><div class="stage-top"><div class="stage-title"><span class="stage-num">2</span> تفاصيل ووصف</div></div></div>
+            <div class="stage-item"><div class="stage-top"><div class="stage-title"><span class="stage-num">3</span> تجربة أو موقف</div></div></div>
+            <div class="stage-item"><div class="stage-top"><div class="stage-title"><span class="stage-num">4</span> رأي وشرح</div></div></div>
+            <div class="stage-item"><div class="stage-top"><div class="stage-title"><span class="stage-num">5</span> مقارنة أو أسباب ونتائج</div></div></div>
+            <div class="stage-item"><div class="stage-top"><div class="stage-title"><span class="stage-num">6</span> سؤال غير متوقع</div></div></div>
+            <div class="stage-item"><div class="stage-top"><div class="stage-title"><span class="stage-num">7</span> مناقشة أو تحليل حسب مستوى الطالب</div></div></div>
+          </div>
+          <div class="pb-sub"><i class="fa-solid fa-arrows-split-up-and-left"></i> الـProbing — بعد إجابة الطالب</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> تفاصيل: Können Sie das genauer erklären?</li>
+            <li><i class="fa-solid fa-check"></i> سبب: Warum؟ — مثال: Können Sie ein Beispiel nennen?</li>
+            <li><i class="fa-solid fa-check"></i> تجربة: Haben Sie so etwas selbst erlebt?</li>
+            <li><i class="fa-solid fa-check"></i> مقارنة: Wie ist das im Vergleich zu früher?</li>
+            <li><i class="fa-solid fa-check"></i> نتيجة: Welche Folgen könnte das haben؟</li>
+            <li><i class="fa-solid fa-check"></i> رأي ووجهة نظر أخرى: Wie sehen Sie das persönlich? / Gibt es auch eine andere Perspektive?</li>
+          </ul>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="25">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-book-bookmark"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 4.6</div><h3>التعامل مع الطالب الذي يحفظ ومتى نرفع مستوى الـPrompt</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">إذا شعر المدرب أن الطالب يقدم إجابة محفوظة، لا يعتمد على الإجابة كدليل كافٍ على المستوى، ويغيّر شكل المهمة عبر: تغيير زاوية السؤال → طلب تفاصيل → Follow-up → إدخال نقطة غير متوقعة → الانتقال لوجهة نظر أخرى.</p>
+          <div class="callout success"><i class="fa-solid fa-circle-check"></i> إذا استطاع الطالب الاستمرار، فهذا دليل على امتلاكه للمهارة. إذا توقف بمجرد الخروج من الإجابة المحفوظة، يُسجَّل ذلك كدليل مهم في التقييم.</div>
+          <div class="pb-sub"><i class="fa-solid fa-arrow-up"></i> متى يرفع المدرب مستوى الـPrompt؟</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> يفهم الأسئلة بسهولة، ويجيب بجمل كاملة، ويضيف تفاصيل من نفسه.</li>
+            <li><i class="fa-solid fa-check"></i> يستخدم القواعد المطلوبة بشكل مستقر، ويستطيع الاسترسال والتعامل مع الـFollow-ups.</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-arrow-down"></i> متى لا يرفع مستوى الـPrompt؟</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> عدم فهم الأسئلة الأساسية، إجابات قصيرة جدًا، أخطاء متكررة في الأساسيات.</li>
+            <li><i class="fa-solid fa-check"></i> عدم القدرة على تكوين جمل أو الاسترسال أو التعامل مع Follow-up بسيط.</li>
+          </ul>
+          <div class="callout warn"><i class="fa-solid fa-quote-right"></i> قاعدة مهمة: نحن لا نختبر الطالب في أسئلة محفوظة؛ نحن نستخدم الموضوعات والـPrompts والـProbing لاكتشاف أعلى مستوى يستطيع الطالب استخدام اللغة فيه بشكل حقيقي ومستقر.</div>
+          <div class="callout warn"><i class="fa-solid fa-arrow-left-long"></i> بعد إتمام هذه المرحلة ننتقل إلى <strong>المرحلة الخامسة</strong>: تنفيذ كولات تحديد المستوى تحت الإشراف (Guided Placement).</div>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ PHASE 5 ============ -->
+<section class="section" id="phase5" style="background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="section-head reveal-el">
+    <div class="eyebrow"><i class="fa-solid fa-chalkboard-user"></i> المرحلة الخامسة</div>
+    <h2>تنفيذ كولات تحديد المستوى تحت الإشراف (Guided Placement)</h2>
+    <p>نقل المدرب من مرحلة فهم طريقة تحديد المستوى إلى تنفيذ كول تحديد مستوى بنفسه، تحت إشراف مدرب معتمد.</p>
+  </div>
+
+  <div class="policy-grid">
+
+    <div class="policy-card reveal-el" data-section="26">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-bullseye"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 5.1</div><h3>الهدف من المرحلة وشكل التدريب</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">الهدف ليس فقط أن يصل المدرب إلى Level صحيح، ولكن أن يثبت قدرته على إدارة الكول، اختيار الـTopic والـPrompt المناسبين، استخدام الـProbing، رفع مستوى التحدي تدريجيًا، جمع Evidence كافٍ، وكتابة الملاحظات بطريقة صحيحة.</p>
+          <p class="pb-text">في البداية يكون للمدرب المشرف دور أكبر في التوجيه والتدخل. مع تقدم المدرب يقل تدخل المشرف تدريجيًا، ويصبح دوره الأساسي الملاحظة والتقييم، حتى يستطيع المدرب إدارة الكول كاملًا بنفسه.</p>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="27">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-list-ol"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 5.2</div><h3>خطوات المدرب أثناء الكول</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <div class="case-steps">
+            <div class="case-step">
+              <div class="case-badge">1</div>
+              <div class="case-body"><div class="case-title">يبدأ من مستوى مناسب</div><div class="case-desc">يبدأ بالموضوعات والـPrompts المناسبة للمستوى المتوقع، ولا يبدأ بأسئلة عالية الصعوبة بشكل عشوائي.</div></div>
+            </div>
+            <div class="case-step">
+              <div class="case-badge">2</div>
+              <div class="case-body"><div class="case-title">يلاحظ أداء الطالب</div><div class="case-desc">Aussprache، Grammatik، Wortschatz، Verständnis، Satzbildung، Flüssigkeit، Ideen &amp; Inhalt، Interaktion.</div></div>
+            </div>
+            <div class="case-step">
+              <div class="case-badge">3</div>
+              <div class="case-body"><div class="case-title">يستخدم الـProbing</div><div class="case-desc">لا ينتقل من Topic إلى آخر بسرعة، بل يطلب التفاصيل والسبب والمثال، ويعمل Follow-up وسؤال غير متوقع عند الحاجة.</div></div>
+            </div>
+            <div class="case-step">
+              <div class="case-badge">4</div>
+              <div class="case-body"><div class="case-title">يرفع مستوى الـPrompt تدريجيًا</div><div class="case-desc">Information → Description → Experience → Explanation → Opinion → Argumentation، حتى تظهر حدود الطالب.</div></div>
+            </div>
+            <div class="case-step">
+              <div class="case-badge">5</div>
+              <div class="case-body"><div class="case-title">يتوقف عند ظهور Evidence كافٍ</div><div class="case-desc">ليس مطلوبًا اختبار كل شيء؛ إذا ظهرت حدود واضحة ومتكررة، يسجل المدرب الـEvidence ويستكمل ما يحتاج التحقق منه فقط.</div></div>
+            </div>
+          </div>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="28">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-user-tie"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 5.3</div><h3>دور المدرب المشرف والممنوعات أثناء الكول</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">المدرب المشرف لا يدير الكول بدلًا من المدرب المتدرب. دوره أثناء الكول: الملاحظة، تسجيل نقاط مهمة، والتدخل فقط عند الضرورة، ومنع المدرب من توجيه الطالب بشكل يؤثر على نتيجة الـPlacement. وبعد الكول: مناقشة الأداء مع المدرب المتدرب.</p>
+          <div class="callout warn"><i class="fa-solid fa-ban"></i> ممنوعات أثناء الـGuided Placement — لا يجوز للمدرب المتدرب أن:</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-xmark" style="color:#dc2626;"></i> يعتمد على أسئلة محفوظة فقط، أو يلقن الطالب الإجابة.</li>
+            <li><i class="fa-solid fa-xmark" style="color:#dc2626;"></i> يصحح كل خطأ أثناء الكول، أو يساعد الطالب بشكل يؤثر على تقييمه.</li>
+            <li><i class="fa-solid fa-xmark" style="color:#dc2626;"></i> يرفع مستوى الأسئلة بشكل عشوائي، أو يقرر المستوى بناءً على انطباع عام فقط.</li>
+            <li><i class="fa-solid fa-xmark" style="color:#dc2626;"></i> يعتمد على Topic واحد فقط، أو يعتبر إجابة محفوظة دليلًا كافيًا على امتلاك المستوى.</li>
+          </ul>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="29">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-file-signature"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 5.4</div><h3>التقييم المطلوب بعد كل كول والمقارنة مع المشرف</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">بعد انتهاء الكول، يكتب المدرب المتدرب تقييمه قبل معرفة رأي المدرب المشرف، ويحدد:</p>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> المستوى الذي يراه مناسبًا (Placement Decision).</li>
+            <li><i class="fa-solid fa-check"></i> الأدلة التي اعتمد عليها: Grammatik، Wortschatz، Aussprache، Verständnis، Flüssigkeit، Ideen &amp; Inhalt، Interaktion.</li>
+            <li><i class="fa-solid fa-check"></i> نقاط القوة ونقاط الضعف، وحدود المستوى، والقرار النهائي مع السبب.</li>
+          </ul>
+          <p class="pb-text">تتم بعدها مقارنة تقييم المدرب بتقييم المشرف: هل وصل لنفس الـPlacement؟ هل لاحظ نفس الـEvidence؟ هل رفع مستوى التحدي في الوقت المناسب وتوقف في الوقت المناسب؟</p>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="30">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-gauge-high"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 5.5</div><h3>التدرج في استقلالية المدرب ومعايير اجتياز المرحلة</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <div class="stage-list">
+            <div class="stage-item">
+              <div class="stage-top"><div class="stage-title"><span class="stage-num">1</span> المرحلة الأولى من الـGuided Placement</div></div>
+              <p class="stage-desc">المدرب المشرف يتدخل عند الحاجة؛ المدرب المتدرب يحتاج توجيهًا في اختيار الـPrompt، الـProbing، والانتقال بين المستويات.</p>
+            </div>
+            <div class="stage-item">
+              <div class="stage-top"><div class="stage-title"><span class="stage-num">2</span> المرحلة الثانية</div></div>
+              <p class="stage-desc">المدرب المتدرب يدير الكول بشكل شبه كامل؛ المشرف لا يتدخل إلا عند الضرورة، ويسجل الملاحظات ويناقش الأداء بعد الكول.</p>
+            </div>
+            <div class="stage-item">
+              <div class="stage-top"><div class="stage-title"><span class="stage-num">3</span> المرحلة الثالثة</div></div>
+              <p class="stage-desc">المدرب المتدرب يدير الكول كاملًا؛ دور المشرف الأساسي: Observation + Evaluation، ولا يتدخل إلا لسبب ضروري.</p>
+            </div>
+          </div>
+          <div class="checklist-box">
+            <div class="check-item"><i class="fa-solid fa-circle-check"></i> إدارة الكول بشكل منظم دون تحويله لحصة تعليمية</div>
+            <div class="check-item"><i class="fa-solid fa-circle-check"></i> اختيار Prompt مناسب ورفع مستوى التحدي تدريجيًا</div>
+            <div class="check-item"><i class="fa-solid fa-circle-check"></i> استخدام Follow-ups مناسبة والوصول لحدود قدرة الطالب</div>
+            <div class="check-item"><i class="fa-solid fa-circle-check"></i> الاعتماد على Evidence وليس الانطباع</div>
+            <div class="check-item"><i class="fa-solid fa-circle-check"></i> الوصول إلى Placement منطقي وتوثيقه بوضوح</div>
+          </div>
+          <div class="callout info"><i class="fa-solid fa-quote-right"></i> الهدف من الـGuided Placement ليس أن يتعلم المدرب كيف "يطلع Level"، وإنما أن يتعلم كيف يجمع Evidence كافيًا يوصله إلى Level صحيح: Observation → Evidence → Criteria → Placement Decision.</div>
+          <div class="callout warn"><i class="fa-solid fa-arrow-left-long"></i> بعد إتمام هذه المرحلة ننتقل إلى <strong>المرحلة السادسة</strong>: التقييم والاعتماد النهائي للمدرب في تحديد المستوى.</div>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ PHASE 6 ============ -->
+<section class="section" id="phase6">
+  <div class="section-head reveal-el">
+    <div class="eyebrow"><i class="fa-solid fa-award"></i> المرحلة السادسة</div>
+    <h2>التقييم والاعتماد النهائي للمدرب في تحديد المستوى</h2>
+    <p>التأكد من أن المدرب أصبح قادرًا على إجراء كول تحديد مستوى بشكل مستقل، واتخاذ قرار Placement صحيح ومبرر.</p>
+  </div>
+
+  <div class="policy-grid">
+
+    <div class="policy-card reveal-el" data-section="31">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-vial-circle-check"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 6.1</div><h3>اختبار المدرب — نطاق الحالات</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">يقوم المدرب بإجراء كولات تحديد مستوى بشكل مستقل. يتم اختيار كولات متنوعة من حيث:</p>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> مستوى الطالب وقوته وضعفه، ووضوح أو عدم وضوح المستوى.</li>
+            <li><i class="fa-solid fa-check"></i> وجود فجوة بين القواعد والمحادثة، أو مشكلة في النطق.</li>
+            <li><i class="fa-solid fa-check"></i> وجود إجابات محفوظة، أو اختلاف قدرة الطالب بين موضوع وآخر.</li>
+          </ul>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="32">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-table-list"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 6.2</div><h3>محاور التقييم الأربعة</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <div class="pb-sub"><i class="fa-solid fa-1"></i> إدارة الكول</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> يبدأ بطريقة مناسبة، يختار الـTopic المناسب، ويحافظ على تسلسل الكول ووقته.</li>
+            <li><i class="fa-solid fa-check"></i> لا يحوّل الكول إلى حصة تعليمية، ولا يساعد الطالب بشكل يؤثر على النتيجة.</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-2"></i> اختبار المستوى</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> يستخدم Prompt مناسبًا للمستوى، ويرفعه تدريجيًا، ويستخدم Probing مناسبًا.</li>
+            <li><i class="fa-solid fa-check"></i> يختبر الطالب خارج الإجابات المحفوظة، ويعرف متى يتوقف عن رفع مستوى التحدي.</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-3"></i> تحليل أداء الطالب</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> يلاحظ Grammatik، Wortschatz، Aussprache، Verständnis، Flüssigkeit، Ideen &amp; Inhalt، Interaktion.</li>
+            <li><i class="fa-solid fa-check"></i> يفرق بين الخطأ الفردي والمشكلة المتكررة، وبين عدم معرفة الموضوع وعدم القدرة اللغوية.</li>
+          </ul>
+          <div class="pb-sub"><i class="fa-solid fa-4"></i> Placement Decision</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-check"></i> يطبق معايير المستوى بشكل صحيح، ويعتمد على Evidence حقيقي لا على انطباع عام.</li>
+            <li><i class="fa-solid fa-check"></i> يستطيع تحديد أعلى مستوى يحقق الطالب معاييره بشكل مستقر، وشرح سبب اختياره.</li>
+          </ul>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="33">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-clipboard-check"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 6.3</div><h3>المطلوب بعد كل كول ومراجعة التقييم</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">يقدم المدرب تقييمه قبل معرفة تقييم المشرف، ويشمل: Placement Decision (المستوى المقترح)، الـEvidence لكل محور (Grammatik، Wortschatz، Aussprache، Verständnis، Flüssigkeit، Ideen &amp; Inhalt، Interaktion)، نقاط القوة، نقاط تحتاج تطويرًا، وسبب اختيار المستوى.</p>
+          <p class="pb-text">تتم مقارنة تقييم المدرب بالـOfficial Feedback أو تقييم المدرب المعتمد، مع التركيز على: هل الـPlacement والـEvidence صحيحان؟ هل تم تطبيق معايير المستوى بشكل صحيح؟ هل كان الـPrompt والـProbing مناسبَين؟</p>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="34">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 6.4</div><h3>معايير القبول وحالات عدم الاعتماد</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">يتم اعتماد المدرب عندما يثبت بشكل متكرر قدرته على إدارة الكول باستقلالية، استخدام Topics وPrompts مناسبة، الاعتماد على Evidence، والوصول إلى Placement صحيح يمكنه الدفاع عنه دون تغيير القرار بناءً على الانطباع الشخصي.</p>
+          <div class="callout warn"><i class="fa-solid fa-ban"></i> لا يتم اعتماد المدرب إذا كان بشكل متكرر:</div>
+          <ul class="pb-list">
+            <li><i class="fa-solid fa-xmark" style="color:#dc2626;"></i> يعطي Placement مختلفًا عن الـEvidence، أو لا يعرف متى يرفع مستوى الـPrompt.</li>
+            <li><i class="fa-solid fa-xmark" style="color:#dc2626;"></i> يعتمد على أسئلة محفوظة، أو لا يستخدم Probing، أو يساعد الطالب أثناء التقييم.</li>
+            <li><i class="fa-solid fa-xmark" style="color:#dc2626;"></i> يخلط بين الخطأ الفردي وضعف المستوى، أو يركز على عدد الأخطاء فقط.</li>
+            <li><i class="fa-solid fa-xmark" style="color:#dc2626;"></i> يعتمد على Topic واحد، أو يتخذ القرار بالحدس أكثر من المعايير.</li>
+          </ul>
+          <div class="callout info"><i class="fa-solid fa-circle-info"></i> في هذه الحالة يعود المدرب إلى Guided Placement في النقاط التي تحتاج تطويرًا، ثم يُعاد التقييم.</div>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal-el" data-section="35">
+      <div class="policy-head">
+        <div class="policy-icon"><i class="fa-solid fa-trophy"></i></div>
+        <div class="policy-titles"><div class="policy-num">القسم 6.5</div><h3>الاعتماد النهائي والمتابعة الدورية</h3></div>
+        <div class="policy-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+      </div>
+      <div class="policy-body">
+        <div class="policy-body-inner">
+          <p class="pb-text">بعد اجتياز التقييم، يصبح المدرب معتمدًا لإجراء كولات تحديد المستوى بشكل مستقل، ويتم توثيق: تاريخ الاعتماد، المستويات التي تم تقييم المدرب عليها، نتيجة التقييم، نقاط القوة، وأي نقاط تحتاج إلى متابعة.</p>
+          <div class="callout success"><i class="fa-solid fa-magnifying-glass-chart"></i> الاعتماد لا يعني توقف المراجعة. يتم عمل Quality Check دوري لمراجعة بعض كولات تحديد المستوى للتأكد من استمرار دقة الـPlacement، الالتزام بالمعايير، وجودة الـEvidence والـFeedback. وفي حالة ظهور أخطاء متكررة، يتم عمل Retraining / Calibration للمدرب.</div>
+          <div class="callout warn"><i class="fa-solid fa-quote-right"></i> القاعدة النهائية: المدرب المعتمد في تحديد المستوى ليس هو من يحفظ أسئلة الـPlacement، وإنما من يستطيع إدارة الكول، واختيار الـPrompt المناسب، وجمع Evidence كافٍ، وتطبيق معايير المستويات، والوصول إلى Placement صحيح يمكنه الدفاع عنه.</div>
+          <div class="copy-btn-wrap"><button class="copy-btn"><i class="fa-regular fa-copy"></i> نسخ نص السياسة</button></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- ============ FINAL CTA ============ -->
+<div class="final-cta reveal-el" id="cta">
+  <span class="fc-badge"><i class="fa-solid fa-graduation-cap"></i>فريق Gib Gas</span>
+  <h2>جاهز تبدأ رحلة اعتمادك كمدرب تحديد مستوى؟</h2>
+  <p>راجع الدليل التنظيمي بتمعن، تأكد من جاهزيتك لمعايير كل مستوى، ولا تتردد في التواصل مع المشرف (Supervisor) لمساعدتك في خطوتك الأولى.</p>
+  <button class="btn btn-primary" onclick="window.scrollTo({top:0, behavior:'smooth'})"><i class="fa-solid fa-arrow-up"></i> العودة للأعلى</button>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="f-brand">فريق <span class="heart-icon"><i class="fa-solid fa-heart"></i></span> Gib Gas</div>
+  <div class="f-copyright">© 2025 Gib Gas · جميع الحقوق محفوظة</div>
+  <div class="f-credit">Islam al-khattab <span class="dev-icon"><i class="fa-solid fa-code"></i></span></div>
+</footer>
+
+<script>
+/* ============ THEME TOGGLE ============ */
+const themeBtn = document.getElementById('theme-btn');
+const navLogoImg = document.getElementById('nav-logo-img');
+const root = document.documentElement;
+const LOGO_LIGHT = 'https://raw.githubusercontent.com/DrIslambinalkhattab/GibGas/main/GibGasB.png';
+const LOGO_DARK = 'https://raw.githubusercontent.com/DrIslambinalkhattab/GibGas/main/GibGasW.png';
+function applyTheme(t){
+  root.setAttribute('data-theme', t);
+  themeBtn.innerHTML = t === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+  if(navLogoImg){ navLogoImg.src = t === 'dark' ? LOGO_DARK : LOGO_LIGHT; }
+}
+applyTheme('light');
+themeBtn.addEventListener('click', ()=>{
+  const cur = root.getAttribute('data-theme');
+  applyTheme(cur === 'dark' ? 'light' : 'dark');
+});
+
+/* ============ PROGRESS BAR + NAVBAR SCROLLED + SIDE DOT NAV ============ */
+/* Unified into a single rAF-throttled, passive scroll handler to avoid
+   layout thrashing / jank from multiple competing scroll listeners. */
+const progressBar = document.getElementById('progress-bar');
+const navbar = document.getElementById('navbar');
+const sideNav = document.getElementById('side-nav');
+const sideNavFill = document.getElementById('side-nav-fill');
+const sideNavPct = document.getElementById('side-nav-pct');
+const sideNavItems = Array.from(document.querySelectorAll('.side-nav-item'));
+const sideTargets = sideNavItems.map(it => document.getElementById(it.dataset.target)).filter(Boolean);
+
+sideNavItems.forEach(item=>{
+  item.addEventListener('click', ()=>{
+    const target = document.getElementById(item.dataset.target);
+    if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+
+let lastActiveIndex = -1;
+let tickScheduled = false;
+
+function updateOnScroll(){
+  tickScheduled = false;
+
+  const scrolled = document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const pct = height > 0 ? Math.min(100, Math.max(0, (scrolled / height) * 100)) : 0;
+
+  /* top progress bar + navbar state */
+  if(progressBar) progressBar.style.width = pct + '%';
+  if(navbar) navbar.classList.toggle('scrolled', scrolled > 30);
+
+  /* side nav fill + visibility + percentage readout */
+  if(sideNavFill) sideNavFill.style.height = pct + '%';
+  if(sideNav) sideNav.classList.toggle('visible', scrolled > 80);
+  if(sideNavPct) sideNavPct.textContent = Math.round(pct) + '%';
+
+  /* active section detection (single read pass, no thrash) */
+  let activeIndex = 0;
+  const nearBottom = (height - scrolled) <= 4; /* reached true end of page */
+  if(nearBottom){
+    activeIndex = sideTargets.length - 1;
+  } else {
+    const probeY = window.innerHeight * 0.4;
+    for(let i = 0; i < sideTargets.length; i++){
+      if(sideTargets[i].getBoundingClientRect().top <= probeY) activeIndex = i;
+    }
+  }
+  if(activeIndex !== lastActiveIndex){
+    sideNavItems.forEach((it, i) => it.classList.toggle('active', i === activeIndex));
+    lastActiveIndex = activeIndex;
+  }
+}
+
+function onScroll(){
+  if(!tickScheduled){
+    tickScheduled = true;
+    requestAnimationFrame(updateOnScroll);
+  }
+}
+document.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('resize', onScroll, { passive: true });
+updateOnScroll();
+
+/* ============ ACTIVE NAV LINK ============ */
+const sections = document.querySelectorAll('section[id]');
+const navA = document.querySelectorAll('.nav-links a');
+const navObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      navA.forEach(a=>a.classList.remove('active'));
+      const link = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+      if(link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-40% 0px -50% 0px' });
+sections.forEach(s=>navObserver.observe(s));
+
+/* ============ REVEAL ON SCROLL ============ */
+const revealObserver = new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('in'), (i%4)*80);
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal-el').forEach(el=>revealObserver.observe(el));
+
+/* stagger phase rows for timeline node color effect too */
+document.querySelectorAll('.phase-row').forEach(el=>{
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);} });
+  }, {threshold:.3});
+  obs.observe(el);
+});
+
+/* ============ COUNTER ANIMATION ============ */
+const counters = document.querySelectorAll('.stat .num');
+const counterObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const el = e.target;
+      const target = parseInt(el.dataset.count, 10);
+      let cur = 0;
+      const step = Math.max(1, Math.ceil(target/40));
+      const iv = setInterval(()=>{
+        cur += step;
+        if(cur >= target){ cur = target; clearInterval(iv); }
+        el.textContent = cur;
+      }, 30);
+      counterObserver.unobserve(el);
+    }
+  });
+}, {threshold:.5});
+counters.forEach(c=>counterObserver.observe(c));
+
+/* ============ POLICY CARD EXPAND/COLLAPSE ============ */
+document.querySelectorAll('.policy-head').forEach(head=>{
+  head.addEventListener('click', ()=>{
+    const card = head.closest('.policy-card');
+    const body = card.querySelector('.policy-body');
+    const isOpen = card.classList.contains('open');
+    if(isOpen){
+      body.style.maxHeight = null;
+      card.classList.remove('open');
+    } else {
+      card.classList.add('open');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+});
+
+/* ============ COPY POLICY TEXT ============ */
+document.querySelectorAll('.copy-btn').forEach(btn=>{
+  btn.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    const card = btn.closest('.policy-card');
+    const title = card.querySelector('h3').innerText;
+    const body = card.querySelector('.policy-body-inner').innerText;
+    const text = title + '\n\n' + body.replace('نسخ نص السياسة','').trim();
+    navigator.clipboard.writeText(text).then(()=>{
+      btn.classList.add('copied');
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> تم النسخ';
+      setTimeout(()=>{
+        btn.classList.remove('copied');
+        btn.innerHTML = '<i class="fa-regular fa-copy"></i> نسخ نص السياسة';
+      }, 1800);
+    });
+  });
+});
+
+/* ============ RIPPLE EFFECT ============ */
+document.querySelectorAll('.btn').forEach(btn=>{
+  btn.addEventListener('click', function(e){
+    const rect = this.getBoundingClientRect();
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+    ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+    this.appendChild(ripple);
+    setTimeout(()=>ripple.remove(), 650);
+  });
+});
+
+/* ============ SCROLL TOP / PRINT BUTTONS ============ */
+document.getElementById('print-btn').addEventListener('click', ()=> window.print());
+
+/* ============ SEARCH ============ */
+const searchBtn = document.getElementById('search-btn');
+const searchOverlay = document.getElementById('search-overlay');
+const searchInput = document.getElementById('search-input');
+const searchResults = document.getElementById('search-results');
+const allCards = Array.from(document.querySelectorAll('.policy-card'));
+
+function openSearch(){
+  searchOverlay.classList.add('open');
+  setTimeout(()=>searchInput.focus(), 150);
+}
+function closeSearch(){
+  searchOverlay.classList.remove('open');
+  searchInput.value = '';
+  searchResults.innerHTML = '';
+  allCards.forEach(c=>c.classList.remove('hidden-by-search'));
+}
+searchBtn.addEventListener('click', openSearch);
+searchOverlay.addEventListener('click', (e)=>{ if(e.target === searchOverlay) closeSearch(); });
+document.addEventListener('keydown', (e)=>{
+  if((e.ctrlKey||e.metaKey) && e.key === 'k'){ e.preventDefault(); openSearch(); }
+  if(e.key === 'Escape') closeSearch();
+});
+
+searchInput.addEventListener('input', ()=>{
+  const q = searchInput.value.trim().toLowerCase();
+  searchResults.innerHTML = '';
+  if(!q){ return; }
+  let found = 0;
+  allCards.forEach(card=>{
+    const title = card.querySelector('h3').innerText;
+    const body = card.querySelector('.policy-body-inner').innerText;
+    const haystack = (title + ' ' + body).toLowerCase();
+    if(haystack.includes(q)){
+      found++;
+      const item = document.createElement('div');
+      item.className = 'search-result-item';
+      const num = card.querySelector('.policy-num').innerText;
+      item.innerHTML = `<i class="fa-solid fa-file-lines"></i><div><div class="srt">${title}</div><div class="srm">${num}</div></div>`;
+      item.addEventListener('click', ()=>{
+        closeSearch();
+        card.scrollIntoView({behavior:'smooth', block:'center'});
+        if(!card.classList.contains('open')){
+          card.querySelector('.policy-head').click();
+        }
+        card.style.transition = 'box-shadow .3s';
+        card.style.boxShadow = '0 0 0 3px var(--indigo)';
+        setTimeout(()=> card.style.boxShadow = '', 1600);
+      });
+      searchResults.appendChild(item);
+    }
+  });
+  if(found === 0){
+    searchResults.innerHTML = '<div class="search-empty"><i class="fa-solid fa-magnifying-glass" style="font-size:22px; margin-bottom:10px; display:block;"></i>لا توجد نتائج مطابقة</div>';
+  }
+});
+
+/* ============ MOBILE BURGER NAV ============ */
+const burgerBtn = document.getElementById('burger-btn');
+const navLinks = document.getElementById('nav-links');
+burgerBtn.addEventListener('click', ()=>{
+  const isShown = navLinks.style.display === 'flex';
+  if(isShown){
+    navLinks.style.display = 'none';
+  } else {
+    navLinks.style.display = 'flex';
+    navLinks.style.position = 'fixed';
+    navLinks.style.top = (navbar.getBoundingClientRect().bottom + 10) + 'px';
+    navLinks.style.right = '5vw';
+    navLinks.style.left = '5vw';
+    navLinks.style.flexDirection = 'column';
+    navLinks.style.background = 'var(--surface)';
+    navLinks.style.border = '1px solid var(--border)';
+    navLinks.style.borderRadius = '16px';
+    navLinks.style.padding = '12px';
+    navLinks.style.boxShadow = 'var(--shadow-lg)';
+    navLinks.style.zIndex = '950';
+  }
+});
+navLinks.querySelectorAll('a').forEach(a=>{
+  a.addEventListener('click', ()=>{ if(window.innerWidth<=900) navLinks.style.display='none'; });
+});
+
+/* ============ LOGIN GATE ============ */
+(function(){
+  const GATE_USER = 'Trainer@Training';
+  const GATE_PASS = 'TrGibGasTr';
+  const gate = document.getElementById('login-gate');
+  const form = document.getElementById('gate-form');
+  const userInput = document.getElementById('gate-user');
+  const passInput = document.getElementById('gate-pass');
+  const errorBox = document.getElementById('gate-error');
+  const submitBtn = document.getElementById('gate-submit');
+  const toggleBtn = document.getElementById('gate-toggle-pass');
+  const card = document.querySelector('.gate-card');
+
+  function lockBody(){ document.body.classList.add('gate-locked'); }
+  function unlockBody(){ document.body.classList.remove('gate-locked'); }
+
+  if(sessionStorage.getItem('gg_authed') === '1'){
+    gate.classList.add('gate-hidden');
+  } else {
+    lockBody();
+    setTimeout(()=>userInput.focus(), 400);
+  }
+
+  toggleBtn.addEventListener('click', ()=>{
+    const isPass = passInput.type === 'password';
+    passInput.type = isPass ? 'text' : 'password';
+    toggleBtn.innerHTML = isPass ? '<i class="fa-regular fa-eye-slash"></i>' : '<i class="fa-regular fa-eye"></i>';
+  });
+
+  function showError(){
+    errorBox.classList.add('show');
+    card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
+  }
+  function hideError(){ errorBox.classList.remove('show'); }
+  userInput.addEventListener('input', hideError);
+  passInput.addEventListener('input', hideError);
+
+  form.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    if(submitBtn.classList.contains('loading')) return;
+    submitBtn.classList.add('loading');
+    setTimeout(()=>{
+      const okUser = userInput.value.trim() === GATE_USER;
+      const okPass = passInput.value === GATE_PASS;
+      submitBtn.classList.remove('loading');
+      if(okUser && okPass){
+        sessionStorage.setItem('gg_authed', '1');
+        hideError();
+        gate.classList.add('gate-hidden');
+        setTimeout(unlockBody, 600);
+      } else {
+        showError();
+      }
+    }, 550);
+  });
+})();
+</script>
 </body>
 </html>
